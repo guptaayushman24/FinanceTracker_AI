@@ -15,8 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.security.auth.login.LoginException;
 import java.io.IOException;
+
+
 
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -29,23 +30,29 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected  void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException,IOException{
+    protected  void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("In the JWT Authentication Filter");
         final String requestTokenHeader = request.getHeader("Authorization");
-        if (requestTokenHeader==null || requestTokenHeader.startsWith("Bearer")){
+        System.out.println(requestTokenHeader);
+        if (requestTokenHeader==null || !requestTokenHeader.startsWith("Bearer")){
             filterChain.doFilter(request,response);
             return;
         }
 
         try {
-            String token = requestTokenHeader.split("Bearer")[1].trim();
+            String token = requestTokenHeader.substring(7).trim();
             String userEmail = authUtil.getUsernameFromToken(token);
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserModel userModel = userRepository.findByEmail(userEmail);
+                UserModel userModel = userRepository.findByemailAddress(userEmail);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userEmail, null,userModel.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                filterChain.doFilter(request,response);
 
             }
-        }catch(LoginException e){
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
