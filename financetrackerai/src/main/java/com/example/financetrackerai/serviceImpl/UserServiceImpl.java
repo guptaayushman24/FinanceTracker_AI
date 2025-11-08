@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
         userModel.setLastName(signupRequestdto.getLastName());
 
         userModel.setPassword(passwordEncoder.encode(signupRequestdto.getPassword()));
+        userModel.setUser_expense(signupRequestdto.getUser_expense());
 
         UserModel savedUser =  userRepository.save(userModel);
 
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
         signupResponsedto.setEmailAddress(savedUser.getEmailAddress());
         signupResponsedto.setFirstName(savedUser.getFirstName());
         signupResponsedto.setLastName(savedUser.getLastName());
+        signupResponsedto.setUserExpense(savedUser.getUser_expense());
 
         return signupResponsedto;
     }
