@@ -23,7 +23,6 @@ public class SignUpController {
     @PostMapping("/signup")
     public ResponseEntity<SignupResponsedto> signUp(@RequestBody  SignupRequestdto signupRequestdto) {
         try {
-//            System.out.println("Fist Name in Controller"+" "+signupRequestdto);
             return ResponseEntity.ok(userService.createUser(signupRequestdto));
         } catch (Exception e) {
             SignupResponsedto signupResponsedto = new SignupResponsedto();

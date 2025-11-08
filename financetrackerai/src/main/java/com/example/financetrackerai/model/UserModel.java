@@ -1,9 +1,6 @@
 package com.example.financetrackerai.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +27,12 @@ public class UserModel implements UserDetails {
     private String lastName;
     private String emailAddress;
     private String password;
+    @ElementCollection
+    @CollectionTable(
+            name="user_expenses",
+            joinColumns = @JoinColumn(name="user_id")
+    )
+    private List<String> user_expense;
 
 
     @Override
