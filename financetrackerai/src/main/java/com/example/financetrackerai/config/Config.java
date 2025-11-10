@@ -18,13 +18,13 @@ public class Config {
     private KafkaProperties kafkaProperties;
 
     @Bean
-    public ProducerFactory<String,Integer> producerFactory(){
+    public ProducerFactory<String,String> producerFactory(){
         Map<String,Object> properties = kafkaProperties.buildProducerProperties();
         return new DefaultKafkaProducerFactory<>(properties);
     }
 
     @Bean
-    public KafkaTemplate<String,Integer> kafkaTemplate(){
+    public KafkaTemplate<String,String> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 

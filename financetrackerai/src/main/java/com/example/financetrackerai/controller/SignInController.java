@@ -6,6 +6,7 @@ import com.example.financetrackerai.dto.LoginResponsedto;
 import com.example.financetrackerai.producer.Producer;
 import com.example.financetrackerai.security.AuthService;
 import com.example.financetrackerai.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -31,23 +32,16 @@ public class SignInController {
         try{
             ResponseEntity<LoginResponsedto> response = authService.login(loginRequestdto);
             int status = response.getStatusCode().value();
-//            System.out.println("Login Response is"+" "+loginRequestdto.getEmail());
 
-            if (status==200){
-                int userId = response.getBody().getId();
-                storeUserId.setUserId(userId);
-                producer.sendMessage(userId);
-                return authService.login(loginRequestdto);
-                // Extract the userId here
-            }
-            return null;
+            return authService.login(loginRequestdto);
         }
         catch(Exception e){
             LoginResponsedto loginResponsedto = new LoginResponsedto();
             loginRequestdto.setEmail("null");
             loginRequestdto.setPassword("null");
             loginResponsedto.setJwt("null");
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginResponsedto);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginResponsedto);
         }
+
     }
 }

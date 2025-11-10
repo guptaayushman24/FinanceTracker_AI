@@ -1,19 +1,22 @@
 package com.example.userexpense.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-public class ExpenseType {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserExpense {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
+    private Integer user_id;
     private String ExpenseType;
     private Integer Value;
     private String Description;
-    @ElementCollection
-    @CollectionTable(
-            name = "mode_of_payment",
-            joinColumns = @JoinColumn(name="expense_type_id")
-    )
-    private String Payment_method;
-
 }

@@ -1,0 +1,38 @@
+package com.example.userexpense.controller;
+
+import com.example.userexpense.config.KafkaConsumer;
+import com.example.userexpense.config.UserLoginId;
+import com.example.userexpense.dto.UserExpenseRequestdto;
+import com.example.userexpense.dto.UserExpenseResponsedto;
+import com.example.userexpense.service.UserExpenseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
+@Controller
+public class UserExpense {
+    @Autowired
+    UserExpenseService userExpenseService;
+    @Autowired
+    KafkaConsumer kafkaConsumer;
+    @Autowired
+    UserLoginId userLoginId;
+    @PostMapping("/userexpense")
+    public ResponseEntity<UserExpenseResponsedto> userExpense(@RequestBody UserExpenseRequestdto userExpenseRequestdto){
+        try{
+            return ResponseEntity.ok(userExpenseService.userExpense(userExpenseRequestdto));
+        }
+        catch(Exception e){
+            UserExpenseResponsedto userExpenseResponsedto = new UserExpenseResponsedto();
+            userExpenseResponsedto.setExpenseType(null);
+            userExpenseResponsedto.setValue(null);
+            userExpenseResponsedto.setDescription(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(userExpenseResponsedto);
+        }
+
+    }
+}
