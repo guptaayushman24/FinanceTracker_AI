@@ -19,11 +19,11 @@ public class Producer {
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
-     KafkaTemplate<String,Integer> kafkaTemplate;
+     KafkaTemplate<String,String> kafkaTemplate;
 
-    public String sendMessage (Integer userId) throws JsonProcessingException{
+    public String sendMessage (String userId) throws JsonProcessingException{
 //        String userIdAsMesage = objectMapper.writeValueAsString(userModel);
-        kafkaTemplate.send(userIdTopic,userId);
+        kafkaTemplate.send(userIdTopic,String.valueOf(userId));
 
         log.info("User id is produced {}",userId);
         return "Message Sent";

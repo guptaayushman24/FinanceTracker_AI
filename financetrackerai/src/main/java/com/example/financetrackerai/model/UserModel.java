@@ -1,5 +1,7 @@
 package com.example.financetrackerai.model;
 
+import com.example.userexpense.model.PaymentMode;
+import com.example.userexpense.model.UserExpense;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,10 +32,9 @@ public class UserModel implements UserDetails {
     @ElementCollection
     @CollectionTable(
             name="user_expenses",
-            joinColumns = @JoinColumn(name="user_id")
+            joinColumns = @JoinColumn(name = "user_id")
     )
-    private List<String> user_expense;
-
+    List<String> user_expense;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

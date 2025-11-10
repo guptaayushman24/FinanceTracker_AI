@@ -10,5 +10,6 @@ public class PaymentMode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer user_id;
     private String payment_mode;
 }
