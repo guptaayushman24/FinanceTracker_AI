@@ -10,4 +10,5 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
       void save(String paymentMode);
 
 //    void save(Integer userId, String paymentMode);
+    // Write query for filter in these class
 }

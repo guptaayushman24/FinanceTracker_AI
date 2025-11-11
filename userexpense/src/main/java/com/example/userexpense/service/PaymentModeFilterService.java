@@ -4,6 +4,6 @@ import com.example.userexpense.dto.PaymentModeFilterResponsedto;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface PaymentModeFilterService {
-  PaymentModeFilterResponsedto
+public class PaymentModeFilterService {
+   //  PaymentModeFilterResponsedto;
 }

@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
         signupResponsedto.setEmailAddress(savedUser.getEmailAddress());
         signupResponsedto.setFirstName(savedUser.getFirstName());
         signupResponsedto.setLastName(savedUser.getLastName());
+        System.out.println("Expense"+" "+savedUser.getUser_expense());
         signupResponsedto.setUserExpense(savedUser.getUser_expense());
 
         return signupResponsedto;
