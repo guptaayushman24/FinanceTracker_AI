@@ -6,19 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.time.LocalDate;
-
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserExpenseRequestdto {
-    private String expenseType;
-    private Integer value;
-    private String description;
-    private String payment_mode;
+@NoArgsConstructor
+public class PaymentModeRequestdto {
+    Integer user_id;
+    String payment_mode;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate expense_date;
 }

@@ -1,0 +1,20 @@
+User can add the new type of expense
+Filter
+Filter by Paymment Mode (CASH OR UPI)
+Filter by Expenditure Type
+
+Total Expenditure
+Total expenditure in a day,month,year
+Total expenditure in a day,month,year by CASH OR BY UPI
+
+Scheduler
+User can create the scheduler for the day and can write the task when the scheduler will
+trigger all the expense will be inserted
+
+Another Services (Another Module)
+Email Service
+Report and Graph Generation
+
+
+
+
