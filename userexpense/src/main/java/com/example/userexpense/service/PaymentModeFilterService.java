@@ -6,7 +6,9 @@ import com.example.userexpense.dto.UserExpenseRequestdto;
 import com.example.userexpense.dto.UserExpenseResponsedto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface PaymentModeFilterService{
-    PaymentModeFilterResponsedto paymentModeFilter (PaymentModeFilterRequestdto paymentModeFilterRequestdto);
+    List<PaymentModeFilterResponsedto> paymentModeFilter (PaymentModeFilterRequestdto paymentModeFilterRequestdto);
 }

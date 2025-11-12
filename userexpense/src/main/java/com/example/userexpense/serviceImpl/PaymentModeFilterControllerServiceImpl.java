@@ -8,14 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaymentModeFilterControllerServiceImpl implements PaymentModeFilterService {
     @Autowired
     PaymentModeRepository paymentModeRepository;
 
     @Override
-    public PaymentModeFilterResponsedto paymentModeFilter(PaymentModeFilterRequestdto paymentModeFilterRequestdto) {
-        return paymentModeRepository.findBypaymentMode(paymentModeFilterRequestdto.getPaymentMode());
+    public List<PaymentModeFilterResponsedto> paymentModeFilter(PaymentModeFilterRequestdto paymentModeFilterRequestdto) {
+        return paymentModeRepository.filterByPaymentMode(paymentModeFilterRequestdto.getPaymentMode());
 
     }
 }
