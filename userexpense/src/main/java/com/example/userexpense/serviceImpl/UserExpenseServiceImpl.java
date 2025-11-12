@@ -37,9 +37,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpense.setExpenseDate(userExpenseRequestdto.getExpense_date());
         // save the modeOfPaymnet in the another table PaymentMode
         paymentMode.setUser_id(userLoginId.getUserId());
-        paymentMode.setPayment_mode(userExpenseRequestdto.getPayment_mode());
+        paymentMode.setPaymentMode(userExpenseRequestdto.getPaymentMode());
         paymentMode.setExpense_date(userExpenseRequestdto.getExpense_date());
-        log.info(userExpenseRequestdto.getPayment_mode());
+        log.info(userExpenseRequestdto.getPaymentMode());
 
 
 
@@ -50,9 +50,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpenseResponsedto.setExpenseType(saved.getExpenseType());
         userExpenseResponsedto.setValue(saved.getValue());
         userExpenseResponsedto.setDescription(saved.getDescription());
-        userExpenseResponsedto.setPayment_mode(savePaymentMode.getPayment_mode());
+        userExpenseResponsedto.setPaymentMode(savePaymentMode.getPaymentMode());
         userExpenseResponsedto.setExpense_date(saved.getExpenseDate());
-        log.info(userExpenseResponsedto.getPayment_mode());
+        log.info(userExpenseResponsedto.getPaymentMode());
 
 
         return userExpenseResponsedto;

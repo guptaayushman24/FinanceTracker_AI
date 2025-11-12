@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PaymentModeRequestdto {
     Integer user_id;
-    String payment_mode;
+    String paymentMode;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate expense_date;
 }

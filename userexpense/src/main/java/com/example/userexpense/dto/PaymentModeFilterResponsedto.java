@@ -16,7 +16,7 @@ public class PaymentModeFilterResponsedto {
     private String expenseType;
     private Integer value;
     private String description;
-    private String payment_mode;
+    private String paymentMode;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate expense_date;
 }

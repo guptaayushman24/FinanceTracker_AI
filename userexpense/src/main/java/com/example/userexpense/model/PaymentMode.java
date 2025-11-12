@@ -23,7 +23,7 @@ public class PaymentMode {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer user_id;
-    private String payment_mode;
+    private String paymentMode;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate expense_date;
 }
