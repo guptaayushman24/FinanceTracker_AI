@@ -1,5 +1,6 @@
 package com.example.userexpense.serviceImpl;
 
+import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.PaymentModeFilterRequestdto;
 import com.example.userexpense.dto.PaymentModeFilterResponsedto;
 import com.example.userexpense.repository.PaymentModeRepository;
@@ -14,10 +15,13 @@ import java.util.List;
 public class PaymentModeFilterControllerServiceImpl implements PaymentModeFilterService {
     @Autowired
     PaymentModeRepository paymentModeRepository;
+    @Autowired
+    UserLoginId userLoginId;
 
     @Override
     public List<PaymentModeFilterResponsedto> paymentModeFilter(PaymentModeFilterRequestdto paymentModeFilterRequestdto) {
-        return paymentModeRepository.filterByPaymentMode(paymentModeFilterRequestdto.getPaymentMode());
+        System.out.println("The user Id in "+" "+userLoginId.getUserId());
+        return paymentModeRepository.filterByPaymentMode(paymentModeFilterRequestdto.getPaymentMode(),userLoginId.getUserId());
 
     }
 }

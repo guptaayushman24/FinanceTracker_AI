@@ -23,6 +23,7 @@ public class PaymentModeFilterController {
             return ResponseEntity.ok().body(paymentModeFilterService.paymentModeFilter(paymentModeFilterRequestdto));
         }
         catch(Exception e){
+            e.printStackTrace();
 //            paymentModeFilterResponsedto.get(0).setExpenseType(null);
 //            paymentModeFilterResponsedto.get(0).setPaymentMode(null);
 //            paymentModeFilterResponsedto.get(0).setDescription(null);

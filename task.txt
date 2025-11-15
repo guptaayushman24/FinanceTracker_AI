@@ -15,6 +15,8 @@ Another Services (Another Module)
 Email Service
 Report and Graph Generation
 
+Before registering any expense for the user make sure that expense is present in the expenses table corresponding to that user_id
+
 
 
 
