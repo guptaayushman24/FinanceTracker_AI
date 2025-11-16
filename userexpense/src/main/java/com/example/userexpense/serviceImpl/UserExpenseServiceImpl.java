@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
 @Slf4j
 @Service
 public class UserExpenseServiceImpl implements UserExpenseService {
@@ -33,7 +35,20 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpense.setUser_id(userLoginId.getUserId());
         // check if the user has registered against the expense or not
         // check if the expense is present in the list or not if present add and if not return the response
-        userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
+        HashSet<String> userExpenseExist = userExpenseRepository.checkUserExpenseExist(userLoginId.getUserId());
+        // userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
+        if (userExpenseExist.contains(userExpenseRequestdto.getExpenseType())){
+            userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
+        }
+        else{
+            UserExpenseResponsedto userExpenseResponsedto = new UserExpenseResponsedto();
+            userExpenseResponsedto.setExpenseType(null);
+            userExpenseResponsedto.setValue(null);
+            userExpenseResponsedto.setDescription(null);
+            userExpenseResponsedto.setPaymentMode(null);
+            userExpenseResponsedto.setExpense_date(null);
+            return userExpenseResponsedto;
+        }
         userExpense.setValue(userExpenseRequestdto.getValue());
         userExpense.setDescription(userExpenseRequestdto.getDescription());
         userExpense.setExpenseDate(userExpenseRequestdto.getExpense_date());

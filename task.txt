@@ -3,7 +3,7 @@ Filter
 Filter by Paymment Mode (CASH OR UPI)
 Filter by Expenditure Type
 Do these before doing the task at line number 4(Before registering any expense for the user make sure that expense is present in the expenses table corresponding to that user_id)
-
+User can add the new expense column after the sign up if he require newexpense
 Total Expenditure
 Total expenditure in a day,month,year
 Total expenditure in a day,month,year by CASH OR BY UPI
