@@ -1,6 +1,8 @@
 package com.example.userexpense.serviceImpl;
 
 import com.example.userexpense.config.UserLoginId;
+import com.example.userexpense.dto.AddUserExpenseRequestdto;
+import com.example.userexpense.dto.AddUserExpenseResponsedto;
 import com.example.userexpense.dto.UserExpenseRequestdto;
 import com.example.userexpense.dto.UserExpenseResponsedto;
 import com.example.userexpense.model.PaymentMode;
@@ -14,7 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -72,5 +76,11 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
 
         return userExpenseResponsedto;
+    }
+
+    @Override
+    public List<AddUserExpenseResponsedto> addUserExpense(List<AddUserExpenseRequestdto> c) {
+        List<AddUserExpenseResponsedto> list = new ArrayList<>();
+
     }
 }
