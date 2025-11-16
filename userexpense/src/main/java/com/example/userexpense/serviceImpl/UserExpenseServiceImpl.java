@@ -36,7 +36,6 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         // check if the user has registered against the expense or not
         // check if the expense is present in the list or not if present add and if not return the response
         HashSet<String> userExpenseExist = userExpenseRepository.checkUserExpenseExist(userLoginId.getUserId());
-        // userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
         if (userExpenseExist.contains(userExpenseRequestdto.getExpenseType())){
             userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
         }
