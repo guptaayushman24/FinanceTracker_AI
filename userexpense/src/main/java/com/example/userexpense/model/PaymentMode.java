@@ -25,5 +25,5 @@ public class PaymentMode {
     private Integer user_id;
     private String paymentMode;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate expense_date;
+    private LocalDate expenseDate;
 }

@@ -29,7 +29,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         PaymentMode paymentMode = new PaymentMode();
 
         // From The Kafka Consumer
-//      //  System.out.println("User id is"+" "+userLoginId.getUserId());
+        System.out.println("User id is"+" "+userLoginId.getUserId());
         userExpense.setUser_id(userLoginId.getUserId());
         // check if the user has registered against the expense or not
         // check if the expense is present in the list or not if present add and if not return the response
@@ -40,7 +40,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         // save the modeOfPaymnet in the another table PaymentMode
         paymentMode.setUser_id(userLoginId.getUserId());
         paymentMode.setPaymentMode(userExpenseRequestdto.getPaymentMode());
-        paymentMode.setExpense_date(userExpenseRequestdto.getExpense_date());
+        paymentMode.setExpenseDate(userExpenseRequestdto.getExpense_date());
         log.info(userExpenseRequestdto.getPaymentMode());
 
 
