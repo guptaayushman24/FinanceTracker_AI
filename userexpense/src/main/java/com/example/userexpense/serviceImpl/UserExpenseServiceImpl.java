@@ -31,6 +31,8 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         // From The Kafka Consumer
 //      //  System.out.println("User id is"+" "+userLoginId.getUserId());
         userExpense.setUser_id(userLoginId.getUserId());
+        // check if the user has registered against the expense or not
+        // check if the expense is present in the list or not if present add and if not return the response
         userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
         userExpense.setValue(userExpenseRequestdto.getValue());
         userExpense.setDescription(userExpenseRequestdto.getDescription());
