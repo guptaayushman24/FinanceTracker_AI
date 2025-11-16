@@ -1,5 +1,6 @@
 package com.example.userexpense.repository;
 
+import com.example.userexpense.dto.AddUserExpenseResponsedto;
 import com.example.userexpense.dto.UserExpenseRequestdto;
 import com.example.userexpense.dto.UserExpenseResponsedto;
 import com.example.userexpense.model.UserExpense;
@@ -17,8 +18,19 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
             select user_expense from user_expenses where user_id = :user_id;
             """,nativeQuery = true)
 
-
-
    HashSet<String> checkUserExpenseExist(@Param("user_id") Integer user_id);
+
+    @Query(
+            value = """
+                      SELECT column_name
+                         FROM information_schema.columns
+                         WHERE table_schema = 'financetrackerai'
+                         AND table_name = 'Expense'
+                         AND column_name IN (user_expense);
+                    """
+    )
+    AddUserExpenseResponsedto addUserExpenseResponsedto (@Param("user_expense") String user_expense);
+
+
 
 }

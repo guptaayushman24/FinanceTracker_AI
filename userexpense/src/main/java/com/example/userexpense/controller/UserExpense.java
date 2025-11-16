@@ -2,9 +2,12 @@ package com.example.userexpense.controller;
 
 import com.example.userexpense.config.KafkaConsumer;
 import com.example.userexpense.config.UserLoginId;
+import com.example.userexpense.dto.AddUserExpenseRequestdto;
+import com.example.userexpense.dto.AddUserExpenseResponsedto;
 import com.example.userexpense.dto.UserExpenseRequestdto;
 import com.example.userexpense.dto.UserExpenseResponsedto;
 import com.example.userexpense.service.UserExpenseService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +37,16 @@ public class UserExpense {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(userExpenseResponsedto);
         }
 
+    }
+
+    @PostMapping("/addnewexpense")
+    public ResponseEntity<AddUserExpenseResponsedto> newUserExpense (@RequestBody AddUserExpenseRequestdto addUserExpenseRequestdto){
+        try{
+            return ResponseEntity.ok(userExpenseService.addUserExpense(addUserExpenseRequestdto));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
