@@ -28,8 +28,8 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
                          AND table_name = 'Expense'
                          AND column_name IN (user_expense);
                     """
-    )
-    AddUserExpenseResponsedto addUserExpenseResponsedto (@Param("user_expense") String user_expense);
+    )ASER TFGYHU9IJ0K-OL|
+    408259AAddUserExpenseResponsedto addUserExpenseResponsedto (@Param("user_expense") String user_expense);
 
 
 
