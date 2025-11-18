@@ -4,8 +4,9 @@ Filter by Paymment Mode (CASH OR UPI) -> Done
 Filter by Expenditure Type
 Do these before doing the task at line number 4(Before registering any expense for the user make sure that expense is present in the expenses table corresponding to that user_id) -> Done
 User can add the new expense column after the sign up if he require newexpense -> Done
-User can remove the new expense column after the sign up if he require newexpense
-User can sort the expense in ascending or descending order
+User can remove the new expense column after the sign up if he require newexpense -> Done
+User can sort the expense in ascending or descending order on their own choice
+Add the Custom Exception Handling
 
 Email will be sent to the user email address after signup
 Total Expenditure

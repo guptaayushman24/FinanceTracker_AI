@@ -1,9 +1,6 @@
 package com.example.userexpense.service;
 
-import com.example.userexpense.dto.AddUserExpenseRequestdto;
-import com.example.userexpense.dto.AddUserExpenseResponsedto;
-import com.example.userexpense.dto.UserExpenseRequestdto;
-import com.example.userexpense.dto.UserExpenseResponsedto;
+import com.example.userexpense.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,4 +9,5 @@ import java.util.List;
 public interface UserExpenseService {
     UserExpenseResponsedto userExpense(UserExpenseRequestdto userExpenseRequestdto);
     AddUserExpenseResponsedto addUserExpense (AddUserExpenseRequestdto addUserExpenseRequestdto);
+    DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto);
 }

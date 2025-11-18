@@ -2,10 +2,7 @@ package com.example.userexpense.controller;
 
 import com.example.userexpense.config.KafkaConsumer;
 import com.example.userexpense.config.UserLoginId;
-import com.example.userexpense.dto.AddUserExpenseRequestdto;
-import com.example.userexpense.dto.AddUserExpenseResponsedto;
-import com.example.userexpense.dto.UserExpenseRequestdto;
-import com.example.userexpense.dto.UserExpenseResponsedto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.service.UserExpenseService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +40,17 @@ public class UserExpense {
     public ResponseEntity<AddUserExpenseResponsedto> newUserExpense (@RequestBody AddUserExpenseRequestdto addUserExpenseRequestdto){
         try{
             return ResponseEntity.ok(userExpenseService.addUserExpense(addUserExpenseRequestdto));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @PostMapping("/deleteexpense")
+    public ResponseEntity<DeleteUserExpenseResponsedto> deleteUserExpense (@RequestBody DeleteUserExpenseRequestdto deleteUserExpenseRequestdto){
+        try{
+            return ResponseEntity.ok(userExpenseService.deleteUserExpense(deleteUserExpenseRequestdto));
         }
         catch(Exception e){
             e.printStackTrace();

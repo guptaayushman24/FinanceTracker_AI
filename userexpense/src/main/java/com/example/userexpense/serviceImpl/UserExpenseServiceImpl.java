@@ -1,10 +1,7 @@
 package com.example.userexpense.serviceImpl;
 
 import com.example.userexpense.config.UserLoginId;
-import com.example.userexpense.dto.AddUserExpenseRequestdto;
-import com.example.userexpense.dto.AddUserExpenseResponsedto;
-import com.example.userexpense.dto.UserExpenseRequestdto;
-import com.example.userexpense.dto.UserExpenseResponsedto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.model.PaymentMode;
 import com.example.userexpense.model.UserExpense;
 import com.example.userexpense.repository.PaymentModeRepository;
@@ -84,6 +81,14 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpenseRepository.addNewUserExpense(userLoginId.getUserId(),addUserExpenseRequestdto.getNewUserExpense());
         addUserExpenseResponsedto.setNewUserExpense(addUserExpenseRequestdto.getNewUserExpense()+" "+"Expense Added Successfully");
         return addUserExpenseResponsedto;
+    }
+
+    @Override
+    public DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto) {
+        DeleteUserExpenseResponsedto deleteUserExpenseResponsedto = new DeleteUserExpenseResponsedto();
+        userExpenseRepository.deleteUserExpense(userLoginId.getUserId(),deleteUserExpenseRequestdto.getExpenseTobeDeleted());
+        deleteUserExpenseResponsedto.setExpenseTobeDeleted(deleteUserExpenseRequestdto.getExpenseTobeDeleted()+" "+"Expense Deleted Successfully");
+        return deleteUserExpenseResponsedto;
     }
 
 
