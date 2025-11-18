@@ -79,8 +79,12 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     }
 
     @Override
-    public List<AddUserExpenseResponsedto> addUserExpense(List<AddUserExpenseRequestdto> c) {
-        List<AddUserExpenseResponsedto> list = new ArrayList<>();
-
+    public AddUserExpenseResponsedto addUserExpense(AddUserExpenseRequestdto addUserExpenseRequestdto) {
+        AddUserExpenseResponsedto addUserExpenseResponsedto = new AddUserExpenseResponsedto();
+        String newUserExpense =  userExpenseRepository.addNewUserExpense(userLoginId.getUserId(),addUserExpenseRequestdto.getNewUserExpense());
+        addUserExpenseResponsedto.setNewUserExpense(newUserExpense);
+        return addUserExpenseResponsedto;
     }
+
+
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @Service
 public interface UserExpenseService {
     UserExpenseResponsedto userExpense(UserExpenseRequestdto userExpenseRequestdto);
-    List<AddUserExpenseResponsedto> addUserExpense (AddUserExpenseRequestdto addUserExpenseRequestdto);
+    AddUserExpenseResponsedto addUserExpense (AddUserExpenseRequestdto addUserExpenseRequestdto);
 }
