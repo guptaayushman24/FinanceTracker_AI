@@ -81,8 +81,8 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     @Override
     public AddUserExpenseResponsedto addUserExpense(AddUserExpenseRequestdto addUserExpenseRequestdto) {
         AddUserExpenseResponsedto addUserExpenseResponsedto = new AddUserExpenseResponsedto();
-        String newUserExpense =  userExpenseRepository.addNewUserExpense(userLoginId.getUserId(),addUserExpenseRequestdto.getNewUserExpense());
-        addUserExpenseResponsedto.setNewUserExpense(newUserExpense);
+        userExpenseRepository.addNewUserExpense(userLoginId.getUserId(),addUserExpenseRequestdto.getNewUserExpense());
+        addUserExpenseResponsedto.setNewUserExpense(addUserExpenseRequestdto.getNewUserExpense()+" "+"Expense Added Successfully");
         return addUserExpenseResponsedto;
     }
 
