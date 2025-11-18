@@ -20,16 +20,13 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
 
    HashSet<String> checkUserExpenseExist(@Param("user_id") Integer user_id);
 
-    @Query(
-            value = """
-                      SELECT column_name
-                         FROM information_schema.columns
-                         WHERE table_schema = 'financetrackerai'
-                         AND table_name = 'Expense'
-                         AND column_name IN (user_expense);
-                    """
-    )ASER TFGYHU9IJ0K-OL|
-    408259AAddUserExpenseResponsedto addUserExpenseResponsedto (@Param("user_expense") String user_expense);
+   @Query(
+           value = """
+                   INSERT INTO user_expenses (user_id,user_expense) VALUES (502,'Entertainment');
+                   """
+                ,nativeQuery = true
+   )
+    String addNewUserExpense(@Param("user_id") Integer user_id,@Param("expense_type") String expense_type);
 
 
 
