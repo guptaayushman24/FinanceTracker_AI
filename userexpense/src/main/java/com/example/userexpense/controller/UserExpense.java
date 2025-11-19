@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @Controller
@@ -55,6 +56,17 @@ public class UserExpense {
         catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @PostMapping("/sortexpense")
+    public ResponseEntity<SortExpenseResposedto> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
+        try{
+            return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

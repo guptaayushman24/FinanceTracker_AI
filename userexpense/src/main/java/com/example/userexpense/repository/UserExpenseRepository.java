@@ -1,8 +1,6 @@
 package com.example.userexpense.repository;
 
-import com.example.userexpense.dto.AddUserExpenseResponsedto;
-import com.example.userexpense.dto.UserExpenseRequestdto;
-import com.example.userexpense.dto.UserExpenseResponsedto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.model.UserExpense;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Repository
 public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer> {
@@ -40,6 +39,21 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
     )
     void deleteUserExpense(@Param("user_id") Integer userId,
                       @Param("expense_type") String expenseType);
+
+    @Query("""
+    SELECT new com.example.userexpense.dto.PaymentModeFilterResponsedto(
+        ue.ExpenseType,
+        ue.Value,
+        ue.Description,
+        pm.paymentMode,
+        pm.expenseDate
+    )
+    FROM UserExpense ue
+    JOIN PaymentMode pm ON ue.user_id = pm.user_id
+    AND ue.expenseDate = pm.expenseDate
+    WHERE ue.user_id = :userId)
+""")
+    List<SortExpenseResposedto> allUserExpensebyId(@Param("userId") Integer userId);
 
 
 
