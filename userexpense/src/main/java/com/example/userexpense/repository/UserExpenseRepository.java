@@ -35,12 +35,14 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
     @Modifying
     @Transactional
     @Query(
-            value = """
-                     DELETE from user_expenses where (user_id :user_id and user_expense :expense_type);
-                   """
-            ,nativeQuery = true
+            value = "DELETE FROM user_expenses WHERE user_id = :user_id AND user_expense = :expense_type",
+            nativeQuery = true
     )
-    void deleteUserExpense(@Param("user_id") Integer user_id,@Param("expense_type") String expense_type);
+    void deleteUserExpense(@Param("user_id") Integer userId,
+                      @Param("expense_type") String expenseType);
+
+
+
 
 
 
