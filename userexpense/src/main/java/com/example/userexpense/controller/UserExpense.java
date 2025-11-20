@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.List;
+
 
 @Controller
 public class UserExpense {
@@ -60,7 +62,7 @@ public class UserExpense {
     }
 
     @PostMapping("/sortexpense")
-    public ResponseEntity<SortExpenseResposedto> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
+    public ResponseEntity<List<SortExpenseResposedto>> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
         try{
             return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto));
         }
