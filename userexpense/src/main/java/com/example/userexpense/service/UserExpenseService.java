@@ -13,7 +13,7 @@ public interface UserExpenseService {
 
 
 
-    SortExpenseResposedto sortExpense (SortExpenseRequestdto sortExpenseRequestdto);
+    List<SortExpenseResposedto> sortExpense (SortExpenseRequestdto sortExpenseRequestdto);
     List<AllExpenseeResponsedto> allExpense(Integer userId);
 
     List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber);
