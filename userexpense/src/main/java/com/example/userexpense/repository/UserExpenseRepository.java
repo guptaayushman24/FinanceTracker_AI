@@ -41,7 +41,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
                       @Param("expense_type") String expenseType);
 
     @Query("""
-    SELECT new com.example.userexpense.dto.PaymentModeFilterResponsedto(
+    SELECT new com.example.userexpense.dto.SortExpenseResposedto(
         ue.ExpenseType,
         ue.Value,
         ue.Description,

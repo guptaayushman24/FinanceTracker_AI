@@ -15,6 +15,8 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 
+import java.util.List;
+
 
 @Controller
 public class UserExpense {
@@ -62,7 +64,7 @@ public class UserExpense {
     }
 
     @PostMapping("/sortexpense")
-    public ResponseEntity<SortExpenseResposedto> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
+    public ResponseEntity<List<SortExpenseResposedto>> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
         try{
             return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto));
         }

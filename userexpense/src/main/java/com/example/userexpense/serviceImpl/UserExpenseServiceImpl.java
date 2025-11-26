@@ -95,49 +95,43 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     }
 
     @Override
-    public SortExpenseResposedto sortExpense(SortExpenseRequestdto sortExpenseRequestdto) {
-        SortExpenseResposedto sortExpenseResposedto = new SortExpenseResposedto();
-        List<SortExpenseResposedto> listOfExpenses = userExpenseRepository.allUserExpensebyId(userLoginId.getUserId());
+    public List<SortExpenseResposedto> sortExpense(SortExpenseRequestdto sortExpenseRequestdto) {
+       try{
+           SortExpenseResposedto sortExpenseResposedto = new SortExpenseResposedto();
+           List<SortExpenseResposedto> listOfExpenses = userExpenseRepository.allUserExpensebyId(userLoginId.getUserId());
+           List<SortExpenseResposedto> allExpensessorted = new ArrayList<>();
 
 
-        // Sort by ascending or descinding order on the basis of request
-        if (sortExpenseRequestdto.getSortOrder().equals("asc")) {
-            PriorityQueue<SortExpenseResposedto> userExpense = new PriorityQueue<>((a, b) -> Integer.compare(a.getValue(), b.getValue()));
-            for (int i = 0; i < listOfExpenses.size(); i++) {
-                userExpense.add(listOfExpenses.get(i));
-            }
 
-            while (userExpense.size() > 0) {
-                SortExpenseResposedto sortExpenseResposedto1 = userExpense.peek();
-                sortExpenseResposedto.setExpenseType(sortExpenseResposedto1.getExpenseType());
-                sortExpenseResposedto.setValue(sortExpenseResposedto1.getValue());
-                sortExpenseResposedto.setDescription(sortExpenseResposedto1.getDescription());
-                sortExpenseResposedto.setPaymentMode(sortExpenseResposedto1.getPaymentMode());
-                sortExpenseResposedto.setPaymentMode(sortExpenseResposedto1.getPaymentMode());
+           // Sort by ascending or descinding order on the basis of request
+           if (sortExpenseRequestdto.getSortOrder().equals("asc")) {
+               PriorityQueue<SortExpenseResposedto> userExpense = new PriorityQueue<>((a, b) -> Integer.compare(a.getValue(), b.getValue()));
 
-                return sortExpenseResposedto1;
-            }
-        } else if (sortExpenseRequestdto.getSortOrder().equals("desc")) {
-            if (sortExpenseRequestdto.getSortOrder().equals("asc")) {
+               userExpense.addAll(listOfExpenses);
+
+               while (userExpense.size()>0){
+                   allExpensessorted.add(userExpense.poll());
+               }
+           } else if (sortExpenseRequestdto.getSortOrder().equals("desc")) {
+
                 PriorityQueue<SortExpenseResposedto> userExpense = new PriorityQueue<>((a, b) -> Integer.compare(b.getValue(), a.getValue()));
-                for (int i = 0; i < listOfExpenses.size(); i++) {
-                    userExpense.add(listOfExpenses.get(i));
-                }
 
-                while (userExpense.size() > 0) {
-                    SortExpenseResposedto sortExpenseResposedto1 = userExpense.peek();
-                    sortExpenseResposedto.setExpenseType(sortExpenseResposedto1.getExpenseType());
-                    sortExpenseResposedto.setValue(sortExpenseResposedto1.getValue());
-                    sortExpenseResposedto.setDescription(sortExpenseResposedto1.getDescription());
-                    sortExpenseResposedto.setPaymentMode(sortExpenseResposedto1.getPaymentMode());
-                    sortExpenseResposedto.setPaymentMode(sortExpenseResposedto1.getPaymentMode());
+               userExpense.addAll(listOfExpenses);
+               while (userExpense.size()>0){
+                   allExpensessorted.add(userExpense.poll());
+               }
 
-                    return sortExpenseResposedto1;
-                }
-            }
+           }
 
-        }
-        return null;
+
+
+           return allExpensessorted;
+
+       }
+       catch (Exception e){
+           e.printStackTrace();
+           return null;
+       }
     }
 
     @Override
