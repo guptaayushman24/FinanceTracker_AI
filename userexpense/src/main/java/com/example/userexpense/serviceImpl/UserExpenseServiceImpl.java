@@ -141,6 +141,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
     @Override
     public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber) {
+        System.out.println("Month Number is"+" "+monthNumber);
         return userExpenseRepository.allUserExpenseByMonth(userLoginId.getUserId(),monthNumber);
     }
 }
