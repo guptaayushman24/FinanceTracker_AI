@@ -138,4 +138,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     public List<AllExpenseeResponsedto> allExpense(Integer userId) {
         return userExpenseRepository.allUserExpense(userLoginId.getUserId());
     }
+
+    @Override
+    public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber) {
+        return userExpenseRepository.allUserExpenseByMonth(userLoginId.getUserId(),monthNumber);
+    }
 }
