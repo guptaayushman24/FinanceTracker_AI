@@ -7,6 +7,7 @@ import com.example.userexpense.model.UserExpense;
 import com.example.userexpense.repository.PaymentModeRepository;
 import com.example.userexpense.repository.UserExpenseRepository;
 import com.example.userexpense.service.UserExpenseService;
+import com.example.userexpense.dto.AllExpenseeResponsedto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -131,5 +132,10 @@ public class UserExpenseServiceImpl implements UserExpenseService {
            e.printStackTrace();
            return null;
        }
+    }
+
+    @Override
+    public List<AllExpenseeResponsedto> allExpense(Integer userId) {
+        return userExpenseRepository.allUserExpense(userLoginId.getUserId());
     }
 }

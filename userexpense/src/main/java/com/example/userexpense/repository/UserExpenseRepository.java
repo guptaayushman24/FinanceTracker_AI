@@ -52,7 +52,24 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
     JOIN PaymentMode pm ON ue.user_id = pm.user_id
     AND ue.expenseDate = pm.expenseDate
     WHERE ue.user_id = :userId""")
+<<<<<<< HEAD
+=======
+
+>>>>>>> allexpense
     List<SortExpenseResposedto> allUserExpensebyId(@Param("userId") Integer userId);
+    @Query("""
+    SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+        ue.ExpenseType,
+        ue.Value,
+        ue.Description,
+        pm.paymentMode,
+        pm.expenseDate
+    )
+    FROM UserExpense ue
+    JOIN PaymentMode pm ON ue.user_id = pm.user_id
+    AND ue.expenseDate = pm.expenseDate
+    WHERE ue.user_id = :userId""")
+    List<AllExpenseeResponsedto>  allUserExpense (@Param("userId") Integer userId);
 
 
 

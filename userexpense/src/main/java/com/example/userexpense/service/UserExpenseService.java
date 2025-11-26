@@ -10,5 +10,10 @@ public interface UserExpenseService {
     UserExpenseResponsedto userExpense(UserExpenseRequestdto userExpenseRequestdto);
     AddUserExpenseResponsedto addUserExpense (AddUserExpenseRequestdto addUserExpenseRequestdto);
     DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto);
+<<<<<<< HEAD
     List<SortExpenseResposedto> sortExpense (SortExpenseRequestdto sortExpenseRequestdto);
+=======
+    SortExpenseResposedto sortExpense (SortExpenseRequestdto sortExpenseRequestdto);
+    List<AllExpenseeResponsedto> allExpense(Integer userId);
+>>>>>>> allexpense
 }
