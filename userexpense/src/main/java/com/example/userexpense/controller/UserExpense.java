@@ -86,7 +86,7 @@ public class UserExpense {
     }
 
     @PostMapping("/userexpensebymonth")
-    public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyMonth(@RequestBody String monthName){
+    public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyMonth(@RequestBody MonthNamedto monthName){
         try{
             HashMap<String,Integer> monthNameandNumber = new HashMap<>();
             String[] monthList = {
@@ -106,8 +106,10 @@ public class UserExpense {
             for (int i=0;i<monthList.length;i++){
                 monthNameandNumber.put(monthList[i],i+1);
             }
-
-            return ResponseEntity.ok(userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName)));
+//            System.out.println("HashMap is"+" "+monthNameandNumber);
+//            System.out.println("Month Name"+" "+monthName);
+            System.out.println("Number is"+" "+monthNameandNumber.get(monthName.getMonthName()));
+            return ResponseEntity.ok(userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName())));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
