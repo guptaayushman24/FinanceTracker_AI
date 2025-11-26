@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -78,6 +79,34 @@ public class UserExpense {
             return ResponseEntity.ok(allExpense);
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/userexpensebymonth")
+    public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyMonth(@RequestBody String monthName){
+        try{
+            HashMap<String,Integer> monthNameandNumber = new HashMap<>();
+            String[] monthList = {
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+            };
+            for (int i=0;i<monthList.length;i++){
+                monthNameandNumber.put(monthList[i],i+1);
+            }
+
+            return ResponseEntity.ok(userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName)));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

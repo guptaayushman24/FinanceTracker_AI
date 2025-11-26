@@ -12,4 +12,5 @@ public interface UserExpenseService {
     DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto);
     SortExpenseResposedto sortExpense (SortExpenseRequestdto sortExpenseRequestdto);
     List<AllExpenseeResponsedto> allExpense(Integer userId);
+    List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber);
 }

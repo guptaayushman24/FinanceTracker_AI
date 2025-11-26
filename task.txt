@@ -6,7 +6,7 @@ Do these before doing the task at line number 4(Before registering any expense f
 User can add the new expense column after the sign up if he require newexpense -> Done
 User can remove the new expense column after the sign up if he require newexpense -> Done
 User can sort the expense in ascending or descending order on their own choice -> Done
-User can see all the Expenses
+User can see all the Expenses -> Done
 User can filter the expense on the basis of month and year
 Add the Custom Exception Handling
 
