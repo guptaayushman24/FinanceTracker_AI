@@ -79,7 +79,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
     FROM UserExpense ue
     JOIN PaymentMode pm ON ue.user_id = pm.user_id
     AND ue.expenseDate = pm.expenseDate
-    WHERE (ue.user_id =:userId and month(ue.expense_date)=:monthNumber)""")
+    WHERE (ue.user_id =:userId and month(ue.expenseDate)=:monthNumber)""")
     List<AllExpenseeResponsedto>  allUserExpenseByMonth (@Param("userId") Integer userId,@Param("monthNumber") Integer monthNumber);
 
 
