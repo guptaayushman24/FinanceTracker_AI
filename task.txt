@@ -7,7 +7,7 @@ User can add the new expense column after the sign up if he require newexpense -
 User can remove the new expense column after the sign up if he require newexpense -> Done
 User can sort the expense in ascending or descending order on their own choice -> Done
 User can see all the Expenses -> Done
-User can filter the expense on the basis of month and year
+User can filter the expense on the basis of month and year -> Pending
 Add the Custom Exception Handling
 
 Email will be sent to the user email address after signup
@@ -16,12 +16,15 @@ Total expenditure in a day,month,year
 Total expenditure in a day,month,year by CASH OR BY UPI
 
 Scheduler
-User can create the scheduler for the day and can write the task when the scheduler will
-trigger all the expense will be inserted
+Table
+id|user_id|schedule_time(Can vary from 1 to 30 day of the same month)
+Supppose schedule_time = 48hr
+Calculation = 48/24 = 2 -> 27Nov-(2-1) = Fetch the data from the 26Morning to 27Night
 
 Another Services (Another Module)
 Email Service
 Report and Graph Generation
+
 
 
 
