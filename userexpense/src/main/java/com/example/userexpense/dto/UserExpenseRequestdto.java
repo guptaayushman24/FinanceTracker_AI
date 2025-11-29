@@ -21,4 +21,14 @@ public class UserExpenseRequestdto {
     private String paymentMode;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate expense_date;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SchedulerObject {
+        private Integer id;
+        private Integer user_id;
+        private String schedulerEvent;
+    }
 }
