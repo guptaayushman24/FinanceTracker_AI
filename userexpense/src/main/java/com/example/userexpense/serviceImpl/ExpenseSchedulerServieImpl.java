@@ -2,15 +2,16 @@ package com.example.userexpense.serviceImpl;
 
 
 import com.example.userexpense.config.UserLoginId;
-import com.example.userexpense.dto.ExpenseSchedulerRequestdto;
-import com.example.userexpense.dto.ExpenseSchedulerResponsedto;
-import com.example.userexpense.dto.ExpenseSchedulerSavedto;
-import com.example.userexpense.dto.UserExpenseRequestdto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.model.ExpenseScheduler;
 import com.example.userexpense.repository.ExpenseSchedulerRepository;
 import com.example.userexpense.service.ExpenseSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class ExpenseSchedulerServieImpl implements ExpenseSchedulerService {
@@ -30,5 +31,14 @@ public class ExpenseSchedulerServieImpl implements ExpenseSchedulerService {
         expenseSchedulerResponsedto.setMessage("Scheduling Configuration is done !!!!");
 
         return expenseSchedulerResponsedto;
+    }
+
+    @Override
+    public List<AllExpenseeResponsedto> expenseRecordScheduler(Integer userId, LocalDate expenseDate) {
+//        LocalDate today = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String formattedDate = today.format(formatter);
+        return expenseSchedulerRepository.expenseRecordScheduler(userLoginId.getUserId(),expenseDate);
+
     }
 }
