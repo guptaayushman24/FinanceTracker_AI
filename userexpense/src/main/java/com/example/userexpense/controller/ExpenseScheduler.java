@@ -1,5 +1,6 @@
 package com.example.userexpense.controller;
 
+import com.example.userexpense.dto.AllExpenseeResponsedto;
 import com.example.userexpense.dto.ExpenseSchedulerRequestdto;
 import com.example.userexpense.dto.ExpenseSchedulerResponsedto;
 import com.example.userexpense.service.ExpenseSchedulerService;
@@ -7,9 +8,10 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class ExpenseScheduler {
@@ -25,4 +27,17 @@ public class ExpenseScheduler {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("/tiggerscheduler/{userId}")
+    public ResponseEntity<List<AllExpenseeResponsedto>> allUserExpense(@PathVariable("userId") Integer userId){
+        try{
+            LocalDate expenseDate = LocalDate.now();
+            List<AllExpenseeResponsedto> allExpense = expenseSchedulerService.expenseRecordScheduler(userId,expenseDate);
+            return ResponseEntity.ok(allExpense);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

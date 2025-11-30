@@ -81,15 +81,4 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
     AND ue.expenseDate = pm.expenseDate
     WHERE (ue.user_id =:userId and MONTH(ue.expenseDate)=:monthNumber)""")
     List<AllExpenseeResponsedto>  allUserExpenseByMonth (@Param("userId") Integer userId,@Param("monthNumber") Integer monthNumber);
-
-
-
-
-
-
-
-
-
-
-
 }
