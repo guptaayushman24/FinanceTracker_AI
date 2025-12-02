@@ -36,6 +36,7 @@ public class UserExpense {
             userExpenseResponsedto.setExpenseType(null);
             userExpenseResponsedto.setValue(null);
             userExpenseResponsedto.setDescription(null);
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(userExpenseResponsedto);
         }
 
