@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpenseSchedulerResponsedto {
-    String days;
+    Integer days;
     String message;
 }

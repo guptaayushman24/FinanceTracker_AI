@@ -28,16 +28,16 @@ public class ExpenseScheduler {
         }
     }
 
-    @GetMapping("/tiggerscheduler/{userId}")
-    public ResponseEntity<List<AllExpenseeResponsedto>> allUserExpense(@PathVariable("userId") Integer userId){
-        try{
-            LocalDate expenseDate = LocalDate.now();
-            List<AllExpenseeResponsedto> allExpense = expenseSchedulerService.expenseRecordScheduler(userId,expenseDate);
-            return ResponseEntity.ok(allExpense);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+//    @GetMapping("/tiggerscheduler/{userId}")
+//    public ResponseEntity<List<AllExpenseeResponsedto>> allUserExpense(@PathVariable("userId") Integer userId){
+//        try{
+//            LocalDate expenseDate = LocalDate.now();
+//            List<AllExpenseeResponsedto> allExpense = expenseSchedulerService.expenseRecordScheduler(userId,expenseDate);
+//            return ResponseEntity.ok(allExpense);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 
 }

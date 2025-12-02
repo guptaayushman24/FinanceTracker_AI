@@ -16,5 +16,5 @@ public class ExpenseScheduler {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer user_id;
-    private String schedulerEvent;
+    private Integer schedulerEvent;
 }
