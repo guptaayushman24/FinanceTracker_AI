@@ -6,9 +6,12 @@ import com.example.userexpense.service.TotalExpenditureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
 
 @RestController
 public class TotalExpenditure {
@@ -39,10 +42,11 @@ public class TotalExpenditure {
         }
     }
 
-    @PostMapping("/totalexpennseoncurrentdate")
-    public ResponseEntity<TotalExpenseCurrentDayResponsedto> totalExpenseOnCurrentDate(@RequestBody TotalExpenseCurrentDayRequestdto totalExpenseCurrentDayRequestdto){
+    @GetMapping("/totalexpennseoncurrentdate")
+    public ResponseEntity<TotalExpenseCurrentDayResponsedto> totalExpenseOnCurrentDate(){
         try{
-            return ResponseEntity.ok(totalExpenditureService.totalExpenseCurrentDayResponsedto(userLoginId.getUserId(),totalExpenseCurrentDayRequestdto));
+            LocalDate localDate = LocalDate.now();
+            return ResponseEntity.ok(totalExpenditureService.totalExpenseCurrentDayResponsedto(userLoginId.getUserId(),localDate));
         }
         catch(Exception e){
             e.printStackTrace();

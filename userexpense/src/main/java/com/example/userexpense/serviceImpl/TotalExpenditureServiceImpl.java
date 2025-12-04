@@ -8,6 +8,8 @@ import com.example.userexpense.service.TotalExpenditureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class TotalExpenditureServiceImpl implements TotalExpenditureService {
     @Autowired
@@ -29,8 +31,8 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
     }
 
     @Override
-    public TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto(Integer user_id, TotalExpenseCurrentDayRequestdto totalExpenseCurrentDayRequestdto) {
-       TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto = paymentModeRepository.totalExpenseCurrentResponsedto(user_id,totalExpenseCurrentDayRequestdto.getCurrent_date());
+    public TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto(Integer user_id, LocalDate localDate) {
+       TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto = paymentModeRepository.totalExpenseCurrentResponsedto(user_id,localDate);
         totalExpenseCurrentDayResponsedto.setMessage("Expense of today is"+" "+totalExpenseCurrentDayResponsedto.getSum());
         totalExpenseCurrentDayResponsedto.setSum(totalExpenseCurrentDayResponsedto.getSum());
 
