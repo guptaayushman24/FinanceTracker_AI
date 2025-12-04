@@ -33,12 +33,12 @@ public class ExpenseSchedulerServieImpl implements ExpenseSchedulerService {
         return expenseSchedulerResponsedto;
     }
 
-    @Override
-    public List<AllExpenseeResponsedto> expenseRecordScheduler(Integer userId, LocalDate expenseDate) {
+   // @Override
+   // public List<AllExpenseeResponsedto> expenseRecordScheduler(Integer userId, LocalDate expenseDate) {
 //        LocalDate today = LocalDate.now();
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String formattedDate = today.format(formatter);
-        return expenseSchedulerRepository.expenseRecordScheduler(userLoginId.getUserId(),expenseDate);
+        // return expenseSchedulerRepository.expenseRecordScheduler(userLoginId.getUserId(),expenseDate);
 
-    }
+   // }
 }

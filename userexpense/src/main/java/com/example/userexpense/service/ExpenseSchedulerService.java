@@ -11,5 +11,5 @@ import java.util.List;
 @Service
 public interface ExpenseSchedulerService {
     ExpenseSchedulerResponsedto expenseScheduler (ExpenseSchedulerRequestdto expenseSchedulerRequestdto);
-    List<AllExpenseeResponsedto> expenseRecordScheduler (Integer userId, LocalDate expenseDate);
+    // List<AllExpenseeResponsedto> expenseRecordScheduler (Integer userId, LocalDate expenseDate);
 }
