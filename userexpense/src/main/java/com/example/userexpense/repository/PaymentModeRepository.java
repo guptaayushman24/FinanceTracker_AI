@@ -1,10 +1,7 @@
 package com.example.userexpense.repository;
 
 import com.example.userexpense.config.UserLoginId;
-import com.example.userexpense.dto.PaymentModeFilterResponsedto;
-import com.example.userexpense.dto.PaymentModeRequestdto;
-import com.example.userexpense.dto.TotalExpenseMonthResponsedto;
-import com.example.userexpense.dto.TotalExpenseYearResponsedto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.model.PaymentMode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -58,6 +56,15 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
        """)
     TotalExpenseYearResponsedto totalExpenseYearesponsedto(@Param("user_id") Integer user_id, @Param("year") String monthName);
 
+    @Query("""
+       SELECT new com.example.userexpense.dto.TotalExpenseYearResponsedto(
+           SUM(ue.Value)
+       )
+       FROM UserExpense ue
+       WHERE ue.user_id = :user_id
+         AND ue.expenseDate = :currentDate;
+       """)
+    TotalExpenseCurrentDayResponsedto totalExpenseCurrentResponsedto(@Param("user_id") Integer user_id, @Param("current_date")LocalDateTime current_date);
 
 
 

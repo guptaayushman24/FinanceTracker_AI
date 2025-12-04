@@ -1,10 +1,7 @@
 package com.example.userexpense.serviceImpl;
 
 import com.example.userexpense.config.UserLoginId;
-import com.example.userexpense.dto.TotalExpenseMonthRequestdto;
-import com.example.userexpense.dto.TotalExpenseMonthResponsedto;
-import com.example.userexpense.dto.TotalExpenseYearRequestdto;
-import com.example.userexpense.dto.TotalExpenseYearResponsedto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.repository.ExpenseSchedulerRepository;
 import com.example.userexpense.repository.PaymentModeRepository;
 import com.example.userexpense.service.TotalExpenditureService;
@@ -29,5 +26,14 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
         totalExpenseYearResponsedto.setMessage("Expense of the year"+" "+totalExpenseYearRequestdto.getYear());
         totalExpenseYearResponsedto.setSum(totalExpenseYearResponsedto.getSum());
         return totalExpenseYearResponsedto;
+    }
+
+    @Override
+    public TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto(Integer user_id, TotalExpenseCurrentDayRequestdto totalExpenseCurrentDayRequestdto) {
+       TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto = paymentModeRepository.totalExpenseCurrentResponsedto(user_id,totalExpenseCurrentDayRequestdto.getCurrent_date());
+        totalExpenseCurrentDayResponsedto.setMessage("Expense of today is");
+        totalExpenseCurrentDayResponsedto.setSum(totalExpenseCurrentDayResponsedto.getSum());
+
+        return totalExpenseCurrentDayResponsedto;
     }
 }

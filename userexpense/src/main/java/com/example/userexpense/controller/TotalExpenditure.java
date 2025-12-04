@@ -1,10 +1,7 @@
 package com.example.userexpense.controller;
 
 import com.example.userexpense.config.UserLoginId;
-import com.example.userexpense.dto.TotalExpenseMonthRequestdto;
-import com.example.userexpense.dto.TotalExpenseMonthResponsedto;
-import com.example.userexpense.dto.TotalExpenseYearRequestdto;
-import com.example.userexpense.dto.TotalExpenseYearResponsedto;
+import com.example.userexpense.dto.*;
 import com.example.userexpense.service.TotalExpenditureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +32,17 @@ public class TotalExpenditure {
     public ResponseEntity<TotalExpenseYearResponsedto> totalExpenseByYear(@RequestBody TotalExpenseYearRequestdto totalExpenseYearRequestdto){
         try{
             return ResponseEntity.ok(totalExpenditureService.totalExpenseYearResponsedto(userLoginId.getUserId(),totalExpenseYearRequestdto));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/totalexpennseoncurrentdate")
+    public ResponseEntity<TotalExpenseCurrentDayResponsedto> totalExpenseOnCurrentDate(@RequestBody TotalExpenseCurrentDayRequestdto totalExpenseCurrentDayRequestdto){
+        try{
+            return ResponseEntity.ok(totalExpenditureService.totalExpenseCurrentDayResponsedto(userLoginId.getUserId(),totalExpenseCurrentDayRequestdto));
         }
         catch(Exception e){
             e.printStackTrace();
