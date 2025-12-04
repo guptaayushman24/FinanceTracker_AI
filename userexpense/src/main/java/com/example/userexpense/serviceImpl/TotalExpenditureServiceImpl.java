@@ -31,7 +31,7 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
     @Override
     public TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto(Integer user_id, TotalExpenseCurrentDayRequestdto totalExpenseCurrentDayRequestdto) {
        TotalExpenseCurrentDayResponsedto totalExpenseCurrentDayResponsedto = paymentModeRepository.totalExpenseCurrentResponsedto(user_id,totalExpenseCurrentDayRequestdto.getCurrent_date());
-        totalExpenseCurrentDayResponsedto.setMessage("Expense of today is");
+        totalExpenseCurrentDayResponsedto.setMessage("Expense of today is"+" "+totalExpenseCurrentDayResponsedto.getSum());
         totalExpenseCurrentDayResponsedto.setSum(totalExpenseCurrentDayResponsedto.getSum());
 
         return totalExpenseCurrentDayResponsedto;

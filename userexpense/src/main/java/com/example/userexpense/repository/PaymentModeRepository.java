@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -57,14 +57,14 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
     TotalExpenseYearResponsedto totalExpenseYearesponsedto(@Param("user_id") Integer user_id, @Param("year") String monthName);
 
     @Query("""
-       SELECT new com.example.userexpense.dto.TotalExpenseYearResponsedto(
+       SELECT new com.example.userexpense.dto.TotalExpenseCurrentDayResponsedto(
            SUM(ue.Value)
        )
        FROM UserExpense ue
        WHERE ue.user_id = :user_id
-         AND ue.expenseDate = :currentDate;
+         AND ue.expenseDate = :currentDate
        """)
-    TotalExpenseCurrentDayResponsedto totalExpenseCurrentResponsedto(@Param("user_id") Integer user_id, @Param("current_date")LocalDateTime current_date);
+    TotalExpenseCurrentDayResponsedto totalExpenseCurrentResponsedto(@Param("user_id") Integer user_id, @Param("currentDate") LocalDate currentDate);
 
 
 
