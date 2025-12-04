@@ -4,6 +4,7 @@ import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.PaymentModeFilterResponsedto;
 import com.example.userexpense.dto.PaymentModeRequestdto;
 import com.example.userexpense.dto.TotalExpenseMonthResponsedto;
+import com.example.userexpense.dto.TotalExpenseYearResponsedto;
 import com.example.userexpense.model.PaymentMode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,16 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
          AND MONTHNAME(ue.expenseDate) = :monthName
        """)
     TotalExpenseMonthResponsedto totalExpenseMonthResponsedto(@Param("user_id") Integer user_id,@Param("monthName") String monthName);
+
+    @Query("""
+       SELECT new com.example.userexpense.dto.TotalExpenseYearResponsedto(
+           SUM(ue.Value)
+       )
+       FROM UserExpense ue
+       WHERE ue.user_id = :user_id
+         AND YEAR(ue.expenseDate) = :year
+       """)
+    TotalExpenseYearResponsedto totalExpenseYearesponsedto(@Param("user_id") Integer user_id, @Param("year") String monthName);
 
 
 

@@ -3,6 +3,8 @@ package com.example.userexpense.serviceImpl;
 import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.TotalExpenseMonthRequestdto;
 import com.example.userexpense.dto.TotalExpenseMonthResponsedto;
+import com.example.userexpense.dto.TotalExpenseYearRequestdto;
+import com.example.userexpense.dto.TotalExpenseYearResponsedto;
 import com.example.userexpense.repository.ExpenseSchedulerRepository;
 import com.example.userexpense.repository.PaymentModeRepository;
 import com.example.userexpense.service.TotalExpenditureService;
@@ -19,5 +21,13 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
         totalExpenseMonthResponsedto.setMessage("Expense of the"+" "+totalExpenseMonthRequestdto.getMonth());
         totalExpenseMonthResponsedto.setSum(totalExpenseMonthResponsedto.getSum());
         return totalExpenseMonthResponsedto;
+    }
+
+    @Override
+    public TotalExpenseYearResponsedto totalExpenseYearResponsedto(Integer user_id, TotalExpenseYearRequestdto totalExpenseYearRequestdto) {
+        TotalExpenseYearResponsedto totalExpenseYearResponsedto = paymentModeRepository.totalExpenseYearesponsedto(user_id,totalExpenseYearRequestdto.getYear());
+        totalExpenseYearResponsedto.setMessage("Expense of the year"+" "+totalExpenseYearRequestdto.getYear());
+        totalExpenseYearResponsedto.setSum(totalExpenseYearResponsedto.getSum());
+        return totalExpenseYearResponsedto;
     }
 }
