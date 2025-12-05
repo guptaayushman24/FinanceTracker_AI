@@ -38,20 +38,19 @@ public interface ExpenseSchedulerRepository extends JpaRepository<ExpenseSchedul
 //                  AND DATE_SUB(DATE(:expenseDate), INTERVAL 1 DAY)
 //            """
 //    )
-@Query("""
-       SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
-          ue.expenseType,
-           ue.value,
-           ue.description,
-           ue.paymentMode,
-           ue.expense_date
-       )
-       FROM UserExpense ue
-       """)
-List<AllExpenseeResponsedto> expenseRecordScheduler(
-        @Param("user_id") Integer user_id,
-        @Param("expenseDate") LocalDate expenseDate
-);
+//@Query("""
+//       SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+//          ue.ExpenseType,
+//           ue.Value,
+//           ue.Description,
+//           ue.expenseDate
+//       )
+//       FROM UserExpense ue
+//       """)
+//List<AllExpenseeResponsedto> expenseRecordScheduler(
+//        @Param("user_id") Integer user_id,
+//        @Param("expenseDate") LocalDate expenseDate
+//);
 }
 
 
