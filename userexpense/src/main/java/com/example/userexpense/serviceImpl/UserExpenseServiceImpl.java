@@ -42,6 +42,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         // check if the user has registered against the expense or not
         // check if the expense is present in the list or not if present add and if not return the response
         HashSet<String> userExpenseExist = userExpenseRepository.checkUserExpenseExist(userLoginId.getUserId());
+
         if (userExpenseExist.contains(userExpenseRequestdto.getExpenseType())) {
             userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
         } else {
@@ -51,11 +52,14 @@ public class UserExpenseServiceImpl implements UserExpenseService {
             userExpenseResponsedto.setDescription(null);
             userExpenseResponsedto.setPaymentMode(null);
             userExpenseResponsedto.setExpense_date(null);
+            userExpenseResponsedto.setMessage("Please add the expense");
             return userExpenseResponsedto;
         }
         userExpense.setValue(userExpenseRequestdto.getValue());
         userExpense.setDescription(userExpenseRequestdto.getDescription());
         userExpense.setExpenseDate(userExpenseRequestdto.getExpense_date());
+
+
         // save the modeOfPaymnet in the another table PaymentMode
         paymentMode.setUser_id(userLoginId.getUserId());
         paymentMode.setPaymentMode(userExpenseRequestdto.getPaymentMode());
@@ -84,6 +88,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpenseResponsedto.setDescription(saved.getDescription());
         userExpenseResponsedto.setPaymentMode(savePaymentMode.getPaymentMode());
         userExpenseResponsedto.setExpense_date(saved.getExpenseDate());
+        userExpenseResponsedto.setMessage("Expense Record Saved Successfully!!!!");
         log.info(userExpenseResponsedto.getPaymentMode());
 
 

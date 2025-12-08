@@ -40,10 +40,11 @@ public interface ExpenseSchedulerRepository extends JpaRepository<ExpenseSchedul
 //    )
 //@Query("""
 //       SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
-//          ue.ExpenseType,
-//           ue.Value,
-//           ue.Description,
-//           ue.expenseDate
+//          ue.expenseType,
+//           ue.value,
+//           ue.description,
+//           ue.paymentMode,
+//           ue.expense_date
 //       )
 //       FROM UserExpense ue
 //       """)
