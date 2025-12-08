@@ -64,11 +64,23 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         paymentMode.setUser_id(userLoginId.getUserId());
         paymentMode.setPaymentMode(userExpenseRequestdto.getPaymentMode());
         paymentMode.setExpenseDate(userExpenseRequestdto.getExpense_date());
+         userExpense.setPaymentMode(paymentMode);
+
         log.info(userExpenseRequestdto.getPaymentMode());
 
 
-        UserExpense saved = userExpenseRepository.save(userExpense);
+//        UserExpense saved = userExpenseRepository.save(userExpense);
+//        PaymentMode savePaymentMode = paymentModeRepository.save(paymentMode);
+
         PaymentMode savePaymentMode = paymentModeRepository.save(paymentMode);
+
+        // Now attach it to UserExpense
+        userExpense.setPaymentMode(savePaymentMode);
+
+          // Save UserExpense with correct FK
+        UserExpense saved = userExpenseRepository.save(userExpense);
+
+
 
         UserExpenseResponsedto userExpenseResponsedto = new UserExpenseResponsedto();
         userExpenseResponsedto.setExpenseType(saved.getExpenseType());
