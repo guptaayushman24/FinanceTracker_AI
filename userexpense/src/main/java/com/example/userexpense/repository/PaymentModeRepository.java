@@ -67,6 +67,42 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
     TotalExpenseCurrentDayResponsedto totalExpenseCurrentResponsedto(@Param("user_id") Integer user_id, @Param("currentDate") LocalDate currentDate);
 
 
+    @Query("""
+    select new com.example.userexpense.dto.TotalExpenseYearPaymentModeResponsedto(
+        SUM(ue.Value)
+    )
+    from UserExpense ue
+    join ue.paymentMode pm
+    where ue.user_id = :user_id
+      and YEAR(ue.expenseDate) = :year
+      and pm.paymentMode = :payment_mode
+""")
+    TotalExpenseYearPaymentModeResponsedto totalExpenseYearesponsePaymentModedto(@Param("user_id") Integer user_id, @Param("year") String year,@Param("payment_mode") String payment_mode);
 
+    @Query("""
+              select new com.example.userexpense.dto.TotalExpenseMonthPaymentModeResponsedto(
+        SUM(ue.Value)
+    )
+    from UserExpense ue
+    join ue.paymentMode pm
+    where ue.user_id = :user_id
+      and MONTHNAME(ue.expenseDate) = :month
+      and pm.paymentMode = :payment_mode
+            """)
+   TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto(@Param("user_id") Integer user_id, @Param("month") String month,@Param("payment_mode") String payment_mode);
 
+    @Query("""
+              select new com.example.userexpense.dto.TotalExpenseCurrentDayPaymentModeResponsedto(
+        SUM(ue.Value)
+    )
+    from UserExpense ue
+    join ue.paymentMode pm
+    where ue.user_id = :user_id
+      and ue.expenseDate = :currentDate
+      and pm.paymentMode = :payment_mode
+            """)
+    TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentResponsedto(@Param("user_id") Integer user_id,@Param("currentDate") LocalDate currentDate,@Param("payment_mode") String payment_mode);
 }
+
+
+
