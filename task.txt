@@ -14,7 +14,7 @@ User can download the expense of the month and year  in the Excel sheet
 Email will be sent to the user email address after signup
 Total Expenditure
 Total expenditure in a day,month,year -> Done
-Total expenditure in a day,month,year by CASH OR BY UPI
+Total expenditure in a day,month,year by CASH OR BY UPI -> Done
 
 Scheduler -> Pending
 Table

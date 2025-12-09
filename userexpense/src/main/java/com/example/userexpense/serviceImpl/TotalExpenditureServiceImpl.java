@@ -38,4 +38,33 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
 
         return totalExpenseCurrentDayResponsedto;
     }
+
+    @Override
+    public TotalExpenseYearPaymentModeResponsedto totalExpenseYearPaymentModeResponsedto(Integer user_id, TotalExpenseYearPaymentModeRequestdto totalExpenseYearPaymentModeRequestdto) {
+        TotalExpenseYearPaymentModeResponsedto totalExpenseYearPaymentModeResponsedto = paymentModeRepository.totalExpenseYearesponsePaymentModedto(user_id,totalExpenseYearPaymentModeRequestdto.getYear(),totalExpenseYearPaymentModeRequestdto.getPaymentMode());
+        totalExpenseYearPaymentModeResponsedto.setMessage("Expense by"+" "+totalExpenseYearPaymentModeRequestdto.getPaymentMode());
+        totalExpenseYearPaymentModeResponsedto.setSum(totalExpenseYearPaymentModeResponsedto.getSum());
+
+        return totalExpenseYearPaymentModeResponsedto;
+    }
+
+    @Override
+    public TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto(Integer user_id, TotalExpenseMonthPaymentModeRequestdto totalExpenseMonthPaymentModeRequestdto) {
+        TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto = paymentModeRepository.totalExpenseMonthPaymentModeResponsedto(user_id,totalExpenseMonthPaymentModeRequestdto.getMonth(),totalExpenseMonthPaymentModeRequestdto.getPaymentMode());
+        totalExpenseMonthPaymentModeResponsedto.setMessage("Expense by"+" "+ totalExpenseMonthPaymentModeRequestdto.getPaymentMode()+" "+ "in"+" "+totalExpenseMonthPaymentModeRequestdto.getMonth()+" "+"month");
+        totalExpenseMonthPaymentModeResponsedto.setSum(totalExpenseMonthPaymentModeResponsedto.getSum());
+
+        return totalExpenseMonthPaymentModeResponsedto;
+    }
+
+    @Override
+    public TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentModeResponsedto(Integer user_id, LocalDate localDate, String paymentMode) {
+        TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentModeResponsedto = paymentModeRepository.totalExpenseCurrentDayPaymentResponsedto(user_id,localDate,paymentMode);
+        totalExpenseCurrentDayPaymentModeResponsedto.setMessage("Expense by"+" "+paymentMode+" "+"today is");
+        totalExpenseCurrentDayPaymentModeResponsedto.setSum(totalExpenseCurrentDayPaymentModeResponsedto.getSum());
+
+        return totalExpenseCurrentDayPaymentModeResponsedto;
+    }
+
+
 }

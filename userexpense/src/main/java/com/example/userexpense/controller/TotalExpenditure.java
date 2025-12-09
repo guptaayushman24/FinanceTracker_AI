@@ -53,4 +53,41 @@ public class TotalExpenditure {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @PostMapping("/totalexpensebyyearpaymentmode")
+    public ResponseEntity<TotalExpenseYearPaymentModeResponsedto> totalExpenseByYearPaymentMode(@RequestBody TotalExpenseYearPaymentModeRequestdto totalExpenseYearPaymentModeRequestdto){
+        try{
+            System.out.println("User id is"+" "+userLoginId.getUserId());
+            return ResponseEntity.ok(totalExpenditureService.totalExpenseYearPaymentModeResponsedto(userLoginId.getUserId(),totalExpenseYearPaymentModeRequestdto));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/totalexpensebymonthpaymentmode")
+    public ResponseEntity<TotalExpenseMonthPaymentModeResponsedto> totalExpenseByYearPaymentMode(@RequestBody TotalExpenseMonthPaymentModeRequestdto totalExpenseMonthPaymentModeRequestdto){
+        try{
+            System.out.println("User id is"+" "+userLoginId.getUserId());
+            return ResponseEntity.ok(totalExpenditureService.totalExpenseMonthPaymentModeResponsedto(userLoginId.getUserId(),totalExpenseMonthPaymentModeRequestdto));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/totalexpennseoncurrentdatepaymentmode")
+    public ResponseEntity<TotalExpenseCurrentDayPaymentModeResponsedto> totalExpenseOnCurrentDate(@RequestBody TotalExpenseCurrentDayPaymentModeRequestdto totalExpenseCurrentDayPaymentModeRequestdto){
+        try{
+            LocalDate localDate = LocalDate.now();
+            return ResponseEntity.ok(totalExpenditureService.totalExpenseCurrentDayPaymentModeResponsedto(userLoginId.getUserId(),localDate,totalExpenseCurrentDayPaymentModeRequestdto.getPaymentMode()));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }
