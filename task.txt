@@ -10,6 +10,7 @@ User can see all the Expenses -> Done
 User can filter the expense on the basis of month and year -> Pending
 Add the Custom Exception Handling
 User can download the expense of the month and year  in the Excel sheet
+For the year expense generate the Bar Graph and For the month Generate the Pie Chart
 
 Email will be sent to the user email address after signup
 Total Expenditure
