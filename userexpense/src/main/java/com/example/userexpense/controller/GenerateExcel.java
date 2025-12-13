@@ -21,13 +21,14 @@ public class GenerateExcel {
     public ResponseEntity<ExcelYearResponsedto> exportToExcel(@RequestBody ExcelYearRequestdto excelYearRequestdto, HttpServletResponse response){
         try{
             ExcelYearResponsedto excelYearResponsedto = new ExcelYearResponsedto();
-            generateExcelService.exportToExcel(response,excelYearRequestdto.getYear());
+            generateExcelService.exportToExcel(response, excelYearRequestdto.getYear());
             excelYearResponsedto.setMessage("Excel file downloaded");
             return ResponseEntity.ok(excelYearResponsedto);
 
         }
         catch(Exception e){
-            e.printStackTrace();
+            // e.printStackTrace();
+            System.out.println("Error is ::::::::"+" "+e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

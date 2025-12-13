@@ -7,11 +7,9 @@ import com.example.userexpense.service.GenerateExcelService;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +32,7 @@ public class GenerateServiceImpl implements GenerateExcelService {
     public XSSFWorkbook workbook;
     public XSSFSheet sheet;
 
-    public void newReportExcel(){
-        workbook = new XSSFWorkbook();
-    }
+//
     @Override
     public HttpServletResponse initResponseForExportExcel(HttpServletResponse response, String fileName) {
         response.setContentType("application/octet-stream");
@@ -49,6 +47,7 @@ public class GenerateServiceImpl implements GenerateExcelService {
 
     @Override
     public void writeTableHeaderExcel(String sheetName, String titleName, String[] headers) {
+        workbook = new XSSFWorkbook();
         sheet = workbook.createSheet(sheetName);
         Row row = sheet.createRow(0);
         CellStyle style = workbook.createCellStyle();
@@ -86,33 +85,88 @@ public class GenerateServiceImpl implements GenerateExcelService {
         // starting write on row
         int startRow = 2;
         // Writing the content
-        for (UserExpensePaymentMode userExpensePaymentMode:list){
-            Row row = sheet.createRow(startRow++);
+        for (UserExpensePaymentMode ue : list) {
+            XSSFRow row = sheet.createRow(startRow++);
             int columnCount = 0;
-            createCell(row,columnCount++,userExpensePaymentMode.getDescription());
-            createCell(row,columnCount++,userExpensePaymentMode.getExpenseType());
-            createCell(row,columnCount++,userExpensePaymentMode.getValue());
-            createCell(row,columnCount++,userExpensePaymentMode.getExpenseDate());
-            createCell(row,columnCount++,userExpensePaymentMode.getPaymentMode());
 
+            row.createCell(columnCount++).setCellValue(ue.getDescription());
+            row.createCell(columnCount++).setCellValue(ue.getExpenseType());
+            row.createCell(columnCount++).setCellValue(ue.getValue());
+
+            // Here is where you need to format LocalDate
+            row.createCell(columnCount++).setCellValue(
+                    ue.getExpenseDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            );
+
+            row.createCell(columnCount++).setCellValue(ue.getPaymentMode());
         }
     }
 
-    public void exportToExcel (HttpServletResponse response,String year) throws IOException {
+    public void exportToExcel (HttpServletResponse response,Integer year) throws IOException {
         // Response write to excel
-        List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year);
-        response = initResponseForExportExcel(response,"UserExcel");
-        ServletOutputStream outputStream = response.getOutputStream();
 
-        // Write Sheet,Title and Header
-        String [] headers = {"Description","Expense Type","Value","Expense Date","Payment Mode"};
-        writeTableHeaderExcel("Sheet User","Report User",headers);
 
-        // write content row
-        writeTableDataToExcel(data);
-        workbook.write(outputStream);
-        workbook.close();
-        outputStream.close();
+        try{
+            this.workbook = new XSSFWorkbook();
+            // System.out.println("Date is"+" "+date);
+            this.sheet = workbook.createSheet("Sheet User");
+            List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year);
+
+            response.setContentType(
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            );
+            response.setHeader(
+                    "Content-Disposition",
+                    "attachment; filename=UserExcel_Download_" + LocalDate.now() + ".xlsx"
+            );
+
+            response = initResponseForExportExcel(response,"UserExcel");
+            ServletOutputStream outputStream = response.getOutputStream();
+
+            // Write Sheet,Title and Header
+            String [] headers = {"Description","Expense Type","Value","Expense Date","Payment Mode"};
+            writeTableHeaderExcel("Sheet User","Report User",headers);
+
+            // write content row
+                writeTableDataToExcel(data);
+                workbook.write(outputStream);
+                workbook.close();
+                outputStream.close();
+
+            System.out.println("---- EXCEL CONTENT START ----");
+
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    switch (cell.getCellType()) {
+                        case STRING:
+                            System.out.print(cell.getStringCellValue() + "\t");
+                            break;
+
+                        case NUMERIC:
+                            if (DateUtil.isCellDateFormatted(cell)) {
+                                System.out.print(cell.getLocalDateTimeCellValue() + "\t");
+                            } else {
+                                System.out.print(cell.getNumericCellValue() + "\t");
+                            }
+                            break;
+
+                        case BOOLEAN:
+                            System.out.print(cell.getBooleanCellValue() + "\t");
+                            break;
+
+                        default:
+                            System.out.print(" \t");
+                    }
+                }
+                System.out.println();
+            }
+
+            System.out.println("---- EXCEL CONTENT END ----");
+
+        }
+        catch(Exception e){
+            System.out.println("Exception in Generating Excel"+" "+e);
+        }
     }
 
 }
