@@ -80,12 +80,24 @@ public class GenerateServiceImpl implements GenerateExcelService {
     }
 
     @Override
-    public void writeTableDataToExcel(Object data) {
+    public void writeTableDataToExcel(Object data,String [] headers) {
         List<UserExpensePaymentMode> list = (List<UserExpensePaymentMode>) data;
         // starting write on row
-        int startRow = 2;
-        // Writing the content
+        int startRow = 0;
+//        int columnCount = 0;
+        XSSFRow headerRow = sheet.createRow(startRow++);
+        // Writting the header of the Excel
+        int headerCol = 0;
+
+        for (String header : headers) {
+            headerRow.createCell(headerCol++).setCellValue(header);
+        }
+
+
+
+
         for (UserExpensePaymentMode ue : list) {
+            // Writing the content of the Excel
             XSSFRow row = sheet.createRow(startRow++);
             int columnCount = 0;
 
@@ -102,7 +114,9 @@ public class GenerateServiceImpl implements GenerateExcelService {
         }
     }
 
-    public void exportToExcel (HttpServletResponse response,Integer year) throws IOException {
+
+
+    public void exportToExcel (HttpServletResponse response,Integer year,String monthName) throws IOException {
         // Response write to excel
 
 
@@ -110,7 +124,7 @@ public class GenerateServiceImpl implements GenerateExcelService {
             this.workbook = new XSSFWorkbook();
             // System.out.println("Date is"+" "+date);
             this.sheet = workbook.createSheet("Sheet User");
-            List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year);
+            List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year,monthName);
 
             response.setContentType(
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -128,40 +142,14 @@ public class GenerateServiceImpl implements GenerateExcelService {
             writeTableHeaderExcel("Sheet User","Report User",headers);
 
             // write content row
-                writeTableDataToExcel(data);
+                writeTableDataToExcel(data,headers);
                 workbook.write(outputStream);
                 workbook.close();
                 outputStream.close();
 
-            System.out.println("---- EXCEL CONTENT START ----");
+            System.out.println("Rows created: " + sheet.getPhysicalNumberOfRows());
 
-            for (Row row : sheet) {
-                for (Cell cell : row) {
-                    switch (cell.getCellType()) {
-                        case STRING:
-                            System.out.print(cell.getStringCellValue() + "\t");
-                            break;
 
-                        case NUMERIC:
-                            if (DateUtil.isCellDateFormatted(cell)) {
-                                System.out.print(cell.getLocalDateTimeCellValue() + "\t");
-                            } else {
-                                System.out.print(cell.getNumericCellValue() + "\t");
-                            }
-                            break;
-
-                        case BOOLEAN:
-                            System.out.print(cell.getBooleanCellValue() + "\t");
-                            break;
-
-                        default:
-                            System.out.print(" \t");
-                    }
-                }
-                System.out.println();
-            }
-
-            System.out.println("---- EXCEL CONTENT END ----");
 
         }
         catch(Exception e){

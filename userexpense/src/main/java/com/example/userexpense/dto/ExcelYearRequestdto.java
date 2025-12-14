@@ -15,4 +15,5 @@ import java.time.Year;
 @AllArgsConstructor
 public class ExcelYearRequestdto {
     Integer year;
+    String monthName;
 }

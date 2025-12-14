@@ -21,7 +21,7 @@ public class GenerateExcel {
     public ResponseEntity<ExcelYearResponsedto> exportToExcel(@RequestBody ExcelYearRequestdto excelYearRequestdto, HttpServletResponse response){
         try{
             ExcelYearResponsedto excelYearResponsedto = new ExcelYearResponsedto();
-            generateExcelService.exportToExcel(response, excelYearRequestdto.getYear());
+            generateExcelService.exportToExcel(response, excelYearRequestdto.getYear(),excelYearRequestdto.getMonthName());
             excelYearResponsedto.setMessage("Excel file downloaded");
             return ResponseEntity.ok(excelYearResponsedto);
 
