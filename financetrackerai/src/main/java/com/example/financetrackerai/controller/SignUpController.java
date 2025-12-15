@@ -4,6 +4,7 @@ import com.example.financetrackerai.dto.LoginRequestdto;
 import com.example.financetrackerai.dto.LoginResponsedto;
 import com.example.financetrackerai.dto.SignupRequestdto;
 import com.example.financetrackerai.dto.SignupResponsedto;
+import com.example.financetrackerai.producer.Producer;
 import com.example.financetrackerai.repository.UserRepository;
 import com.example.financetrackerai.service.UserService;
 import org.apache.coyote.Response;
@@ -20,9 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class SignUpController {
 @Autowired
  UserService userService;
+    @Autowired
+    Producer producer;
     @PostMapping("/signup")
     public ResponseEntity<SignupResponsedto> signUp(@RequestBody  SignupRequestdto signupRequestdto) {
         try {
+           SignupResponsedto signupResponsedto = userService.createUser(signupRequestdto);
+            if (signupResponsedto.getEmailAddress()!=null && signupResponsedto.getFirstName()!=null
+                && signupResponsedto.getLastName()!=null && signupResponsedto.getUserExpense()!=null){
+
+                // Produce the Email Address,Expense List,First Name and Last Name in the kafka producer
+               producer.sendUserDetails(signupResponsedto);
+            }
             return ResponseEntity.ok(userService.createUser(signupRequestdto));
         } catch (Exception e) {
             SignupResponsedto signupResponsedto = new SignupResponsedto();

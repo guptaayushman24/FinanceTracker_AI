@@ -16,4 +16,9 @@ public class SignupResponsedto {
     private String lastName;
     private String emailAddress;
     private List<String> userExpense;
+
+    @Override
+    public String toString(){
+        return firstName + "," + lastName + "," + emailAddress + "," + userExpense;
+    }
 }
