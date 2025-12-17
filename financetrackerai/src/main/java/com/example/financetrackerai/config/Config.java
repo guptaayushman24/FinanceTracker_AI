@@ -36,4 +36,13 @@ public class Config {
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic userDetailsTopic() {
+        return TopicBuilder
+                .name("t.user.details")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }

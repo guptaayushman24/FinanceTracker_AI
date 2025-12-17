@@ -39,17 +39,15 @@ public class Producer {
         return "UserId Sent";
     }
 
-    public String sendUserDetails (SignupResponsedto signupResponsedto) throws JsonProcessingException{
-//        kafkaTemplate.send(userIdTopic,String.valueOf(signupResponsedto));
-//        log.info("User id is produced {}",userId);
-//        return "User Detail Sent";
-        Map<String,Object> message = new HashMap<>();
-        message.put("type","USER_DETAILS");
-        message.put("data",signupResponsedto);
+    public void sendUserDetails(SignupResponsedto dto)
+            throws JsonProcessingException {
 
-        kafkaTemplate.send(userIdTopic,objectMapper.writeValueAsString(message));
+        kafkaTemplate.send(
+                "t.user.details",
+                objectMapper.writeValueAsString(dto)
+        );
 
-        return "User Details Sent";
+        System.out.println("Produced USER_DETAILS"); // VALUES are comming
     }
 
 

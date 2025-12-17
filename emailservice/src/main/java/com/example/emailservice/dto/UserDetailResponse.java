@@ -11,8 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailResponse {
-    String firstName;
-    String lastName;
-    String emailAddress;
-    List<String> userExpenses;
+    private String firstName;
+    private String lastName;
+    private String emailAddress;
+    private List<String> userExpense;
+
+    @Override
+    public String toString(){
+        return firstName + "," + lastName + "," + emailAddress + "," + userExpense;
+    }
+
 }
