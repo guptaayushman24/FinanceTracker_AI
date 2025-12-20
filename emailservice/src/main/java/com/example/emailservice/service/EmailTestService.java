@@ -15,21 +15,10 @@ public class EmailTestService {
         private ObjectMapper objectMapper;
 
         @KafkaListener(
-                topics = "t.user.details",
-                groupId = "user-group"
+                topics = "t.user.details"   ,
+                groupId = "user-details"
         )
         public void consumeUserDetails(String message) throws Exception {
-
-            // 🔹 Step 1: Print raw message
-            System.out.println("Raw Kafka Message: " + message);
-
-            // 🔹 Step 2: Convert String → DTO
-            UserDetailResponse dto =
-                    objectMapper.readValue(message, UserDetailResponse.class);
-
-            // 🔹 Step 3: Use the data
-            System.out.println("Email: " + dto.getEmailAddress());
-            System.out.println("First Name: " + dto.getFirstName());
-            System.out.println("Last Name: " + dto.getLastName());
+            System.out.println("Received message: " + message);
         }
     }
