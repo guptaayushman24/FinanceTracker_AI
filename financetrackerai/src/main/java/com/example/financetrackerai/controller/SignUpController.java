@@ -27,13 +27,16 @@ public class SignUpController {
     public ResponseEntity<SignupResponsedto> signUp(@RequestBody  SignupRequestdto signupRequestdto) {
         try {
            SignupResponsedto signupResponsedto = userService.createUser(signupRequestdto);
+           // Create one check here that if user already exist then do not add in database give message do signin
             if (signupResponsedto.getEmailAddress()!=null && signupResponsedto.getFirstName()!=null
                 && signupResponsedto.getLastName()!=null && signupResponsedto.getUserExpense()!=null){
 
                 // Produce the Email Address,Expense List,First Name and Last Name in the kafka producer
                producer.sendUserDetails(signupResponsedto);
+
             }
-            return ResponseEntity.ok(userService.createUser(signupRequestdto));
+            return ResponseEntity.ok(signupResponsedto);
+
         } catch (Exception e) {
             SignupResponsedto signupResponsedto = new SignupResponsedto();
             signupResponsedto.setFirstName(null);
