@@ -14,8 +14,6 @@ public class UserDetailConsumer {
     )
     public void consumeUserDetails(UserDetailResponse dto) {
 
-        System.out.println("Received User Details:");
-        System.out.println("DTO is"+" "+dto);
     }
 }
 
