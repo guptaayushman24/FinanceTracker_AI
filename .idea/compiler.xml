@@ -10,11 +10,13 @@
         <module name="financetrackerai" />
         <module name="userexpense (2)" />
         <module name="userexpense" />
+        <module name="emailservice" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="emailservice" options="-parameters" />
       <module name="financetrackerai" options="-parameters" />
       <module name="userexpense" options="-parameters" />
       <module name="userexpense (2)" options="-parameters" />
