@@ -27,7 +27,7 @@ Create the data for 24 hr -> Add the two expense for the current day
 Create the data for 48hr -> Add the two for the current day and Add the two expense for the next days
 
 Another Services (Another Module)
-Email Service
+Email Service -> Done
 Report and Graph Generation
 -- Related to Graph Generation
 Generate the Pie Chart for each expense (Percentage of the expenses will given by user input it can be on month or it can be on year)
