@@ -16,12 +16,13 @@ public class UserExpensePieChartByMonthServiceImpl implements UserExpensePieChar
     @Autowired
     UserExpenseRepository userExpenseRepository;
     @Override
-    public void userExpensePieChartByMonth(Integer userId, String monthName,Model model) {
+    public String userExpensePieChartByMonth(Integer userId, String monthName,Model model) {
         List<UserExpensePieChartByMonthdto> listOfExpense = userExpenseRepository.userExpensePieChartByMonth(userId,monthName);
         Map<String, Long> graphData = new TreeMap<>();
         for (UserExpensePieChartByMonthdto userExpensePieChartByMonthdto:listOfExpense){
             graphData.put(userExpensePieChartByMonthdto.getExpenseType(),userExpensePieChartByMonthdto.getValue());
         }
         model.addAttribute("chartData",graphData);
+         return "pie-chart";
     }
 }

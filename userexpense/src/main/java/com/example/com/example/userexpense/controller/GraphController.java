@@ -16,8 +16,9 @@ public class GraphController {
     @Autowired
     UserLoginId userLoginId;
     @GetMapping("/piechartbymonth")
-    public  ResponseEntity<String> generatePieChart (@RequestParam String monthName, Model model){
+    public String generatePieChart (@RequestParam String monthName, Model model){
+
          userExpensePieChartByMonthService.userExpensePieChartByMonth(userLoginId.getUserId(),monthName,model);
-         return ResponseEntity.ok("Pie-Chart created successfully");
+         return "pie-chart";
     }
 }

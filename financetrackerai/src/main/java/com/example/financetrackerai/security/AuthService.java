@@ -46,6 +46,7 @@ public class AuthService {
             if (userModel.getId() != null) {
                 String email = loginRequestdto.getEmail();
                 int getUserId = userRepository.findByemailAddress(email).getId();
+                System.out.println("Produced user id is"+" "+String.valueOf(getUserId));
                 producer.sendMessage(String.valueOf(getUserId));
             }
             return ResponseEntity.ok(new LoginResponsedto(userModel.getId(), userModel.getEmailAddress(), token));

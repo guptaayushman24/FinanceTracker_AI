@@ -8,5 +8,5 @@ import java.util.List;
 
 @Service
 public interface UserExpensePieChartByMonthService {
-    public void userExpensePieChartByMonth (Integer userId, String monthName, Model model);
+    public String userExpensePieChartByMonth (Integer userId, String monthName, Model model);
 }

@@ -16,9 +16,9 @@ public class EmailTestService {
     private ObjectMapper objectMapper;
     @Autowired
     EmailService emailService;
-    @KafkaListener(
+        @KafkaListener(
             topics = "t.user.details",
-            groupId = "user-details",
+            groupId = "user-details-group",
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void consumeUserDetails(UserDetailResponse userDetailResponse) throws Exception {

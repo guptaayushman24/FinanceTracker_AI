@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Expense Chart</title>
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var mapData = /*[[${chartData}]]*/ {};
+        /*]]>*/
+
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Expense Type');
+            data.addColumn('number', 'Amount');
+
+            Object.keys(mapData).forEach(function (key) {
+                data.addRow([key, mapData[key]]);
+            });
+
+            var options = {
+                title: 'Expense Visualization'
+            };
+
+            var chart = new google.visualization.PieChart(
+                document.getElementById('chart_div')
+            );
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
+<body>
+<h1>Expense Visualization</h1>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
