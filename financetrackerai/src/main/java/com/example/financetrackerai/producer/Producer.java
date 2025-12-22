@@ -26,16 +26,7 @@ public class Producer {
      KafkaTemplate<String,String> kafkaTemplate;
 
     public String sendMessage (String userId) throws JsonProcessingException{
-//        String userIdAsMesage = objectMapper.writeValueAsString(userModel);
-        kafkaTemplate.send(userIdTopic,String.valueOf(userId));
-//
-//        log.info("User id is produced {}",userId);
-//        return "Message Sent";
-        Map<String,Object> message = new HashMap<>();
-        message.put("type","USER_ID");
-        message.put("data",userId);
-
-        kafkaTemplate.send(userIdTopic,objectMapper.writeValueAsString(message));
+        kafkaTemplate.send("t.user.id",String.valueOf(userId));
         return "UserId Sent";
     }
 

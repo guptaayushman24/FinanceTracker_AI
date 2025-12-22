@@ -1,5 +1,6 @@
 package com.example.userexpense.config;
 
+import com.example.userexpense.dto.KafkaConsumerdto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,21 +17,15 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "t.user.id",
             groupId = "user-group",
-            containerFactory = "kafkaListenerContainerFactory")
+          containerFactory = "kafkaListenerContainerFactory")
 
-//    public void consume(String userId){
-//        userLoginId.setUserId(Integer.valueOf(userId));
-//        System.out.println("Consumed Message"+" "+userId);
-//
-//
-//    }
-    public void consume(String message) throws JsonProcessingException {
-        JsonNode root = objectMapper.readTree(message);
-        String type = root.get("type").asText();
-        if (("USER_ID").equals(type)) {
-            String userId = root.get("data").asText();
-            userLoginId.setUserId(Integer.valueOf(userId));
-            System.out.println("Received USER_ID: " + userId);
+    public void consume(String message){
+        try {
+            userLoginId.setUserId(Integer.valueOf(message));
+            System.out.println("Message is"+" "+message);
+        } catch (Exception e) {
+            e.printStackTrace(); // NEVER let Kafka crash silently
         }
     }
+
 }
