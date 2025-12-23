@@ -12,4 +12,4 @@ import lombok.Setter;
 public class UserExpensePieChartByMonthdto {
     private String expenseType;
     private Long value;
-}
+ }
