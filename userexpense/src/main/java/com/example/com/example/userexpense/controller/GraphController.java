@@ -21,4 +21,10 @@ public class GraphController {
          userExpensePieChartByMonthService.userExpensePieChartByMonth(userLoginId.getUserId(),monthName,model);
          return "pie-chart";
     }
+
+    @GetMapping("/piechartbyyear")
+    public String generatePieChartByYear (@RequestParam Integer year,Model model){
+        userExpensePieChartByMonthService.userExpensePieChartByYear(userLoginId.getUserId(),year,model);
+        return "pie-chart-year";
+    }
 }

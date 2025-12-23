@@ -25,4 +25,15 @@ public class UserExpensePieChartByMonthServiceImpl implements UserExpensePieChar
         model.addAttribute("chartData",graphData);
          return "pie-chart";
     }
+
+    @Override
+    public String userExpensePieChartByYear(Integer userId, Integer year, Model model) {
+        List<UserExpensePieChartByMonthdto> listOfExpense = userExpenseRepository.userExpensePieChartByYear(userId,year);
+        Map<String,Long> graphData = new TreeMap<>();
+        for (UserExpensePieChartByMonthdto userExpensePieChartByMonthdto:listOfExpense){
+            graphData.put(userExpensePieChartByMonthdto.getExpenseType(),userExpensePieChartByMonthdto.getValue());
+        }
+        model.addAttribute("chartData",graphData);
+        return "pie-chart-year";
+    }
 }

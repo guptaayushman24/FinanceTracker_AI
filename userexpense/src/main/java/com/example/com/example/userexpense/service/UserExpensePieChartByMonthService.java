@@ -9,4 +9,5 @@ import java.util.List;
 @Service
 public interface UserExpensePieChartByMonthService {
     public String userExpensePieChartByMonth (Integer userId, String monthName, Model model);
+    public String userExpensePieChartByYear (Integer userId,Integer year,Model model);
 }
