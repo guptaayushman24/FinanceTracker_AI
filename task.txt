@@ -1,48 +1,60 @@
-User can add the new type of expense
-Filter
-Filter by Paymment Mode (CASH OR UPI) -> Done
-Filter by Expenditure Type
-Do these before doing the task at line number 4(Before registering any expense for the user make sure that expense is present in the expenses table corresponding to that user_id) -> Done
-User can add the new expense column after the sign up if he require newexpense -> Done
-User can remove the new expense column after the sign up if he require newexpense -> Done
-User can sort the expense in ascending or descending order on their own choice -> Done
-User can see all the Expenses -> Done
-User can filter the expense on the basis of month and year -> Pending
-Add the Custom Exception Handling
-User can download the expense of the month and year  in the Excel sheet -> Done
-For the year expense generate the Bar Graph and For the month Generate the Pie Chart -> Done
+    User can add the new type of expense
+    Filter
+    Filter by Paymment Mode (CASH OR UPI) -> Done
+    Filter by Expenditure Type
+    Do these before doing the task at line number 4(Before registering any expense for the user make sure that expense is present in the expenses table corresponding to that user_id) -> Done
+    User can add the new expense column after the sign up if he require newexpense -> Done
+    User can remove the new expense column after the sign up if he require newexpense -> Done
+    User can sort the expense in ascending or descending order on their own choice -> Done
+    User can see all the Expenses -> Done
+    User can filter the expense on the basis of month and year -> Pending
+    Add the Custom Exception Handling
+    User can download the expense of the month and year  in the Excel sheet -> Done
+    For the year expense generate the Bar Graph and For the month Generate the Pie Chart -> Done
 
-Email will be sent to the user email address after signup -> Done
-Total Expenditure
-Total expenditure in a day,month,year -> Done
-Total expenditure in a day,month,year by CASH OR BY UPI -> Done
+    Email will be sent to the user email address after signup -> Done
+    Total Expenditure
+    Total expenditure in a day,month,year -> Done
+    Total expenditure in a day,month,year by CASH OR BY UPI -> Done
 
-Scheduler -> Pending
-Table
-id|user_id|schedule_time(Can vary from 1 to 30 day of the same month)
-Supppose schedule_time = 48hr
-Calculation = 48/24 = 2 -> 27Nov-(2-1) = Fetch the data from the 26Morning to 27Night
-We are creating the Fixed Scheduler
-Create the data for 24 hr -> Add the two expense for the current day
-Create the data for 48hr -> Add the two for the current day and Add the two expense for the next days
+    Scheduler -> Pending
+    Table
+    id|user_id|schedule_time(Can vary from 1 to 30 day of the same month)
+    Supppose schedule_time = 48hr
+    Calculation = 48/24 = 2 -> 27Nov-(2-1) = Fetch the data from the 26Morning to 27Night
+    We are creating the Fixed Scheduler
+    Create the data for 24 hr -> Add the two expense for the current day
+    Create the data for 48hr -> Add the two for the current day and Add the two expense for the next days
 
-Another Services (Another Module)
-Email Service -> Done
-Report and Graph Generation
--- Related to Graph Generation
-Generate the Pie Chart for each expense (Percentage of the expenses will given by user input it can be on month or it can be on year) -> Done
-Generate the Bar Char X-axis => ModeofPayment (UPI,CASH) Y-axis => Total Payment done by UPI and CASH (Both option will be present graph can be generated on the basis of month and on the basis of year) -> Done
-
-
-Additional Feature -> Done
-User can see the expense of the indivisual item if recorded at different time
-Example :- Food -> 400
-           Food -> 600
-
-           ExpenseType-> Food Expense-> 1000
+    Another Services (Another Module)
+    Email Service -> Done
+    Report and Graph Generation
+    -- Related to Graph Generation
+    Generate the Pie Chart for each expense (Percentage of the expenses will given by user input it can be on month or it can be on year) -> Done
+    Generate the Bar Char X-axis => ModeofPayment (UPI,CASH) Y-axis => Total Payment done by UPI and CASH (Both option will be present graph can be generated on the basis of month and on the basis of year) -> Done
 
 
+    Additional Feature -> Done
+    User can see the expense of the indivisual item if recorded at different time
+    Example :- Food -> 400
+               Food -> 600
+
+               ExpenseType-> Food Expense-> 1000
 
 
 
+
+
+AI Points to be added (Do these after exception handling)
+AI Expense Analyzer
+Functionality -> User clicks “Analyze My Expenses”, and AI gives insights like:
+Explanation -> Your food expenses increased by 22% in December compared to November.
+               UPI usage dominates 78% of transactions.
+               Car payments form your largest fixed expense
+
+Conversational Expense Assistant (Chatbot)
+Functionality -> A chat box where user asks
+Explanation -> How much did I spend on food last month?
+               Show my highest expense category this year
+               Did I overspend this month?
 
