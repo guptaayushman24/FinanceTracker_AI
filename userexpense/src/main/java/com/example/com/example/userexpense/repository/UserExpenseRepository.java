@@ -3,10 +3,12 @@ package com.example.userexpense.repository;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.model.UserExpense;
 import jakarta.transaction.Transactional;
+import org.apache.coyote.Response;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -130,4 +132,16 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             """)
 
     List<BarGraphdto> userExpenseBarGraphByYear(@Param("userId") Integer userId,@Param("monthName") Integer year);
+
+        @Query("""
+        SELECT new com.example.userexpense.dto.IndivisualExpensesqldto(
+            ue.ExpenseType,
+            SUM(ue.Value)
+        )
+        FROM UserExpense ue
+        WHERE ue.ExpenseType = :expenseType
+          AND ue.user_id = :userId
+        GROUP BY ue.ExpenseType
+    """)
+        IndivisualExpensesqldto indivisualExpense (@Param("userId") Integer userId, @Param("expenseType") String expenseType);
 }

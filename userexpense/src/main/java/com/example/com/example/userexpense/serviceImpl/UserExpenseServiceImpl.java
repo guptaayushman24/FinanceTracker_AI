@@ -10,9 +10,11 @@ import com.example.userexpense.service.UserExpenseService;
 import com.example.userexpense.dto.AllExpenseeResponsedto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -160,5 +162,10 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber) {
         System.out.println("Month Number is"+" "+monthNumber);
         return userExpenseRepository.allUserExpenseByMonth(userLoginId.getUserId(),monthNumber);
+    }
+
+    @Override
+    public IndivisualExpensesqldto indivisualUserExpense(String expenseType) {
+        return userExpenseRepository.indivisualExpense(userLoginId.getUserId(),expenseType);
     }
 }
