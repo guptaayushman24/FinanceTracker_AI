@@ -7,4 +7,5 @@ import org.springframework.ui.Model;
 @Service
 public interface  UserExpenseBarGrpahChartByMonthService{
     public String userExpenseBarGraphtByMonth (Integer userId, String monthName, Model model);
+    public String userExpenseBarGraphByYear (Integer userId,Integer year,Model model);
 }

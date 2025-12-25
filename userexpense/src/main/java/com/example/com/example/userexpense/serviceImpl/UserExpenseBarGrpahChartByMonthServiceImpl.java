@@ -18,7 +18,7 @@ public class UserExpenseBarGrpahChartByMonthServiceImpl implements UserExpenseBa
     UserExpenseRepository userExpenseRepository;
     @Override
     public String userExpenseBarGraphtByMonth(Integer userId, String monthName, Model model) {
-        List<BarGraphdto> barGraphMonthData = userExpenseRepository.userExpenseBarGraphByYear(userId,monthName);
+        List<BarGraphdto> barGraphMonthData = userExpenseRepository.userExpenseBarGraphByMonth(userId,monthName);
         Map<String, Long> barGraphData = new TreeMap<>();
         for (BarGraphdto dto : barGraphMonthData) {
             barGraphData.put(dto.getPaymentMode(), dto.getCount());
@@ -26,5 +26,16 @@ public class UserExpenseBarGrpahChartByMonthServiceImpl implements UserExpenseBa
 
         model.addAttribute("barGraphData", barGraphData);
         return "bar-graph";
+    }
+
+    @Override
+    public String userExpenseBarGraphByYear(Integer userId, Integer year, Model model) {
+        List<BarGraphdto> barGraphYearData = userExpenseRepository.userExpenseBarGraphByYear(userId,year);
+        Map<String,Long> barGraphData = new TreeMap<>();
+        for (BarGraphdto dto:barGraphYearData){
+            barGraphData.put(dto.getPaymentMode(),dto.getCount());
+        }
+        model.addAttribute("barGraphData",barGraphData);
+        return "bar-graph-year";
     }
 }

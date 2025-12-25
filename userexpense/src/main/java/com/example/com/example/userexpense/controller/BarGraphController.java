@@ -17,9 +17,15 @@ public class BarGraphController {
     @Autowired
     UserLoginId userLoginId;
     @GetMapping("/bargraphbymonth")
-    public String generatePieChart (@RequestParam String monthName,Model model){
+    public String generateBarGraphMonth (@RequestParam String monthName,Model model){
 
         userExpenseBarGrpahChartByMonthService.userExpenseBarGraphtByMonth(userLoginId.getUserId(),monthName,model);
         return "bar-graph";
+    }
+
+    @GetMapping("/bargraphbyyear")
+    public String generateBarGraphYear (@RequestParam Integer year,Model model){
+        userExpenseBarGrpahChartByMonthService.userExpenseBarGraphByYear(userLoginId.getUserId(),year,model);
+        return "bar-graph-year";
     }
 }
