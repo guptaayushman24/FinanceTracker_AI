@@ -115,4 +115,17 @@ public class UserExpense {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+        @PostMapping("/indivisualexpense")
+    public ResponseEntity<String> indivisualExpense (@RequestBody IndivisualExpenseRequestdto indivisualExpenseRequestdto){
+
+        try{
+            ResponseEntity.ok(userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType()));
+            return ResponseEntity.ok("Total Expense on"+" "+indivisualExpenseRequestdto.getExpenseType()+" "+"is "+userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType()).getSum());
+        }
+        catch(Exception e){
+            System.out.println("Exception ::::::"+" "+e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

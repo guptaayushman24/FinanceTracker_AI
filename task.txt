@@ -10,7 +10,7 @@ User can see all the Expenses -> Done
 User can filter the expense on the basis of month and year -> Pending
 Add the Custom Exception Handling
 User can download the expense of the month and year  in the Excel sheet -> Done
-For the year expense generate the Bar Graph and For the month Generate the Pie Chart
+For the year expense generate the Bar Graph and For the month Generate the Pie Chart -> Done
 
 Email will be sent to the user email address after signup -> Done
 Total Expenditure
@@ -34,7 +34,7 @@ Generate the Pie Chart for each expense (Percentage of the expenses will given b
 Generate the Bar Char X-axis => ModeofPayment (UPI,CASH) Y-axis => Total Payment done by UPI and CASH (Both option will be present graph can be generated on the basis of month and on the basis of year) -> Done
 
 
-Additional Feature
+Additional Feature -> Done
 User can see the expense of the indivisual item if recorded at different time
 Example :- Food -> 400
            Food -> 600
