@@ -106,4 +106,16 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             GROUP BY ue.ExpenseType
             """)
     List<UserExpensePieChartByMonthdto> userExpensePieChartByYear(@Param("userId") Integer userId, @Param("year") Integer year);
+
+    @Query("""
+            SELECT new com.example.userexpense.dto.BarGraphdto(
+               pm.paymentMode,
+               COUNT(pm.paymentMode)
+            )
+            FROM PaymentMode pm
+            WHERE pm.user_id=:userId
+            AND MONTHNAME(pm.expenseDate)=:year GROUP BY pm.paymentMode
+            """)
+
+    List<BarGraphdto> userExpenseBarGraphByYear(@Param("userId") Integer userId,@Param("year") String year);
 }
