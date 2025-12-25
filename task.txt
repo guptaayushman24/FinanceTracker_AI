@@ -30,8 +30,8 @@ Another Services (Another Module)
 Email Service -> Done
 Report and Graph Generation
 -- Related to Graph Generation
-Generate the Pie Chart for each expense (Percentage of the expenses will given by user input it can be on month or it can be on year) -> For month it is done
-Generate the Bar Char X-axis => ModeofPayment (UPI,CASH) Y-axis => Total Payment done by UPI and CASH (Both option will be present graph can be generated on the basis of month and on the basis of year)
+Generate the Pie Chart for each expense (Percentage of the expenses will given by user input it can be on month or it can be on year) -> Done
+Generate the Bar Char X-axis => ModeofPayment (UPI,CASH) Y-axis => Total Payment done by UPI and CASH (Both option will be present graph can be generated on the basis of month and on the basis of year) -> Done
 
 
 Additional Feature
