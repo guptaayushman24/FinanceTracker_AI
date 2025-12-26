@@ -144,4 +144,15 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
         GROUP BY ue.ExpenseType
     """)
         IndivisualExpensesqldto indivisualExpense (@Param("userId") Integer userId, @Param("expenseType") String expenseType);
+
+        @Query(
+                """
+                 SELECT new com.example.userexpense.dto.ExpenseExistdto(
+                   ue.ExpenseType
+                 )
+                 FROM UserExpense ue
+                 WHERE ue.user_id = :userId
+                """
+        )
+    List<ExpenseExistdto> expenseExist (@Param("userId") Integer userId);
 }

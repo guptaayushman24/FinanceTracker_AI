@@ -2,6 +2,8 @@ package com.example.userexpense.serviceImpl;
 
 import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.UserExpensePaymentMode;
+import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
+import com.example.userexpense.exception.HandleInvalidYearException;
 import com.example.userexpense.repository.ExcelYearRepository;
 import com.example.userexpense.service.GenerateExcelService;
 import jakarta.servlet.ServletOutputStream;
@@ -19,7 +21,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -117,44 +121,54 @@ public class GenerateServiceImpl implements GenerateExcelService {
 
 
     public void exportToExcel (HttpServletResponse response,Integer year,String monthName) throws IOException {
-        // Response write to excel
 
-
-        try{
-            this.workbook = new XSSFWorkbook();
-            // System.out.println("Date is"+" "+date);
-            this.sheet = workbook.createSheet("Sheet User");
-            List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year,monthName);
-
-            response.setContentType(
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            );
-            response.setHeader(
-                    "Content-Disposition",
-                    "attachment; filename=UserExcel_Download_" + LocalDate.now() + ".xlsx"
-            );
-
-            response = initResponseForExportExcel(response,"UserExcel");
-            ServletOutputStream outputStream = response.getOutputStream();
-
-            // Write Sheet,Title and Header
-            String [] headers = {"Description","Expense Type","Value","Expense Date","Payment Mode"};
-            writeTableHeaderExcel("Sheet User","Report User",headers);
-
-            // write content row
-                writeTableDataToExcel(data,headers);
-                workbook.write(outputStream);
-                workbook.close();
-                outputStream.close();
-
-            System.out.println("Rows created: " + sheet.getPhysicalNumberOfRows());
-
-
-
+        String[] monthList = {
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+        };
+        List<String> list = Arrays.asList(monthList);
+        if (!list.contains(monthName)){
+            throw new HandleExpenseExceptionByMonth("Select the valid month");
         }
-        catch(Exception e){
-            System.out.println("Exception in Generating Excel"+" "+e);
+
+        if (year<2000 || year>Year.now().getValue()){
+            throw new HandleInvalidYearException("Year must be between 2000 and current year");
         }
+        this.workbook = new XSSFWorkbook();
+        // System.out.println("Date is"+" "+date);
+        this.sheet = workbook.createSheet("Sheet User");
+        List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year,monthName);
+
+        response.setContentType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=UserExcel_Download_" + LocalDate.now() + ".xlsx"
+        );
+
+        response = initResponseForExportExcel(response,"UserExcel");
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        // Write Sheet,Title and Header
+        String [] headers = {"Description","Expense Type","Value","Expense Date","Payment Mode"};
+        writeTableHeaderExcel("Sheet User","Report User",headers);
+
+        // write content row
+        writeTableDataToExcel(data,headers);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
     }
 
 }

@@ -3,6 +3,8 @@ package com.example.userexpense.controller;
 import com.example.userexpense.config.KafkaConsumer;
 import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.*;
+import com.example.userexpense.exception.HandleEmptyDataException;
+import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
 import com.example.userexpense.service.UserExpenseService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,17 +31,7 @@ public class UserExpense {
     UserLoginId userLoginId;
     @PostMapping("/userexpense")
     public ResponseEntity<UserExpenseResponsedto> userExpense(@RequestBody UserExpenseRequestdto userExpenseRequestdto){
-        try{
-            return ResponseEntity.ok(userExpenseService.userExpense(userExpenseRequestdto));
-        }
-        catch(Exception e){
-            UserExpenseResponsedto userExpenseResponsedto = new UserExpenseResponsedto();
-            userExpenseResponsedto.setExpenseType(null);
-            userExpenseResponsedto.setValue(null);
-            userExpenseResponsedto.setDescription(null);
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(userExpenseResponsedto);
-        }
+        return ResponseEntity.ok(userExpenseService.userExpense(userExpenseRequestdto));
 
     }
 
@@ -55,24 +48,12 @@ public class UserExpense {
 
     @PostMapping("/deleteexpense")
     public ResponseEntity<DeleteUserExpenseResponsedto> deleteUserExpense (@RequestBody DeleteUserExpenseRequestdto deleteUserExpenseRequestdto){
-        try{
-            return ResponseEntity.ok(userExpenseService.deleteUserExpense(deleteUserExpenseRequestdto));
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        return ResponseEntity.ok(userExpenseService.deleteUserExpense(deleteUserExpenseRequestdto));
     }
 
     @PostMapping("/sortexpense")
     public ResponseEntity<List<SortExpenseResposedto>> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
-        try{
-            return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto));
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto));
     }
 
     @GetMapping("/allexpense/{userId}")
@@ -88,44 +69,38 @@ public class UserExpense {
 
     @PostMapping("/userexpensebymonth")
     public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyMonth(@RequestBody MonthNamedto monthName){
-        try{
-            HashMap<String,Integer> monthNameandNumber = new HashMap<>();
-            String[] monthList = {
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December"
-            };
-            for (int i=0;i<monthList.length;i++){
-                monthNameandNumber.put(monthList[i],i+1);
-            }
-//            System.out.println("HashMap is"+" "+monthNameandNumber);
-//            System.out.println("Month Name"+" "+monthName);
-            System.out.println("Number is"+" "+monthNameandNumber.get(monthName.getMonthName()));
-            return ResponseEntity.ok(userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName())));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        HashMap<String,Integer> monthNameandNumber = new HashMap<>();
+        String[] monthList = {
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+        };
+        for (int i=0;i<monthList.length;i++){
+            monthNameandNumber.put(monthList[i],i+1);
         }
+        List<String> monthNameList = Arrays.asList(monthList);
+        if (!monthNameList.contains(monthName.getMonthName())){
+            throw new HandleExpenseExceptionByMonth("Please select the valid month");
+        }
+        List<AllExpenseeResponsedto> list = userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName()),monthList);
+        if (list.isEmpty()){
+            throw new HandleEmptyDataException("You have not recorded any expense in"+" "+monthName.getMonthName());
+        }
+        return ResponseEntity.ok(list);
     }
 
         @PostMapping("/indivisualexpense")
     public ResponseEntity<String> indivisualExpense (@RequestBody IndivisualExpenseRequestdto indivisualExpenseRequestdto){
-
-        try{
             ResponseEntity.ok(userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType()));
             return ResponseEntity.ok("Total Expense on"+" "+indivisualExpenseRequestdto.getExpenseType()+" "+"is "+userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType()).getSum());
-        }
-        catch(Exception e){
-            System.out.println("Exception ::::::"+" "+e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
     }
 }

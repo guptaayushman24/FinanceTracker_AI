@@ -13,23 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 public class GenerateExcel {
     @Autowired
     GenerateExcelService generateExcelService;
     @PostMapping("/yearexpenseexcel")
-    public ResponseEntity<ExcelYearResponsedto> exportToExcel(@RequestBody ExcelYearRequestdto excelYearRequestdto, HttpServletResponse response){
-        try{
-            ExcelYearResponsedto excelYearResponsedto = new ExcelYearResponsedto();
-            generateExcelService.exportToExcel(response, excelYearRequestdto.getYear(),excelYearRequestdto.getMonthName());
-            excelYearResponsedto.setMessage("Excel file downloaded");
-            return ResponseEntity.ok(excelYearResponsedto);
-
-        }
-        catch(Exception e){
-            // e.printStackTrace();
-            System.out.println("Error is ::::::::"+" "+e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+    public ResponseEntity<ExcelYearResponsedto> exportToExcel(@RequestBody ExcelYearRequestdto excelYearRequestdto, HttpServletResponse response) throws IOException {
+        ExcelYearResponsedto excelYearResponsedto = new ExcelYearResponsedto();
+        generateExcelService.exportToExcel(response, excelYearRequestdto.getYear(),excelYearRequestdto.getMonthName());
+        excelYearResponsedto.setMessage("Excel file downloaded");
+        return ResponseEntity.ok(excelYearResponsedto);
     }
 }
