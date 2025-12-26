@@ -8,7 +8,7 @@
     User can sort the expense in ascending or descending order on their own choice -> Done
     User can see all the Expenses -> Done
     User can filter the expense on the basis of month and year -> Pending
-    Add the Custom Exception Handling
+    Add the Custom Exception Handling -> Done
     User can download the expense of the month and year  in the Excel sheet -> Done
     For the year expense generate the Bar Graph and For the month Generate the Pie Chart -> Done
 
