@@ -17,7 +17,7 @@ public interface UserExpenseService {
     List<SortExpenseResposedto> sortExpense (SortExpenseRequestdto sortExpenseRequestdto);
     List<AllExpenseeResponsedto> allExpense(Integer userId);
 
-    List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber);
+    List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList);
 
     IndivisualExpensesqldto indivisualUserExpense (String expenseType);
 

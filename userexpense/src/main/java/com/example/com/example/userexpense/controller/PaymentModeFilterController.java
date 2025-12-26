@@ -19,17 +19,6 @@ public class PaymentModeFilterController {
     PaymentModeFilterService paymentModeFilterService;
     @PostMapping("/filterbypaymentmode")
     public ResponseEntity<List<PaymentModeFilterResponsedto>> paymentModeFilterResponsedtoResponseEntity(@RequestBody  PaymentModeFilterRequestdto paymentModeFilterRequestdto){
-        try{
-            return ResponseEntity.ok().body(paymentModeFilterService.paymentModeFilter(paymentModeFilterRequestdto));
-        }
-        catch(Exception e){
-            e.printStackTrace();
-//            paymentModeFilterResponsedto.get(0).setExpenseType(null);
-//            paymentModeFilterResponsedto.get(0).setPaymentMode(null);
-//            paymentModeFilterResponsedto.get(0).setDescription(null);
-//            paymentModeFilterResponsedto.get(0).setExpense_date(null);
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        return ResponseEntity.ok().body(paymentModeFilterService.paymentModeFilter(paymentModeFilterRequestdto));
         }
     }
-}
