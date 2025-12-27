@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,16 +39,13 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     PaymentModeRepository paymentModeRepository;
 
     @Override
-    public UserExpenseResponsedto userExpense(UserExpenseRequestdto userExpenseRequestdto) {
+    public UserExpenseResponsedto userExpense(UserExpenseRequestdto userExpenseRequestdto,Integer userId) {
         UserExpense userExpense = new UserExpense();
         PaymentMode paymentMode = new PaymentMode();
 
-        // From The Kafka Consumer
-        System.out.println("User id is" + " " + userLoginId.getUserId());
-        userExpense.setUser_id(userLoginId.getUserId());
         // check if the user has registered against the expense or not
         // check if the expense is present in the list or not if present add and if not return the response
-        HashSet<String> userExpenseExist = userExpenseRepository.checkUserExpenseExist(userLoginId.getUserId());
+        HashSet<String> userExpenseExist = userExpenseRepository.checkUserExpenseExist(userId);
 
         if (userExpenseExist.contains(userExpenseRequestdto.getExpenseType())) {
             userExpense.setExpenseType(userExpenseRequestdto.getExpenseType());
@@ -60,7 +58,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
 
         // save the modeOfPaymnet in the another table PaymentMode
-        paymentMode.setUser_id(userLoginId.getUserId());
+        paymentMode.setUser_id(userId);
         paymentMode.setPaymentMode(userExpenseRequestdto.getPaymentMode());
         paymentMode.setExpenseDate(userExpenseRequestdto.getExpense_date());
          userExpense.setPaymentMode(paymentMode);
@@ -94,23 +92,23 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     }
 
     @Override
-    public AddUserExpenseResponsedto addUserExpense(AddUserExpenseRequestdto addUserExpenseRequestdto) {
+    public AddUserExpenseResponsedto addUserExpense(AddUserExpenseRequestdto addUserExpenseRequestdto,Integer userId) {
         AddUserExpenseResponsedto addUserExpenseResponsedto = new AddUserExpenseResponsedto();
-        userExpenseRepository.addNewUserExpense(userLoginId.getUserId(), addUserExpenseRequestdto.getNewUserExpense());
+        userExpenseRepository.addNewUserExpense(userId, addUserExpenseRequestdto.getNewUserExpense());
         addUserExpenseResponsedto.setNewUserExpense(addUserExpenseRequestdto.getNewUserExpense() + " " + "Expense Added Successfully");
         return addUserExpenseResponsedto;
     }
 
     @Override
-    public DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto) {
+    public DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto,Integer userId) {
         DeleteUserExpenseResponsedto deleteUserExpenseResponsedto = new DeleteUserExpenseResponsedto();
         // Check if user has registered the expense
-        List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userLoginId.getUserId());
+        List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userId);
         if (!list.contains(deleteUserExpenseRequestdto.getExpenseTobeDeleted())){
             throw new HandleExpenseNotExist("You have not registered for the"+" "+deleteUserExpenseRequestdto.getExpenseTobeDeleted()+" Expense but you can register the expense");
         }
 
-        userExpenseRepository.deleteUserExpense(userLoginId.getUserId(), deleteUserExpenseRequestdto.getExpenseTobeDeleted());
+        userExpenseRepository.deleteUserExpense(userId, deleteUserExpenseRequestdto.getExpenseTobeDeleted());
         deleteUserExpenseResponsedto.setExpenseTobeDeleted(deleteUserExpenseRequestdto.getExpenseTobeDeleted() + " " + "Expense Deleted Successfully");
         return deleteUserExpenseResponsedto;
 
@@ -118,9 +116,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     }
 
     @Override
-    public List<SortExpenseResposedto> sortExpense(SortExpenseRequestdto sortExpenseRequestdto) {
+    public List<SortExpenseResposedto> sortExpense(SortExpenseRequestdto sortExpenseRequestdto,Integer userId) {
            SortExpenseResposedto sortExpenseResposedto = new SortExpenseResposedto();
-           List<SortExpenseResposedto> listOfExpenses = userExpenseRepository.allUserExpensebyId(userLoginId.getUserId());
+           List<SortExpenseResposedto> listOfExpenses = userExpenseRepository.allUserExpensebyId(userId);
            List<SortExpenseResposedto> allExpensessorted = new ArrayList<>();
 
 
@@ -156,14 +154,14 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     }
 
     @Override
-    public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList) {
-        return userExpenseRepository.allUserExpenseByMonth(userLoginId.getUserId(),monthNumber);
+    public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList,Integer userId) {
+        return userExpenseRepository.allUserExpenseByMonth(userId,monthNumber);
     }
 
     @Override
-    public IndivisualExpensesqldto indivisualUserExpense(String expenseType) {
+    public IndivisualExpensesqldto indivisualUserExpense(String expenseType,Integer userId) {
         // Check if user has registered the expense
-        List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userLoginId.getUserId());
+        List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userId);
         if (expenseType.length()==0){
             throw new HandleEmptyStringException("Please enter the Expense Type");
         }

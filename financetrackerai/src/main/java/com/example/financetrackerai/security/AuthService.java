@@ -56,6 +56,7 @@ public class AuthService {
             }
             return ResponseEntity.ok(new LoginResponsedto(userModel.getId(), userModel.getEmailAddress(), token));
         } catch (Exception e) {
+            System.out.println("Exception in login :::::"+" "+e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new LoginResponsedto());
         }

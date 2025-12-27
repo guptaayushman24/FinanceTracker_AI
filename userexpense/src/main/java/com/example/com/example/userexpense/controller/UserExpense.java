@@ -1,23 +1,19 @@
 package com.example.userexpense.controller;
 
 import com.example.userexpense.config.KafkaConsumer;
-import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.exception.HandleEmptyDataException;
 import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
+import com.example.userexpense.security.ExtractUserId;
 import com.example.userexpense.service.UserExpenseService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import java.util.List;
 
 
@@ -28,17 +24,21 @@ public class UserExpense {
     @Autowired
     KafkaConsumer kafkaConsumer;
     @Autowired
-    UserLoginId userLoginId;
+    ExtractUserId extractUserId;
     @PostMapping("/userexpense")
-    public ResponseEntity<UserExpenseResponsedto> userExpense(@RequestBody UserExpenseRequestdto userExpenseRequestdto){
-        return ResponseEntity.ok(userExpenseService.userExpense(userExpenseRequestdto));
+    public ResponseEntity<UserExpenseResponsedto> userExpense(@RequestBody UserExpenseRequestdto userExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        return ResponseEntity.ok(userExpenseService.userExpense(userExpenseRequestdto,userId));
 
     }
 
     @PostMapping("/addnewexpense")
-    public ResponseEntity<AddUserExpenseResponsedto> newUserExpense (@RequestBody AddUserExpenseRequestdto addUserExpenseRequestdto){
+    public ResponseEntity<AddUserExpenseResponsedto> newUserExpense (@RequestBody AddUserExpenseRequestdto addUserExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
         try{
-            return ResponseEntity.ok(userExpenseService.addUserExpense(addUserExpenseRequestdto));
+            String token = authorizationHeader.substring(7);
+            Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+            return ResponseEntity.ok(userExpenseService.addUserExpense(addUserExpenseRequestdto,userId));
         }
         catch(Exception e){
             e.printStackTrace();
@@ -47,13 +47,17 @@ public class UserExpense {
     }
 
     @PostMapping("/deleteexpense")
-    public ResponseEntity<DeleteUserExpenseResponsedto> deleteUserExpense (@RequestBody DeleteUserExpenseRequestdto deleteUserExpenseRequestdto){
-        return ResponseEntity.ok(userExpenseService.deleteUserExpense(deleteUserExpenseRequestdto));
+    public ResponseEntity<DeleteUserExpenseResponsedto> deleteUserExpense (@RequestBody DeleteUserExpenseRequestdto deleteUserExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        return ResponseEntity.ok(userExpenseService.deleteUserExpense(deleteUserExpenseRequestdto,userId));
     }
 
     @PostMapping("/sortexpense")
-    public ResponseEntity<List<SortExpenseResposedto>> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto){
-        return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto));
+    public ResponseEntity<List<SortExpenseResposedto>> sortExpense (@RequestBody SortExpenseRequestdto sortExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto,userId));
     }
 
     @GetMapping("/allexpense/{userId}")
@@ -68,7 +72,9 @@ public class UserExpense {
     }
 
     @PostMapping("/userexpensebymonth")
-    public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyMonth(@RequestBody MonthNamedto monthName){
+    public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyMonth(@RequestBody MonthNamedto monthName,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
         HashMap<String,Integer> monthNameandNumber = new HashMap<>();
         String[] monthList = {
                 "January",
@@ -91,7 +97,7 @@ public class UserExpense {
         if (!monthNameList.contains(monthName.getMonthName())){
             throw new HandleExpenseExceptionByMonth("Please select the valid month");
         }
-        List<AllExpenseeResponsedto> list = userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName()),monthList);
+        List<AllExpenseeResponsedto> list = userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName()),monthList,userId);
         if (list.isEmpty()){
             throw new HandleEmptyDataException("You have not recorded any expense in"+" "+monthName.getMonthName());
         }
@@ -99,8 +105,10 @@ public class UserExpense {
     }
 
         @PostMapping("/indivisualexpense")
-    public ResponseEntity<String> indivisualExpense (@RequestBody IndivisualExpenseRequestdto indivisualExpenseRequestdto){
-            ResponseEntity.ok(userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType()));
-            return ResponseEntity.ok("Total Expense on"+" "+indivisualExpenseRequestdto.getExpenseType()+" "+"is "+userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType()).getSum());
+    public ResponseEntity<String> indivisualExpense (@RequestBody IndivisualExpenseRequestdto indivisualExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+            String token = authorizationHeader.substring(7);
+            Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+            ResponseEntity.ok(userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType(),userId));
+            return ResponseEntity.ok("Total Expense on"+" "+indivisualExpenseRequestdto.getExpenseType()+" "+"is "+userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType(),userId).getSum());
     }
 }

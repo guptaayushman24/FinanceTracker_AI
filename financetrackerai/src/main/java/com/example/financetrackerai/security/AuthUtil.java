@@ -26,6 +26,7 @@ public class AuthUtil {
     public String generationAccessToken (UserModel user) {
         return Jwts.builder()
                 .setSubject(user.getEmailAddress())  // <-- use setSubject
+                .claim("userId",user.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
                 .signWith(getSecretKey()) // replace with proper key

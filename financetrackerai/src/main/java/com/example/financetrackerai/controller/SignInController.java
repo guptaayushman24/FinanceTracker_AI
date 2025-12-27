@@ -39,6 +39,7 @@ public class SignInController {
             loginRequestdto.setEmail("null");
             loginRequestdto.setPassword("null");
             loginResponsedto.setJwt("null");
+            System.out.println("Exception occured :::::"+" "+e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginResponsedto);
 
         }
