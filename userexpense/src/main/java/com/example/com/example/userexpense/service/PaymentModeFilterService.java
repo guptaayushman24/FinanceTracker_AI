@@ -10,5 +10,5 @@ import java.util.List;
 
 @Service
 public interface PaymentModeFilterService{
-    List<PaymentModeFilterResponsedto> paymentModeFilter (PaymentModeFilterRequestdto paymentModeFilterRequestdto);
+    List<PaymentModeFilterResponsedto> paymentModeFilter (PaymentModeFilterRequestdto paymentModeFilterRequestdto,Integer userId);
 }
