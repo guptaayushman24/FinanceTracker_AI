@@ -1,6 +1,5 @@
 package com.example.userexpense.serviceImpl;
 
-import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.UserExpensePaymentMode;
 import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
 import com.example.userexpense.exception.HandleInvalidYearException;
@@ -31,8 +30,6 @@ import java.util.List;
 public class GenerateServiceImpl implements GenerateExcelService {
     @Autowired
     ExcelYearRepository excelYearRepository;
-    @Autowired
-    UserLoginId userLoginId;
     public XSSFWorkbook workbook;
     public XSSFSheet sheet;
 
@@ -119,8 +116,8 @@ public class GenerateServiceImpl implements GenerateExcelService {
     }
 
 
-
-    public void exportToExcel (HttpServletResponse response,Integer year,String monthName) throws IOException {
+    @Override
+    public void exportToExcel (HttpServletResponse response,Integer year,String monthName,Integer userId) throws IOException {
 
         String[] monthList = {
                 "January",
@@ -147,7 +144,7 @@ public class GenerateServiceImpl implements GenerateExcelService {
         this.workbook = new XSSFWorkbook();
         // System.out.println("Date is"+" "+date);
         this.sheet = workbook.createSheet("Sheet User");
-        List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userLoginId.getUserId(),year,monthName);
+        List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userId,year,monthName);
 
         response.setContentType(
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

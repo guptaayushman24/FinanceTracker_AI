@@ -10,6 +10,6 @@ import java.util.List;
 
 @Service
 public interface ExpenseSchedulerService {
-    ExpenseSchedulerResponsedto expenseScheduler (ExpenseSchedulerRequestdto expenseSchedulerRequestdto);
+    ExpenseSchedulerResponsedto expenseScheduler (ExpenseSchedulerRequestdto expenseSchedulerRequestdto,Integer userId);
     // List<AllExpenseeResponsedto> expenseRecordScheduler (Integer userId, LocalDate expenseDate);
 }

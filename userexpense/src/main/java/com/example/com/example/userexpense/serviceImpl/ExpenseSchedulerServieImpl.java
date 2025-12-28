@@ -17,12 +17,10 @@ import java.util.List;
 public class ExpenseSchedulerServieImpl implements ExpenseSchedulerService {
     @Autowired
     ExpenseSchedulerRepository expenseSchedulerRepository;
-    @Autowired
-    UserLoginId userLoginId;
     @Override
-    public ExpenseSchedulerResponsedto expenseScheduler(ExpenseSchedulerRequestdto expenseSchedulerRequestdto) {
+    public ExpenseSchedulerResponsedto expenseScheduler(ExpenseSchedulerRequestdto expenseSchedulerRequestdto,Integer userId) {
         ExpenseScheduler expenseScheduler = new ExpenseScheduler();
-        expenseScheduler.setUser_id(userLoginId.getUserId());
+        expenseScheduler.setUser_id(userId);
         expenseScheduler.setSchedulerEvent(expenseSchedulerRequestdto.getDays());
         expenseSchedulerRepository.save(expenseScheduler);
 

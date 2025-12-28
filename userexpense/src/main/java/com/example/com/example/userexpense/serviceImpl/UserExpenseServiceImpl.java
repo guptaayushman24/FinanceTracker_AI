@@ -1,6 +1,5 @@
 package com.example.userexpense.serviceImpl;
 
-import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.exception.HandleEmptyStringException;
 import com.example.userexpense.exception.HandleExpenseNotExist;
@@ -33,8 +32,6 @@ import java.util.PriorityQueue;
 public class UserExpenseServiceImpl implements UserExpenseService {
     @Autowired
     UserExpenseRepository userExpenseRepository;
-    @Autowired
-    UserLoginId userLoginId;
     @Autowired
     PaymentModeRepository paymentModeRepository;
 
@@ -150,7 +147,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
     @Override
     public List<AllExpenseeResponsedto> allExpense(Integer userId) {
-        return userExpenseRepository.allUserExpense(userLoginId.getUserId());
+        return userExpenseRepository.allUserExpense(userId);
     }
 
     @Override
@@ -169,6 +166,6 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         if (!list.contains(expenseType)){
             throw new HandleExpenseNotExist("You have not registered for the"+" "+expenseType+" Expense but you can register the expense");
         }
-        return userExpenseRepository.indivisualExpense(userLoginId.getUserId(),expenseType);
+        return userExpenseRepository.indivisualExpense(userId,expenseType);
     }
 }
