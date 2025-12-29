@@ -1,5 +1,6 @@
 package com.example.userexpense.controller;
 
+import com.example.userexpense.dto.ExcelMonthRequestdto;
 import com.example.userexpense.dto.ExcelYearRequestdto;
 import com.example.userexpense.dto.ExcelYearResponsedto;
 import com.example.userexpense.security.ExtractUserId;
@@ -28,8 +29,18 @@ public class GenerateExcel {
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
         ExcelYearResponsedto excelYearResponsedto = new ExcelYearResponsedto();
-        generateExcelService.exportToExcel(response, excelYearRequestdto.getYear(),excelYearRequestdto.getMonthName(),userId);
+        generateExcelService.exportToExcel(response, excelYearRequestdto.getYear(),userId);
         excelYearResponsedto.setMessage("Excel file downloaded");
+        return ResponseEntity.ok(excelYearResponsedto);
+    }
+
+    @PostMapping("/monthexpenseexcel")
+    public ResponseEntity<ExcelYearResponsedto> exportToExcelMonth(@RequestBody ExcelMonthRequestdto excelMonthRequestdto,HttpServletResponse response,@RequestHeader("Authorization") String authorizationHeader) throws IOException{
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        ExcelYearResponsedto excelYearResponsedto = new ExcelYearResponsedto();
+        generateExcelService.exportToExcelMonth(response,excelMonthRequestdto.getYear(),excelMonthRequestdto.getMonth(),userId);
+        excelYearResponsedto.setMessage("Excel File for month expense is download");
         return ResponseEntity.ok(excelYearResponsedto);
     }
 }

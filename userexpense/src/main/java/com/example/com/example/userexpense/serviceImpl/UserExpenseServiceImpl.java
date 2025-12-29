@@ -36,7 +36,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     PaymentModeRepository paymentModeRepository;
 
     @Override
-    public UserExpenseResponsedto userExpense(UserExpenseRequestdto userExpenseRequestdto,Integer userId) {
+    public UserExpenseResponsedto   userExpense(UserExpenseRequestdto userExpenseRequestdto,Integer userId) {
         UserExpense userExpense = new UserExpense();
         PaymentMode paymentMode = new PaymentMode();
 
@@ -49,6 +49,7 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         } else {
             throw new HandleRecordException("Please add the expense");
         }
+        userExpense.setUser_id(userId);
         userExpense.setValue(userExpenseRequestdto.getValue());
         userExpense.setDescription(userExpenseRequestdto.getDescription());
         userExpense.setExpenseDate(userExpenseRequestdto.getExpense_date());

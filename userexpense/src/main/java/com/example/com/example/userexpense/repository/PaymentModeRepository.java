@@ -36,15 +36,16 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
 """)
 
     List<PaymentModeFilterResponsedto> filterByPaymentMode(@Param("paymentMode") String paymentMode,@Param("userId") Integer userId);
-    @Query("""
-       SELECT new com.example.userexpense.dto.TotalExpenseMonthResponsedto(
-           SUM(ue.Value)
-       )
-       FROM UserExpense ue
-       WHERE ue.user_id = :user_id
-         AND MONTHNAME(ue.expenseDate) = :monthName
-       """)
-    TotalExpenseMonthResponsedto totalExpenseMonthResponsedto(@Param("user_id") Integer user_id,@Param("monthName") String monthName);
+        @Query("""
+        SELECT new com.example.userexpense.dto.TotalExpenseMonthResponsedto(
+            SUM(ue.Value)
+        )
+        FROM UserExpense ue
+        WHERE ue.user_id = :user_id
+          AND MONTHNAME(ue.expenseDate) = :monthName
+          AND YEAR(ue.expenseDate) = :year
+    """)
+    TotalExpenseMonthResponsedto totalExpenseMonthResponsedto(@Param("user_id") Integer user_id,@Param("monthName") String monthName,@Param("year") Integer year);
 
     @Query("""
        SELECT new com.example.userexpense.dto.TotalExpenseYearResponsedto(
@@ -87,9 +88,10 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
     join ue.paymentMode pm
     where ue.user_id = :user_id
       and MONTHNAME(ue.expenseDate) = :month
+      and YEAR(ue.expenseDate) = :year
       and pm.paymentMode = :payment_mode
             """)
-   TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto(@Param("user_id") Integer user_id, @Param("month") String month,@Param("payment_mode") String payment_mode);
+   TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto(@Param("user_id") Integer user_id, @Param("month") String month,@Param("payment_mode") String payment_mode,@Param("year") Integer year);
 
     @Query("""
               select new com.example.userexpense.dto.TotalExpenseCurrentDayPaymentModeResponsedto(

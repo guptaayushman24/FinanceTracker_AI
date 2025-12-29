@@ -12,4 +12,5 @@ import lombok.Setter;
 public class TotalExpenseMonthPaymentModeRequestdto {
     String month;
     String paymentMode;
+    Integer year;
 }

@@ -1,6 +1,7 @@
 package com.example.userexpense.serviceImpl;
 
 import com.example.userexpense.dto.UserExpensePaymentMode;
+import com.example.userexpense.exception.HandleEmptyDataException;
 import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
 import com.example.userexpense.exception.HandleInvalidYearException;
 import com.example.userexpense.repository.ExcelYearRepository;
@@ -117,8 +118,59 @@ public class GenerateServiceImpl implements GenerateExcelService {
 
 
     @Override
-    public void exportToExcel (HttpServletResponse response,Integer year,String monthName,Integer userId) throws IOException {
+    public void exportToExcel (HttpServletResponse response,Integer year,Integer userId) throws IOException {
 
+        String[] monthList = {
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+        };
+        List<String> list = Arrays.asList(monthList);
+
+
+        if (year<2000 || year>Year.now().getValue()){
+            throw new HandleInvalidYearException("Year must be between 2000 and current year");
+        }
+
+
+        this.workbook = new XSSFWorkbook();
+        // System.out.println("Date is"+" "+date);
+        this.sheet = workbook.createSheet("Sheet User");
+        List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userId,year);
+
+        response.setContentType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=UserExcel_Download_" + LocalDate.now() + ".xlsx"
+        );
+
+        response = initResponseForExportExcel(response,"UserExcel");
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        // Write Sheet,Title and Header
+        String [] headers = {"Description","Expense Type","Value","Expense Date","Payment Mode"};
+        writeTableHeaderExcel("Sheet User","Report User",headers);
+
+        // write content row
+        writeTableDataToExcel(data,headers);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
+
+    @Override
+    public void exportToExcelMonth(HttpServletResponse response, Integer year, String monthName, Integer userId) throws IOException{
         String[] monthList = {
                 "January",
                 "February",
@@ -141,10 +193,12 @@ public class GenerateServiceImpl implements GenerateExcelService {
         if (year<2000 || year>Year.now().getValue()){
             throw new HandleInvalidYearException("Year must be between 2000 and current year");
         }
+
+
         this.workbook = new XSSFWorkbook();
         // System.out.println("Date is"+" "+date);
         this.sheet = workbook.createSheet("Sheet User");
-        List<UserExpensePaymentMode> data = excelYearRepository.earlyExpenseDataToExcel(userId,year,monthName);
+        List<UserExpensePaymentMode> data = excelYearRepository.monthlyExpenseDataToExcel(userId,monthName,year);
 
         response.setContentType(
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

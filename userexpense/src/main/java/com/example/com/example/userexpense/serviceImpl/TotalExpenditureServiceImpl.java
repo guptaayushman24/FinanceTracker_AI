@@ -35,13 +35,13 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
                 "December"
         };
         List<String> list = Arrays.asList(monthList);
-        if (totalExpenseMonthRequestdto.getMonth().isEmpty()){
+        if (totalExpenseMonthRequestdto.getMonth().isEmpty() && (totalExpenseMonthRequestdto.getYear()<2000 || totalExpenseMonthRequestdto.getYear()> Year.now().getValue())){
             throw new HandleEmptyStringException("Please select the month");
         }
         if (!list.contains(totalExpenseMonthRequestdto.getMonth())){
             throw new HandleExpenseExceptionByMonth("Please select the valid month");
         }
-        TotalExpenseMonthResponsedto totalExpenseMonthResponsedto = paymentModeRepository.totalExpenseMonthResponsedto(user_id,totalExpenseMonthRequestdto.getMonth());
+        TotalExpenseMonthResponsedto totalExpenseMonthResponsedto = paymentModeRepository.totalExpenseMonthResponsedto(user_id,totalExpenseMonthRequestdto.getMonth(),totalExpenseMonthRequestdto.getYear());
         if (totalExpenseMonthResponsedto.getSum()==null){
             totalExpenseMonthResponsedto.setSum(0L);
         }
@@ -125,7 +125,7 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
         if (!list.contains(totalExpenseMonthPaymentModeRequestdto.getMonth())){
             throw new HandleExpenseExceptionByMonth("Select the valid month");
         }
-        TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto = paymentModeRepository.totalExpenseMonthPaymentModeResponsedto(user_id,totalExpenseMonthPaymentModeRequestdto.getMonth(),totalExpenseMonthPaymentModeRequestdto.getPaymentMode());
+        TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto = paymentModeRepository.totalExpenseMonthPaymentModeResponsedto(user_id,totalExpenseMonthPaymentModeRequestdto.getMonth(),totalExpenseMonthPaymentModeRequestdto.getPaymentMode(),totalExpenseMonthPaymentModeRequestdto.getYear());
         if (totalExpenseMonthPaymentModeResponsedto.getSum()==null){
             totalExpenseMonthPaymentModeResponsedto.setSum(0L);
         }

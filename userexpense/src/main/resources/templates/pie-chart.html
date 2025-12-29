@@ -4,6 +4,27 @@
     <title>Expense Chart</title>
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            const token = /*[[${bearerToken}]]*/ 'defaultToken';
+
+            fetch('/api/expenses/month', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Unauthorized");
+                return res.json();
+            })
+            .then(data => {
+                drawChart(data);
+            })
+            .catch(err => console.error(err));
+        /*]]>*/
+    </script>
 
     <script th:inline="javascript">
         /*<![CDATA[*/

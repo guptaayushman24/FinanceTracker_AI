@@ -21,8 +21,8 @@ public class UserExpensePieChartByMonthServiceImpl implements UserExpensePieChar
     @Autowired
     UserExpenseRepository userExpenseRepository;
     @Override
-    public String userExpensePieChartByMonth(Integer userId, String monthName,Model model) {
-        List<UserExpensePieChartByMonthdto> listOfExpense = userExpenseRepository.userExpensePieChartByMonth(userId,monthName);
+    public String userExpensePieChartByMonth(Integer userId, String monthName,Model model,Integer year) {
+        List<UserExpensePieChartByMonthdto> listOfExpense = userExpenseRepository.userExpensePieChartByMonth(userId,monthName,year);
         String[] monthList = {
                 "January",
                 "February",

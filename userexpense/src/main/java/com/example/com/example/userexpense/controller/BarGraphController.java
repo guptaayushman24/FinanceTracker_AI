@@ -20,10 +20,10 @@ public class BarGraphController {
     @Autowired
     ExtractUserId extractUserId;
     @GetMapping("/bargraphbymonth")
-    public String generateBarGraphMonth (@RequestParam String monthName,Model model,@RequestHeader("Authorization") String authorizationHeader){
+    public String generateBarGraphMonth (@RequestParam String monthName,Model model,@RequestHeader("Authorization") String authorizationHeader,Integer year){
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
-        userExpenseBarGrpahChartByMonthService.userExpenseBarGraphtByMonth(userId,monthName,model);
+        userExpenseBarGrpahChartByMonthService.userExpenseBarGraphtByMonth(userId,monthName,model,year);
         return "bar-graph";
     }
 

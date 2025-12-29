@@ -22,8 +22,8 @@ public class UserExpenseBarGrpahChartByMonthServiceImpl implements UserExpenseBa
     @Autowired
     UserExpenseRepository userExpenseRepository;
     @Override
-    public String userExpenseBarGraphtByMonth(Integer userId, String monthName, Model model) {
-        List<BarGraphdto> barGraphMonthData = userExpenseRepository.userExpenseBarGraphByMonth(userId,monthName);
+    public String userExpenseBarGraphtByMonth(Integer userId, String monthName, Model model,Integer year) {
+        List<BarGraphdto> barGraphMonthData = userExpenseRepository.userExpenseBarGraphByMonth(userId,monthName,year);
         Map<String, Long> barGraphData = new TreeMap<>();
         for (BarGraphdto dto : barGraphMonthData) {
             barGraphData.put(dto.getPaymentMode(), dto.getCount());

@@ -50,12 +50,31 @@ public interface ExcelYearRepository extends JpaRepository<UserExpense,Integer> 
     WHERE ue.user_id = :user_id
       AND (
            YEAR(ue.expenseDate) = :expense_date
-           OR MONTHNAME(ue.expenseDate) = :monthName
       )
 """
     )
     List<UserExpensePaymentMode> earlyExpenseDataToExcel(@Param("user_id") Integer user_id,
-                                                         @Param("expense_date") Integer expense_date,@Param("monthName") String monthName);
+                                                         @Param("expense_date") Integer expense_date);
+
+
+    @Query(
+            """
+    SELECT new com.example.userexpense.dto.UserExpensePaymentMode(
+                                 ue.Description,
+                                ue.ExpenseType,
+                                ue.Value,
+                                ue.expenseDate,
+                                pm.paymentMode
+                            )
+                            FROM UserExpense ue
+                            JOIN ue.paymentMode pm
+                            WHERE ue.user_id = :userId
+                              AND MONTHNAME(ue.expenseDate) = :monthName
+                              AND YEAR(ue.expenseDate) = :expense_date
+"""
+    )
+    List<UserExpensePaymentMode> monthlyExpenseDataToExcel (@Param("userId") Integer userId
+                            ,@Param("monthName") String monthName,@Param("expense_date") Integer expense_date);
 
 }
 

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 @Setter
 public class TotalExpenseMonthRequestdto {
     String month;
+    Integer year;
 }

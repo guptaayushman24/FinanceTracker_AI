@@ -17,12 +17,14 @@ public class GraphController {
     @Autowired
     ExtractUserId extractUserId;
     @GetMapping("/piechartbymonth")
-    public String generatePieChart (@RequestParam String monthName, Model model,@RequestHeader("Authorization") String authorizationHeader){
+    public String generatePieChart (@RequestParam String monthName, @RequestParam Integer year, Model model,@RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
-         userExpensePieChartByMonthService.userExpensePieChartByMonth(userId,monthName,model);
+        model.addAttribute("bearerToken",token);
+         userExpensePieChartByMonthService.userExpensePieChartByMonth(userId,monthName,model,year);
          return "pie-chart";
     }
+
 
     @GetMapping("/piechartbyyear")
     public String generatePieChartByYear (@RequestParam Integer year,Model model,@RequestHeader("Authorization") String authorizationHeader){

@@ -93,9 +93,10 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             FROM UserExpense ue
             WHERE ue.user_id = :userId
               AND FUNCTION('MONTHNAME', ue.expenseDate) = :monthName
+              AND YEAR(ue.expenseDate) = :year
             GROUP BY ue.ExpenseType
             """)
-    List<UserExpensePieChartByMonthdto> userExpensePieChartByMonth(@Param("userId") Integer userId, @Param("monthName") String monthName);
+    List<UserExpensePieChartByMonthdto> userExpensePieChartByMonth(@Param("userId") Integer userId, @Param("monthName") String monthName,@Param("year") Integer year);
 
     @Query("""
             SELECT new com.example.userexpense.dto.UserExpensePieChartByMonthdto(
@@ -116,10 +117,12 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             )
             FROM PaymentMode pm
             WHERE pm.user_id=:userId
-            AND MONTHNAME(pm.expenseDate)=:monthName GROUP BY pm.paymentMode
+            AND MONTHNAME(pm.expenseDate)=:monthName
+            AND YEAR (pm.expenseDate)=:year 
+             GROUP BY pm.paymentMode
             """)
 
-    List<BarGraphdto> userExpenseBarGraphByMonth(@Param("userId") Integer userId,@Param("monthName") String monthName);
+    List<BarGraphdto> userExpenseBarGraphByMonth(@Param("userId") Integer userId,@Param("monthName") String monthName,@Param("year") Integer year);
 
     @Query("""
             SELECT new com.example.userexpense.dto.BarGraphdto(

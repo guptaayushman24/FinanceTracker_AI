@@ -91,4 +91,15 @@ public class GlobalException {
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(com.example.userexpense.exception.HandleMonthYearException.class)
+    public ResponseEntity<ErrorResponsedto> handleMonthYearException(HandlePaymentModeException ex) {
+        ErrorResponsedto error = new ErrorResponsedto(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }
