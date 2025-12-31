@@ -158,4 +158,20 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
                 """
         )
     List<ExpenseExistdto> expenseExist (@Param("userId") Integer userId);
+
+        @Query(
+                """
+                  SELECT new com.example.userexpense.dto.ExpenseAnalyzerSqldto(
+                  ue.Description,
+                  ue.ExpenseType,
+                  ue.Value,
+                  pm.paymentMode
+                        )
+                FROM UserExpense ue
+                JOIN ue.paymentMode pm
+                WHERE ue.user_id = :userId
+                  AND YEAR(ue.expenseDate) = :year
+                """
+        )
+        List<ExpenseAnalyzerSqldto> expenseSumary(@Param("userId") Integer userId,@Param("year") Integer year);
 }
