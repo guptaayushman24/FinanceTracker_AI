@@ -45,7 +45,7 @@
 
 
 
-AI Points to be added (Do these after exception handling)
+AI Points to be added (Do these after exception handling) -> Done
 AI Expense Analyzer
 Functionality -> User clicks “Analyze My Expenses”, and AI gives insights like:
 Explanation -> Your food expenses increased by 22% in December compared to November.
