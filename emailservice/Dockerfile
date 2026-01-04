@@ -17,8 +17,8 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# Copy jar from build stage
-COPY /target/*.jar app.jar
+# COPY from build stage (IMPORTANT PATH)
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8082
 ENTRYPOINT ["java", "-jar", "app.jar"]
