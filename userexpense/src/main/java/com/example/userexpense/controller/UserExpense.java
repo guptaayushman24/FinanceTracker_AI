@@ -111,4 +111,13 @@ public class UserExpense {
             ResponseEntity.ok(userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType(),userId));
             return ResponseEntity.ok("Total Expense on"+" "+indivisualExpenseRequestdto.getExpenseType()+" "+"is "+userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType(),userId).getSum());
     }
+
+//    @PostMapping("/currentDayExpense")
+//    public ResponseEntity<AllExpenseeResponsedto> currentDayUserExpense (){
+//        return ResponseEntity.ok(userExpenseService.)
+//    }
+    @PostMapping("/expenseOnday")
+        public ResponseEntity<AllExpenseeResponsedto> expenseOnADay (@RequestBody ExpenseOnADayRequestdto expenseOnADayRequestdto){
+        return ResponseEntity.ok(userExpenseService.userExpenseOnDay());
+    }
 }

@@ -46,3 +46,9 @@ services:
       KAFKA_BROKERCONNECT: "kafka:29092"
     depends_on:
       - "kafka"
+
+  redis:
+    image: redis
+    container_name: redis-userexpense-current-date
+    ports:
+      - "6379:6379"
