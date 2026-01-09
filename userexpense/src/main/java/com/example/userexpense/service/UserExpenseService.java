@@ -4,6 +4,7 @@ import com.example.userexpense.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,5 +21,7 @@ public interface UserExpenseService {
     List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList,Integer userId);
 
     IndivisualExpensesqldto indivisualUserExpense (String expenseType,Integer userId);
+    List<AllExpenseeResponsedto> userCurrentDayExpense (LocalDate localDate);
 
+    List<AllExpenseeResponsedto> userExpenseOnDay (LocalDate localDate,Integer userId,PaymentModeFilterRequestdto paymentModeFilterRequestdto);
 }

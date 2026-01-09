@@ -170,4 +170,14 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         }
         return userExpenseRepository.indivisualExpense(userId,expenseType);
     }
+
+    @Override
+    public List<AllExpenseeResponsedto> userCurrentDayExpense(LocalDate localDate) {
+        return userExpenseRepository.userCurrentDayExpense(localDate);
+    }
+
+    @Override
+    public List<AllExpenseeResponsedto> userExpenseOnDay(LocalDate localDate, Integer userId, PaymentModeFilterRequestdto paymentModeFilterRequestdto) {
+        return userExpenseRepository.userEx
+    }
 }

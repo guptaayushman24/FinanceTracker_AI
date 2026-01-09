@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
@@ -174,4 +175,35 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
                 """
         )
         List<ExpenseAnalyzerSqldto> expenseSumary(@Param("userId") Integer userId,@Param("year") Integer year);
-}
+
+//        @Query(
+//                """
+//
+//
+//                        """
+//        )
+
+        @Query("""
+             SELECT new com.example.userexpense.dto.UserExpenseResponsedto
+             ue.expenseType,
+             ue.value,
+             ue.description,
+             ue.paymentMode,
+             ue.expense_date
+             FROM UserExpense ue
+             JOIN PaymentMode pm
+             WHERE ue.userId = pm.userId
+             AND ue.ExpenseDate = pm.ExpenseDate
+             AND ue.userId = :userId
+             AND pm.ExpenseDate = :expenseDate
+             AND ('' IS NULL OR pm.PaymentMode = :paymentMode
+    """)
+        List<UserExpense> findExpenseOnADay(
+                @Param("userId") Integer userId,
+                @Param("expenseDate") LocalDate expenseDate,
+                @Param("paymentMode") String paymentMode
+        );
+
+    }
+
+

@@ -17,6 +17,9 @@
     Total expenditure in a day,month,year -> Done
     Total expenditure in a day,month,year by CASH OR BY UPI -> Done
 
+    CurrentDay -> Expense
+    SpecificDay -> Expense
+
     Scheduler -> Pending
     Table
     id|user_id|schedule_time(Can vary from 1 to 30 day of the same month)
