@@ -9,10 +9,12 @@ import com.example.userexpense.model.PaymentMode;
 import com.example.userexpense.model.UserExpense;
 import com.example.userexpense.repository.PaymentModeRepository;
 import com.example.userexpense.repository.UserExpenseRepository;
+import com.example.userexpense.service.ReddisService;
 import com.example.userexpense.service.UserExpenseService;
 import com.example.userexpense.dto.AllExpenseeResponsedto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +36,14 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     @Autowired
     PaymentModeRepository paymentModeRepository;
 
+    @Autowired
+    ReddisService reddisService;
+
     @Override
     public UserExpenseResponsedto   userExpense(UserExpenseRequestdto userExpenseRequestdto,Integer userId) {
         UserExpense userExpense = new UserExpense();
         PaymentMode paymentMode = new PaymentMode();
-
+        List<UserExpenseResponsedto> userExpenseResponsedtoList = new ArrayList<>();
         // check if the user has registered against the expense or not
         // check if the expense is present in the list or not if present add and if not return the response
         HashSet<String> userExpenseExist = userExpenseRepository.checkUserExpenseExist(userId);
@@ -85,7 +90,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpenseResponsedto.setMessage("Expense Record Saved Successfully!!!!");
         log.info(userExpenseResponsedto.getPaymentMode());
 
-
+        userExpenseResponsedtoList = Collections.singletonList(userExpenseResponsedto);
+        // Saving the response in the Reddis
+        reddisService.saveUserCurrentDayExpense(userId,userExpenseResponsedtoList);
         return userExpenseResponsedto;
     }
 
@@ -187,7 +194,26 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
     @Override
     public List<AllExpenseeResponsedto> userExpenseOnCurrentDay(LocalDate localDate, Integer userId, String paymentMode) {
-       return userExpenseRepository.userExpenseOnCurrentDay(userId,localDate,paymentMode);
+        List<AllExpenseeResponsedto> allExpenseeResponsedtoList = new ArrayList<>();
+        // Check first in the Reddis if not then hit the db
+        if (reddisService.retrieveData(userId).isEmpty()){
+            // If Reddis is Empty call the db
+            allExpenseeResponsedtoList = userExpenseRepository.userExpenseOnCurrentDay(userId,localDate,paymentMode);
+            return allExpenseeResponsedtoList;
+        }
+        List<UserExpenseResponsedto> userExpenseResponsedtoList = reddisService.retrieveData(userId);
+        for (UserExpenseResponsedto userExpenseResponsedto:userExpenseResponsedtoList){
+            AllExpenseeResponsedto allDto = new AllExpenseeResponsedto();
+            allDto.setDescription(userExpenseResponsedto.getDescription());
+            allDto.setExpenseType(userExpenseResponsedto.getExpenseType());
+            allDto.setExpense_date(userExpenseResponsedto.getExpense_date());
+            allDto.setPaymentMode(userExpenseResponsedto.getPaymentMode());
+
+            allExpenseeResponsedtoList.add(allDto);
+        }
+
+        return allExpenseeResponsedtoList;
+
     }
 
 

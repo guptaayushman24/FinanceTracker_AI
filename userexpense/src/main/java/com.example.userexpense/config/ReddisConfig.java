@@ -3,6 +3,7 @@ package com.example.userexpense.config;
 
 
 import com.example.userexpense.dto.AllExpenseeResponsedto;
+import com.example.userexpense.dto.UserExpenseResponsedto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,8 +16,8 @@ import java.util.List;
 @Configuration
 public class ReddisConfig {
     @Bean
-    public RedisTemplate<String, List<AllExpenseeResponsedto>> redisTemplate (RedisConnectionFactory connectionFactory){
-        RedisTemplate<String,List<AllExpenseeResponsedto>> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, UserExpenseResponsedto> redisTemplate (RedisConnectionFactory connectionFactory){
+        RedisTemplate<String,UserExpenseResponsedto> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());

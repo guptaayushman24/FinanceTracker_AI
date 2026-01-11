@@ -5,7 +5,9 @@ import com.example.userexpense.dto.*;
 import com.example.userexpense.exception.HandleEmptyDataException;
 import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
 import com.example.userexpense.security.ExtractUserId;
+import com.example.userexpense.service.ReddisService;
 import com.example.userexpense.service.UserExpenseService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ public class UserExpense {
     KafkaConsumer kafkaConsumer;
     @Autowired
     ExtractUserId extractUserId;
+
     @PostMapping("/userexpense")
     public ResponseEntity<UserExpenseResponsedto> userExpense(@RequestBody UserExpenseRequestdto userExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
@@ -125,6 +128,8 @@ public class UserExpense {
         public ResponseEntity<List<AllExpenseeResponsedto>> expenseOnADay (@RequestBody ExpenseOnADayRequestdto expenseOnADayRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
-        return ResponseEntity.ok(userExpenseService.userExpenseOnDay(expenseOnADayRequestdto.getLocalDate(),userId,expenseOnADayRequestdto.getPaymentMode()));
+
+        return ResponseEntity.ok(userExpenseService.userExpenseOnDay(expenseOnADayRequestdto.getLocalDate(), userId, expenseOnADayRequestdto.getPaymentMode()));
+
     }
 }
