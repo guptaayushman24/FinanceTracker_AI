@@ -7,11 +7,13 @@ import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
 import com.example.userexpense.security.ExtractUserId;
 import com.example.userexpense.service.UserExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -112,12 +114,17 @@ public class UserExpense {
             return ResponseEntity.ok("Total Expense on"+" "+indivisualExpenseRequestdto.getExpenseType()+" "+"is "+userExpenseService.indivisualUserExpense(indivisualExpenseRequestdto.getExpenseType(),userId).getSum());
     }
 
-//    @PostMapping("/currentDayExpense")
-//    public ResponseEntity<AllExpenseeResponsedto> currentDayUserExpense (){
-//        return ResponseEntity.ok(userExpenseService.)
-//    }
+    @PostMapping("/currentDayExpense")
+    public ResponseEntity<List<AllExpenseeResponsedto>> currentDayUserExpense (@RequestBody CurrentExpenseRequestdto currentExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        LocalDate currentDate = LocalDate.now();
+        return ResponseEntity.ok(userExpenseService.userExpenseOnCurrentDay(currentDate,userId,currentExpenseRequestdto.getPaymentMode()));
+    }
     @PostMapping("/expenseOnday")
-        public ResponseEntity<AllExpenseeResponsedto> expenseOnADay (@RequestBody ExpenseOnADayRequestdto expenseOnADayRequestdto){
-        return ResponseEntity.ok(userExpenseService.userExpenseOnDay());
+        public ResponseEntity<List<AllExpenseeResponsedto>> expenseOnADay (@RequestBody ExpenseOnADayRequestdto expenseOnADayRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        return ResponseEntity.ok(userExpenseService.userExpenseOnDay(expenseOnADayRequestdto.getLocalDate(),userId,expenseOnADayRequestdto.getPaymentMode()));
     }
 }

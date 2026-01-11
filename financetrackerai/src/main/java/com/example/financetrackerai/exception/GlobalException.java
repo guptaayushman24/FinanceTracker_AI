@@ -1,6 +1,6 @@
 package com.example.financetrackerai.exception;
 
-import com.example.userexpense.dto.ErrorResponsedto;
+import com.example.financetrackerai.dto.ErrorResponsedto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

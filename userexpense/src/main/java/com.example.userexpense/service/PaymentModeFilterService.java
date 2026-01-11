@@ -1,4 +1,4 @@
-package com.example.com.example.userexpense.service;
+package com.example.userexpense.service;
 
 import com.example.userexpense.dto.PaymentModeFilterRequestdto;
 import com.example.userexpense.dto.PaymentModeFilterResponsedto;
