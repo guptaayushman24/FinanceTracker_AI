@@ -21,7 +21,8 @@ public interface UserExpenseService {
     List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList,Integer userId);
 
     IndivisualExpensesqldto indivisualUserExpense (String expenseType,Integer userId);
-    List<AllExpenseeResponsedto> userCurrentDayExpense (LocalDate localDate);
 
-    List<AllExpenseeResponsedto> userExpenseOnDay (LocalDate localDate,Integer userId,PaymentModeFilterRequestdto paymentModeFilterRequestdto);
+
+    List<AllExpenseeResponsedto> userExpenseOnCurrentDay (LocalDate localDate,Integer userId,String paymentMode);
+    List<AllExpenseeResponsedto> userExpenseOnDay (LocalDate localDate,Integer userId,String paymentMode);
 }

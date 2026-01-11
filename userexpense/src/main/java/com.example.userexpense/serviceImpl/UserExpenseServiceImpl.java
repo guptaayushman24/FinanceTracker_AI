@@ -17,15 +17,14 @@ import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -103,9 +102,11 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         DeleteUserExpenseResponsedto deleteUserExpenseResponsedto = new DeleteUserExpenseResponsedto();
         // Check if user has registered the expense
         List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userId);
-        if (!list.contains(deleteUserExpenseRequestdto.getExpenseTobeDeleted())){
+        if (list.contains(deleteUserExpenseRequestdto.getExpenseTobeDeleted().toString())){
             throw new HandleExpenseNotExist("You have not registered for the"+" "+deleteUserExpenseRequestdto.getExpenseTobeDeleted()+" Expense but you can register the expense");
         }
+
+
 
         userExpenseRepository.deleteUserExpense(userId, deleteUserExpenseRequestdto.getExpenseTobeDeleted());
         deleteUserExpenseResponsedto.setExpenseTobeDeleted(deleteUserExpenseRequestdto.getExpenseTobeDeleted() + " " + "Expense Deleted Successfully");
@@ -160,24 +161,38 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     @Override
     public IndivisualExpensesqldto indivisualUserExpense(String expenseType,Integer userId) {
         // Check if user has registered the expense
+        boolean checkExpenseExit = false;
         List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userId);
         if (expenseType.length()==0){
             throw new HandleEmptyStringException("Please enter the Expense Type");
         }
-        
-        if (!list.contains(expenseType)){
-            throw new HandleExpenseNotExist("You have not registered for the"+" "+expenseType+" Expense but you can register the expense");
+
+//        if (!list.contains(expenseType.toString())) {
+//            throw new HandleExpenseNotExist("You have not registered for the" + " " + expenseType + " Expense but you can register the expense");
+//        }
+        for (ExpenseExistdto expenseExistdto:list){
+            if (expenseExistdto.getUserExpense().equals(expenseType)){
+                checkExpenseExit = true;
+                break;
+            }
         }
+        if (!checkExpenseExit){
+            throw new HandleExpenseNotExist("You have not registered for the" + " " + expenseType + " Expense but you can register the expense");
+        }
+
         return userExpenseRepository.indivisualExpense(userId,expenseType);
     }
 
-    @Override
-    public List<AllExpenseeResponsedto> userCurrentDayExpense(LocalDate localDate) {
-        return userExpenseRepository.userCurrentDayExpense(localDate);
-    }
+
 
     @Override
-    public List<AllExpenseeResponsedto> userExpenseOnDay(LocalDate localDate, Integer userId, PaymentModeFilterRequestdto paymentModeFilterRequestdto) {
-        return userExpenseRepository.userEx
+    public List<AllExpenseeResponsedto> userExpenseOnCurrentDay(LocalDate localDate, Integer userId, String paymentMode) {
+       return userExpenseRepository.userExpenseOnCurrentDay(userId,localDate,paymentMode);
+    }
+
+
+    @Override
+    public List<AllExpenseeResponsedto> userExpenseOnDay(LocalDate localDate, Integer userId,String paymentMode) {
+        return userExpenseRepository.findExpenseOnADay(userId,localDate,paymentMode);
     }
 }

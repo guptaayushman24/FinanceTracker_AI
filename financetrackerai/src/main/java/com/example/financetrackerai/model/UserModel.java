@@ -1,7 +1,7 @@
 package com.example.financetrackerai.model;
 
-import com.example.userexpense.model.PaymentMode;
-import com.example.userexpense.model.UserExpense;
+//import com.example.userexpense.model.PaymentMode;
+//import com.example.userexpense.model.UserExpense;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

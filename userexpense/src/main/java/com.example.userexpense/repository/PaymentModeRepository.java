@@ -23,16 +23,16 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
 
     @Query("""
     SELECT new com.example.userexpense.dto.PaymentModeFilterResponsedto(
-        ue.ExpenseType,
-        ue.Value,
-        ue.Description,
-        pm.paymentMode,
-        pm.expenseDate
-    )
-    FROM UserExpense ue
-    JOIN PaymentMode pm ON ue.user_id = pm.user_id
-    AND ue.expenseDate = pm.expenseDate
-    WHERE (pm.paymentMode = :paymentMode and ue.user_id = :userId)
+                        ue.ExpenseType,
+                        ue.Value,
+                        ue.Description,
+                        pm.paymentMode,
+                        pm.expenseDate
+                    )
+                    FROM UserExpense ue
+                    JOIN ue.paymentMode pm
+                        
+                    WHERE (pm.paymentMode = :paymentMode AND ue.user_id = :userId)
 """)
 
     List<PaymentModeFilterResponsedto> filterByPaymentMode(@Param("paymentMode") String paymentMode,@Param("userId") Integer userId);
