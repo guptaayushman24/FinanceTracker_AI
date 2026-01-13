@@ -35,5 +35,11 @@ public class ReddisService {
     public List<UserExpenseResponsedto> retrieveData (Integer userId){
         return redistUserExpenseTemplate.opsForValue().get(userId);
     }
+
+    public void deleteAllReddisData(){
+        redistUserExpenseTemplate.getConnectionFactory().getConnection().serverCommands().flushAll();
+    }
+
+
 }
 

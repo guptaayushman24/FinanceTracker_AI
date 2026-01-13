@@ -9,10 +9,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ReddisScheduler {
+    @Autowired
+    ReddisService reddisService;
+
     @Scheduled(cron = "0 5 0 * * ?") // 12:05 AM
     public void clearDailyExpenseCache() {
-        redisTemplate.delete("DAILY_EXPENSE:*");
+        reddisService.deleteAllReddisData();
     }
-    }
+}
 
 
