@@ -118,7 +118,7 @@ public class UserExpense {
     }
 
     @PostMapping("/currentDayExpense")
-    public ResponseEntity<List<AllExpenseeResponsedto>> currentDayUserExpense (@RequestBody CurrentExpenseRequestdto currentExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
+    public ResponseEntity<List<List<UserExpenseResponsedto>>> currentDayUserExpense (@RequestBody CurrentExpenseRequestdto currentExpenseRequestdto,@RequestHeader ("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
         LocalDate currentDate = LocalDate.now();

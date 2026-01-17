@@ -213,7 +213,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
           AND pm.expenseDate = :expenseDate
           AND pm.paymentMode = :paymentMode
     """)
-        List<AllExpenseeResponsedto> userExpenseOnCurrentDay (
+        List<List<UserExpenseResponsedto>> userExpenseOnCurrentDay (
                 @Param("userId") Integer userId,
                 @Param("expenseDate") LocalDate expenseDate,
                 @Param("paymentMode") String paymentMode

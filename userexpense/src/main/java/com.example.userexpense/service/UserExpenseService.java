@@ -23,6 +23,6 @@ public interface UserExpenseService {
     IndivisualExpensesqldto indivisualUserExpense (String expenseType,Integer userId);
 
 
-    List<AllExpenseeResponsedto> userExpenseOnCurrentDay (LocalDate localDate,Integer userId,String paymentMode);
+   List<List<UserExpenseResponsedto>>  userExpenseOnCurrentDay (LocalDate localDate,Integer userId,String paymentMode);
     List<AllExpenseeResponsedto> userExpenseOnDay (LocalDate localDate,Integer userId,String paymentMode);
 }

@@ -13,6 +13,7 @@ import com.example.userexpense.service.ReddisService;
 import com.example.userexpense.service.UserExpenseService;
 import com.example.userexpense.dto.AllExpenseeResponsedto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.apache.coyote.Response;
@@ -38,6 +39,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
     @Autowired
     ReddisService reddisService;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Override
     public UserExpenseResponsedto   userExpense(UserExpenseRequestdto userExpenseRequestdto,Integer userId) {
@@ -193,26 +197,19 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
 
     @Override
-    public List<AllExpenseeResponsedto> userExpenseOnCurrentDay(LocalDate localDate, Integer userId, String paymentMode) {
-        List<AllExpenseeResponsedto> allExpenseeResponsedtoList = new ArrayList<>();
+    public List<List<UserExpenseResponsedto>> userExpenseOnCurrentDay(LocalDate localDate, Integer userId, String paymentMode) {
+        // List<AllExpenseeResponsedto> allExpenseeResponsedtoList = new ArrayList<>();
+        List<List<UserExpenseResponsedto>> userExpenseResponse = new ArrayList<>();
         // Check first in the Reddis if not then hit the db
         if (reddisService.retrieveData(userId).isEmpty()){
             // If Reddis is Empty call the db
-            allExpenseeResponsedtoList = userExpenseRepository.userExpenseOnCurrentDay(userId,localDate,paymentMode);
-            return allExpenseeResponsedtoList;
-        }
-        List<UserExpenseResponsedto> userExpenseResponsedtoList = reddisService.retrieveData(userId);
-        for (UserExpenseResponsedto userExpenseResponsedto:userExpenseResponsedtoList){
-            AllExpenseeResponsedto allDto = new AllExpenseeResponsedto();
-            allDto.setDescription(userExpenseResponsedto.getDescription());
-            allDto.setExpenseType(userExpenseResponsedto.getExpenseType());
-            allDto.setExpense_date(userExpenseResponsedto.getExpense_date());
-            allDto.setPaymentMode(userExpenseResponsedto.getPaymentMode());
-
-            allExpenseeResponsedtoList.add(allDto);
+            userExpenseResponse = userExpenseRepository.userExpenseOnCurrentDay(userId,localDate,paymentMode);
+            return userExpenseResponse;
         }
 
-        return allExpenseeResponsedtoList;
+        List<List<UserExpenseResponsedto>> userExpenseResponsedtoList = reddisService.retrieveData(userId);
+
+        return userExpenseResponsedtoList;
 
     }
 

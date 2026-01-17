@@ -1,9 +1,7 @@
 package com.example.userexpense.config;
-
-
-
-import com.example.userexpense.dto.AllExpenseeResponsedto;
 import com.example.userexpense.dto.UserExpenseResponsedto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,16 +13,20 @@ import java.util.List;
 
 
 @Configuration
+@EnableCaching
 public class ReddisConfig {
     @Bean
-    public RedisTemplate<String, List<UserExpenseResponsedto>> redisTemplate (RedisConnectionFactory connectionFactory){
-        RedisTemplate<String,List<UserExpenseResponsedto>> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<Integer, List<UserExpenseResponsedto>> redisTemplate (RedisConnectionFactory connectionFactory, ObjectMapper objectMapper){
+        RedisTemplate<Integer,List<UserExpenseResponsedto>> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+        redisTemplate.setKeySerializer(serializer);
+        redisTemplate.setValueSerializer(serializer);
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 }
+
+
+
+
