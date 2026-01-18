@@ -20,6 +20,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(
+        name="user_model",
+        indexes = {
+                @Index(name = "user_email",columnList = "email")
+        }
+)
 public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +41,7 @@ public class UserModel implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id")
     )
     List<String> user_expense;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

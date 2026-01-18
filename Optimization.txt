@@ -1,0 +1,2 @@
+Reddis Optimization on current Day Expense => From 100ms -> 65ms on 100 data
+Indexing Optimization on the signin => From 201ms -> 65ms on 200 data
