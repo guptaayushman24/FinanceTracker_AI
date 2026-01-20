@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/emailservice/emailservice.iml" filepath="$PROJECT_DIR$/emailservice/emailservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/userexpense/userexpense.iml" filepath="$PROJECT_DIR$/userexpense/userexpense.iml" />
       <module fileurl="file://$PROJECT_DIR$/userexpense/userexpense (2).iml" filepath="$PROJECT_DIR$/userexpense/userexpense (2).iml" />
     </modules>
