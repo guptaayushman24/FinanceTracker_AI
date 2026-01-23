@@ -10,7 +10,6 @@
         <module name="financetrackerai" />
         <module name="FaceDetection" />
         <module name="userexpense (2)" />
-        <module name="userexpense" />
         <module name="facerecognition" />
         <module name="emailservice" />
       </profile>
@@ -18,6 +17,7 @@
     <bytecodeTargetLevel>
       <module name="FaceDetection" target="21" />
       <module name="facedetection" target="21" />
+      <module name="userexpense" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
