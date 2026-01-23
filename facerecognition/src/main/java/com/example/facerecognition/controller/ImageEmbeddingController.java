@@ -16,13 +16,6 @@ import java.util.Base64;
 public class ImageEmbeddingController {
     @Autowired
     ImageService imageService;
-//    @PostMapping("/imageembedding1")
-//    public ResponseEntity<EmbeddingResponse> imageEmbedding1(@RequestBody MultipartFile image) throws IOException {
-//        String imageString = Base64.getEncoder().encodeToString(image.getBytes());
-//        EmbeddingResponse embeddingResponse = imageService.imageEmbedding(imageString);
-//
-//        return ResponseEntity.ok(embeddingResponse);
-//    }
 
     @PostMapping("/imageembedding")
     public float[] imageEmbedding (@RequestBody MultipartFile image) throws IOException{

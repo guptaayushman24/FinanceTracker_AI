@@ -1,11 +1,9 @@
 package com.example.financetrackerai.controller;
 
-import com.example.financetrackerai.dto.LoginRequestdto;
-import com.example.financetrackerai.dto.LoginResponsedto;
-import com.example.financetrackerai.dto.SignupRequestdto;
-import com.example.financetrackerai.dto.SignupResponsedto;
+import com.example.financetrackerai.dto.*;
 import com.example.financetrackerai.producer.Producer;
 import com.example.financetrackerai.repository.UserRepository;
+import com.example.financetrackerai.service.FetchUserSignupDataService;
 import com.example.financetrackerai.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class SignUpController {
@@ -23,6 +23,12 @@ public class SignUpController {
  UserService userService;
     @Autowired
     Producer producer;
+    @Autowired
+    StoreSignupData storeSignupData;
+
+    @Autowired
+    FetchUserSignupDataService fetchUserSignupDataService;
+
     @PostMapping("/signup")
     public ResponseEntity<SignupResponsedto> signUp(@RequestBody  SignupRequestdto signupRequestdto) {
         try {
@@ -33,6 +39,13 @@ public class SignUpController {
 
                 // Produce the Email Address,Expense List,First Name and Last Name in the kafka producer
                producer.sendUserDetails(signupResponsedto);
+
+               // Store the user signup response in the dto and then send to the another microservice
+                storeSignupData.setFirstName(signupResponsedto.getFirstName());
+                storeSignupData.setLastName(signupResponsedto.getLastName());
+                storeSignupData.setEmailAddress(signupResponsedto.getEmailAddress());
+                storeSignupData.setUserExpense(signupRequestdto.getUser_expense());
+
 
             }
             return ResponseEntity.ok(signupResponsedto);
@@ -47,5 +60,10 @@ public class SignUpController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(signupResponsedto);
         }
+    }
+
+    @PostMapping("/sendUserSignupData")
+    public StoreSignupData sendUserSignupData(@RequestBody StoreSignupData storeSignupData){
+        return fetchUserSignupDataService.fetchUserSignUpData(storeSignupData);
     }
 }
