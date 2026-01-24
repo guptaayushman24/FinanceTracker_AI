@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FetchUserSignupDataService {
     public StoreSignupData fetchUserSignUpData(StoreSignupData storeSignupData);
+    public SignupResponsedto userSignupData (String emailAddress);
 }

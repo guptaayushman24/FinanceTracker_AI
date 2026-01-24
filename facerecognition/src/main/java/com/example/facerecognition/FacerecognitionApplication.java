@@ -16,5 +16,3 @@ public class FacerecognitionApplication {
 	}
 
 }
-
-// opt/homebrew/Cellar/opencv

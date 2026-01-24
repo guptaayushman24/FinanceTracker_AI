@@ -10,14 +10,15 @@
         <module name="financetrackerai" />
         <module name="FaceDetection" />
         <module name="userexpense (2)" />
-        <module name="facerecognition" />
+        <module name="userexpense" />
         <module name="emailservice" />
+        <module name="facerecognition" />
+        <module name="userexpensechatbot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="FaceDetection" target="21" />
       <module name="facedetection" target="21" />
-      <module name="userexpense" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -27,6 +28,7 @@
       <module name="financetrackerai" options="-parameters" />
       <module name="userexpense" options="-parameters" />
       <module name="userexpense (2)" options="-parameters" />
+      <module name="userexpensechatbot" options="-parameters" />
     </option>
   </component>
 </project>
