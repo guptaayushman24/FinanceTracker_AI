@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         UserModel savedUser =  userRepository.save(userModel);
 
         SignupResponsedto signupResponsedto = new SignupResponsedto();
+        signupResponsedto.setUserId(userModel.getId());
         signupResponsedto.setEmailAddress(savedUser.getEmailAddress());
         signupResponsedto.setFirstName(savedUser.getFirstName());
         signupResponsedto.setLastName(savedUser.getLastName());

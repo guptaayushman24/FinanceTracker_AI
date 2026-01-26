@@ -6,6 +6,8 @@
       <list>
         <option value="$PROJECT_DIR$/financetrackerai/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/facerecognition/pom.xml" />
+        <option value="$PROJECT_DIR$/userexpensechatbot/pom.xml" />
       </list>
     </option>
   </component>

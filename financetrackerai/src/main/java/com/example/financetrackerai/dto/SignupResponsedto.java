@@ -1,5 +1,6 @@
 package com.example.financetrackerai.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignupResponsedto {
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String emailAddress;
     private List<String> userExpense;
+    @JsonIgnore
+    private String userPassword;
 
     @Override
     public String toString(){

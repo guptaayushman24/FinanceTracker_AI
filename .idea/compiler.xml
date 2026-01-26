@@ -7,19 +7,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="FaceDetection" />
         <module name="financetrackerai" />
         <module name="userexpense (2)" />
         <module name="userexpense" />
         <module name="emailservice" />
+        <module name="facerecognition" />
+        <module name="userexpensechatbot" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="FaceDetection" target="21" />
+      <module name="facedetection" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="emailservice" options="-parameters" />
+      <module name="facerecognition" options="-parameters" />
       <module name="financetrackerai" options="-parameters" />
       <module name="userexpense" options="-parameters" />
       <module name="userexpense (2)" options="-parameters" />
+      <module name="userexpensechatbot" options="-parameters" />
     </option>
   </component>
 </project>
