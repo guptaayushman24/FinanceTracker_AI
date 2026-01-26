@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignupResponsedto {
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String emailAddress;

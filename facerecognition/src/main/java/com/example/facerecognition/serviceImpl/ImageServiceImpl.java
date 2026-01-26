@@ -20,12 +20,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Vector;
 
 @Service
 public class ImageServiceImpl implements ImageService {
 
     @Override
-    public float[] imageEmbeddingVecotor(MultipartFile image) throws IOException {
+    public float [] imageEmbeddingVecotor(MultipartFile image) throws IOException {
         // Read the file into a BufferedImage
         BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
 
@@ -60,7 +61,7 @@ public class ImageServiceImpl implements ImageService {
         float [] embedding = new float[dim];
 
         for (int i=0;i<dim;i++){
-            embedding[i] = (float) output.get(0,i)[0];
+             embedding[i] = (float) output.get(0,i)[0];
         }
 
         // L2 Normalization
@@ -71,7 +72,7 @@ public class ImageServiceImpl implements ImageService {
         norm = (float) Math.sqrt(norm);
 
         for (int i=0;i<embedding.length;i++){
-            embedding[i] = embedding[i]/norm;
+             embedding[i] = embedding[i]/norm;
         }
 
         return embedding;

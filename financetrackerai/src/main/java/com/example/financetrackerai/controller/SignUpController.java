@@ -32,13 +32,10 @@ public class SignUpController {
     SignupStatusdto signupStatusdto;
 
 //    @Autowired
-//    ConsumerUser
+//    ConsumeUserSignupDataService consumeUserSignupDataService;
 
-    private final ObjectProvider<FeignClient> UserDetailConsumer;
-    public SignUpController (ObjectProvider<FeignClient> UserDetailConsumer){
-        this.UserDetailConsumer = UserDetailConsumer;
-    }
-
+//    @Autowired
+//    StoreUserSignupDatadto storeUserSignupDatadto;
 
 
 
@@ -52,13 +49,13 @@ public class SignUpController {
 
                 // Produce the Email Address,Expense List,First Name and Last Name in the kafka producer
                producer.sendUserDetails(signupResponsedto);
-               // Set the status of successfull signup
-                signupStatusdto.setSignUpStatus(1);
-                signupStatusdto.setEmailAddress(signupResponsedto.getEmailAddress());
 
-
-
-
+               // Store the signup data
+//                storeUserSignupDatadto.setFistName(signupResponsedto.getFirstName());
+//                storeUserSignupDatadto.setLastName(signupResponsedto.getLastName());
+//                storeUserSignupDatadto.setEmailAddress(signupResponsedto.getUserPassword());
+//                storeUserSignupDatadto.setPassword(signupResponsedto.getUserPassword());
+//                storeUserSignupDatadto.setUserId(signupResponsedto.getUserId());
             }
             return ResponseEntity.ok(signupResponsedto);
 

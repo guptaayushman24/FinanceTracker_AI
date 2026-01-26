@@ -7,8 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="financetrackerai" />
         <module name="FaceDetection" />
+        <module name="financetrackerai" />
         <module name="userexpense (2)" />
         <module name="userexpense" />
         <module name="emailservice" />
