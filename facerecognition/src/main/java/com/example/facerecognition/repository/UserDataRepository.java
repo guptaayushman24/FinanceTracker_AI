@@ -12,7 +12,7 @@ import java.util.Vector;
 
 
 @Repository
-public interface UserDataRepository extends JpaRepository<FaceEmbedding,Integer> {
+public interface UserDataRepository extends JpaRepository<FaceEmbedding, Integer> {
 
     SaveUserFaceDetailResponse save(SaveUserFaceDetailRequest saveUserFaceDetailRequest);
 
@@ -21,19 +21,14 @@ public interface UserDataRepository extends JpaRepository<FaceEmbedding,Integer>
 //        Integer userId = findUser (@Param("vectorembedding") float [] vectorembedding);
 //    )
 
-    @Query(
-             value = """     
+    @Query(value = """  
             SELECT id
-                             FROM faceembedding
-                             WHERE (vectorembedding <=> (:vectorembedding)::vector) <= 0.40
-                             ORDER BY vectorembedding <=> (:vectorembedding)::vector
-                             LIMIT 1;
-    """,
-            nativeQuery = true
-    )
-    Integer findSimilarUser(
-            @Param("vectorembedding")  float [] imageEmbedding
-            );
+                FROM faceembedding
+                WHERE (vectorembedding <=> CAST(:vectorembedding AS vector)) <= 0.40
+                ORDER BY vectorembedding <=> CAST(:vectorembedding AS vector)
+                LIMIT 1
+            """,nativeQuery = true)
+    Integer findSimilarUser(@Param("vectorembedding") String pgVector);
 
 }
 

@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class UserDataImpl implements UserData {
@@ -56,12 +58,21 @@ public class UserDataImpl implements UserData {
     public LoginResponsedto faceAuthentication(MultipartFile image) throws IOException {
         LoginResponsedto loginResponsedto = new LoginResponsedto();
         float [] imageEmbedding = imageService.imageEmbeddingVecotor(image);
-        Integer userid = userDataRepository.findSimilarUser(imageEmbedding);
+        String pgVector = toPgVector (imageEmbedding);
+        Integer userid = userDataRepository.findSimilarUser(pgVector);
 
         loginResponsedto.setEmail(null);
         loginResponsedto.setId(userid);
         loginResponsedto.setJwt(null);
 
         return loginResponsedto;
+    }
+
+    private String toPgVector(float[] imageEmbedding) {
+        return "[" +
+                IntStream.range(0, imageEmbedding.length)
+                        .mapToObj(i -> String.valueOf(imageEmbedding[i]))
+                        .collect(Collectors.joining(","))
+                + "]";
     }
 }
