@@ -1,9 +1,6 @@
 package com.example.facerecognition.serviceImpl;
 
-import com.example.facerecognition.dto.LoginResponsedto;
-import com.example.facerecognition.dto.SaveUserFaceDetailRequest;
-import com.example.facerecognition.dto.SaveUserFaceDetailResponse;
-import com.example.facerecognition.dto.UserSignupResponsedto;
+import com.example.facerecognition.dto.*;
 import com.example.facerecognition.model.FaceEmbedding;
 import com.example.facerecognition.repository.UserDataRepository;
 import com.example.facerecognition.service.ImageService;
@@ -59,10 +56,16 @@ public class UserDataImpl implements UserData {
         LoginResponsedto loginResponsedto = new LoginResponsedto();
         float [] imageEmbedding = imageService.imageEmbeddingVecotor(image);
         String pgVector = toPgVector (imageEmbedding);
-        Integer userid = userDataRepository.findSimilarUser(pgVector);
+        Similaritydto similarity = userDataRepository.findSimilarUser(pgVector);
 
         loginResponsedto.setEmail(null);
-        loginResponsedto.setId(userid);
+        System.out.println("Similarity"+" "+similarity.getSimilarity());
+        if (similarity.getSimilarity()>=0.50) {
+            similarity.setUserId(similarity.getUserId());
+            loginResponsedto.setId(similarity.getUserId());
+        }
+
+
         loginResponsedto.setJwt(null);
 
         return loginResponsedto;

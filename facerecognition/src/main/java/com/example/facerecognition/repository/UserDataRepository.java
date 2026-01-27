@@ -2,6 +2,7 @@ package com.example.facerecognition.repository;
 
 import com.example.facerecognition.dto.SaveUserFaceDetailRequest;
 import com.example.facerecognition.dto.SaveUserFaceDetailResponse;
+import com.example.facerecognition.dto.Similaritydto;
 import com.example.facerecognition.model.FaceEmbedding;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,14 +22,29 @@ public interface UserDataRepository extends JpaRepository<FaceEmbedding, Integer
 //        Integer userId = findUser (@Param("vectorembedding") float [] vectorembedding);
 //    )
 
-    @Query(value = """  
-            SELECT id
-                FROM faceembedding
-                WHERE (vectorembedding <=> CAST(:vectorembedding AS vector)) <= 0.40
-                ORDER BY vectorembedding <=> CAST(:vectorembedding AS vector)
-                LIMIT 1
-            """,nativeQuery = true)
-    Integer findSimilarUser(@Param("vectorembedding") String pgVector);
+//    @Query(value = """
+//            SELECT id
+//                FROM faceembedding
+//                WHERE (vectorembedding <=> CAST(:vectorembedding AS vector)) <= 0.40
+//                ORDER BY vectorembedding <=> CAST(:vectorembedding AS vector)
+//                LIMIT 1
+//            """,nativeQuery = true)
+//    Integer findSimilarUser(@Param("vectorembedding") String pgVector);
+
+    @Query(value = """
+    SELECT
+        id,
+        1 - (vectorembedding <=> (:vectorembedding)::vector) AS similarity
+    FROM
+        faceembedding
+    WHERE
+        (vectorembedding <=> (:vectorembedding)::vector) <= 0.50
+    ORDER BY
+        vectorembedding <=> (:vectorembedding)::vector
+    LIMIT 1
+    """,
+            nativeQuery = true)
+    Similaritydto findSimilarUser(@Param("vectorembedding") String pgVector);
 
 }
 

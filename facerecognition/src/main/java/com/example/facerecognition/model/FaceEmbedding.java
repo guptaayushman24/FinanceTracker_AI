@@ -19,5 +19,6 @@ public class FaceEmbedding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
     private Integer userId;
-   private float [] vectorEmbedding;
+    @Column(name = "vectorEmbedding", columnDefinition = "vector(2048)")
+    private float [] vectorEmbedding;
 }
