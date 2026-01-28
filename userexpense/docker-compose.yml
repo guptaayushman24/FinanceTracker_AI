@@ -52,3 +52,19 @@ services:
     container_name: redis-userexpense-current-date
     ports:
       - "6379:6379"
+
+
+  services:
+      image: postgres
+      restart: always
+      ports:
+        - "5432:5432"
+      environment:
+        POSTGRES_PASSWORD: mysecretpassword   # Replace with a strong password
+
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8085
