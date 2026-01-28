@@ -38,7 +38,7 @@ public interface UserDataRepository extends JpaRepository<FaceEmbedding, Integer
     FROM
         faceembedding
     WHERE
-        (vectorembedding <=> (:vectorembedding)::vector) <= 0.50
+        (vectorembedding <=> (:vectorembedding)::vector) >=0.40
     ORDER BY
         vectorembedding <=> (:vectorembedding)::vector
     LIMIT 1

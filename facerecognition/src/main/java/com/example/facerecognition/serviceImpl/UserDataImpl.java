@@ -60,7 +60,7 @@ public class UserDataImpl implements UserData {
 
         loginResponsedto.setEmail(null);
         System.out.println("Similarity"+" "+similarity.getSimilarity());
-        if (similarity.getSimilarity()>=0.50) {
+        if (similarity.getSimilarity()>=0.40) {
             similarity.setUserId(similarity.getUserId());
             loginResponsedto.setId(similarity.getUserId());
         }
