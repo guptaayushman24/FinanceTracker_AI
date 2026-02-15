@@ -237,5 +237,6 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             @Param("userId") Integer userId,
             @Param("expenseDate") LocalDate expenseDate
     );
+
     }
 

@@ -132,4 +132,10 @@ public class UserExpense {
         return ResponseEntity.ok(userExpenseService.userExpenseOnDay(expenseOnADayRequestdto.getLocalDate(), userId, expenseOnADayRequestdto.getPaymentMode()));
 
     }
+
+    @GetMapping("/availableexpense")
+    public ResponseEntity<List<String>> getAllExpense (){
+
+        return ResponseEntity.ok(userExpenseService.getAllUserExpense());
+    }
 }
