@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.example.userexpense.config.AllExpenseMap;
 @Slf4j
 @Service
 public class UserExpenseServiceImpl implements UserExpenseService {
@@ -42,6 +43,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    RegisteredExpenses registeredExpenses;
 
     @Override
     public UserExpenseResponsedto   userExpense(UserExpenseRequestdto userExpenseRequestdto,Integer userId) {
@@ -217,5 +221,18 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     @Override
     public List<AllExpenseeResponsedto> userExpenseOnDay(LocalDate localDate, Integer userId,String paymentMode) {
         return userExpenseRepository.findExpenseOnADay(userId,localDate,paymentMode);
+    }
+
+    @Override
+    public List<String> getAllUserExpense() {
+        AllExpenseMap allExpense = new AllExpenseMap();
+        List<String> allExpensesList = new ArrayList<>();
+
+        Map<String,String> allExpenseMap = allExpense.expenseMap();
+        for (Map.Entry<String,String> expenses:allExpenseMap.entrySet()){
+            allExpensesList.add(expenses.getKey());
+        }
+
+        return allExpensesList;
     }
 }

@@ -25,4 +25,6 @@ public interface UserExpenseService {
 
    List<List<UserExpenseResponsedto>>  userExpenseOnCurrentDay (LocalDate localDate,Integer userId,String paymentMode);
     List<AllExpenseeResponsedto> userExpenseOnDay (LocalDate localDate,Integer userId,String paymentMode);
+
+    List<String> getAllUserExpense ();
 }
