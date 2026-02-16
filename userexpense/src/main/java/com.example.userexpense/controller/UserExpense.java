@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -135,7 +136,13 @@ public class UserExpense {
 
     @GetMapping("/availableexpense")
     public ResponseEntity<List<String>> getAllExpense (){
+        try{
+             return ResponseEntity.ok(userExpenseService.getAllUserExpense());
+        }
+        catch (Exception e){
+            System.out.println("Exception :::::"+" "+e);
+            return null;
+        }
 
-        return ResponseEntity.ok(userExpenseService.getAllUserExpense());
     }
 }
