@@ -3,15 +3,13 @@ package com.example.financetrackerai.controller;
 import com.example.financetrackerai.config.StoreUserId;
 import com.example.financetrackerai.dto.LoginRequestdto;
 import com.example.financetrackerai.dto.LoginResponsedto;
-import com.example.financetrackerai.exception.UserNotFoundException;
+import com.example.financetrackerai.dto.ProfileRequestDto;
+import com.example.financetrackerai.dto.ProfileResponseDto;
 import com.example.financetrackerai.producer.Producer;
 import com.example.financetrackerai.security.AuthService;
-import com.example.financetrackerai.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.apache.coyote.Response;
+import com.example.financetrackerai.service.FetchUserSignupDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +23,8 @@ public class SignInController {
 //    UserService userService;
     @Autowired
     AuthService authService;
+    @Autowired
+    FetchUserSignupDataService fetchUserSignupDataService;
     @Autowired
     StoreUserId storeUserId;
     @Autowired
@@ -44,6 +44,11 @@ public class SignInController {
 
         }
 
+    }
+
+    @PostMapping("/profile")
+    public ResponseEntity<ProfileResponseDto> displayProfile (@RequestBody ProfileRequestDto profileRequestDto){
+        return ResponseEntity.ok(fetchUserSignupDataService.profileResponse(profileRequestDto));
     }
 
 

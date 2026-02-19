@@ -1,6 +1,7 @@
 package com.example.financetrackerai.repository;
 
 import com.example.financetrackerai.dto.LoginResponsedto;
+import com.example.financetrackerai.dto.ProfileResponseDto;
 import com.example.financetrackerai.dto.SignupRequestdto;
 import com.example.financetrackerai.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;

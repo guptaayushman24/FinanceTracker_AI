@@ -1,5 +1,7 @@
 package com.example.financetrackerai.serviceImpl;
 
+import com.example.financetrackerai.dto.ProfileRequestDto;
+import com.example.financetrackerai.dto.ProfileResponseDto;
 import com.example.financetrackerai.dto.SignupResponsedto;
 import com.example.financetrackerai.dto.StoreSignupData;
 import com.example.financetrackerai.model.UserModel;
@@ -31,5 +33,15 @@ public class FetchUserSignupDataServiceImpl implements FetchUserSignupDataServic
         signupResponsedto.setUserExpense(userModel.getUser_expense());
 
         return signupResponsedto;
+    }
+
+    @Override
+    public ProfileResponseDto profileResponse(ProfileRequestDto profileRequestDto) {
+        ProfileResponseDto profileResponseDto = new ProfileResponseDto();
+        UserModel userModel = userRepository.findByemailAddress(profileRequestDto.getEmailAddress());
+        profileResponseDto.setFirstName(userModel.getFirstName());
+        profileResponseDto.setLastName(userModel.getLastName());
+
+        return profileResponseDto;
     }
 }
