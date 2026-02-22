@@ -52,3 +52,10 @@ services:
     container_name: redis-userexpense-current-date
     ports:
       - "6379:6379"
+
+  redis-auth:
+    image: redis
+    container_name: redis-auth
+    ports:
+      - "6380:6379"
+
