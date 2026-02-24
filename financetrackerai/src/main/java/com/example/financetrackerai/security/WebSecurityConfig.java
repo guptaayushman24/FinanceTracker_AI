@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/auth/login/**", "/auth/signup","auth/signin/**","/imageembedding","/saveUserImage","/faceauthentication","/error/**").permitAll()
+                        .requestMatchers("/auth/login/**", "/auth/signup","auth/signin/**","/imageembedding","/saveUserImage","/faceauthentication","/generateotp","/validateotp","/deleteotp","/error/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
                         .anyRequest().authenticated()
 
