@@ -34,13 +34,14 @@ public class OtpServiceImpl implements OtpService {
 
 
     @Override
-    public GenerateOTPResponseDTO generateOTPService(GenerateOTPRequestDTO generateOTPRequestDTO,Integer userId) {
+    public GenerateOTPResponseDTO generateOTPService(GenerateOTPRequestDTO generateOTPRequestDTO) {
         // generate 6 digit random otp and send it to the mail
         SimpleMailMessage sendOTP = new SimpleMailMessage();
         PasswordOTP passwordOTP = new PasswordOTP();
         GenerateOTPResponseDTO generateOTPResponseDTO = new GenerateOTPResponseDTO();
 
         int otp = GenerateOTP.generateOTP();
+        int userId = userRepository.findByemailAddress(generateOTPRequestDTO.getEmailAddress()).getId();
         String body = "Hii we receive your password reset request please enter " + otp + " " + "otp";
         sendOTP.setTo(generateOTPRequestDTO.getEmailAddress());
         sendOTP.setSubject(CONSTANTS.PASSWORD_RESET);
@@ -49,7 +50,6 @@ public class OtpServiceImpl implements OtpService {
         javaMailSender.send(sendOTP);
 
         // Save the otp in the database
-        // int userId = userRepository.findByemailAddress(generateOTPRequestDTO.getEmailAddress()).getId();
         generateOTPResponseDTO.setMessage("OTP Send on Mail Successfully");
         passwordOTP.setUserId(userId);
         passwordOTP.setOtp(otp);
@@ -63,7 +63,8 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
-    public ValidateOTPResponseDTO validateOTP(ValidateOTPRequestDTO validateOtpRequestDTO,Integer userId) {
+    public ValidateOTPResponseDTO validateOTP(ValidateOTPRequestDTO validateOtpRequestDTO) {
+        int userId = userRepository.findByemailAddress(validateOtpRequestDTO.getEmailAddress()).getId();
         OTPResponseData otpResponseData = otpRepository.findUserById(userId);
         ValidateOTPResponseDTO validateOTPResponseDTO = new ValidateOTPResponseDTO();
 
@@ -93,8 +94,9 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
-    public DeleteOTPResponsedto delteOTP(Integer userId) {
+    public DeleteOTPResponsedto delteOTP(String emailAddress) {
         DeleteOTPResponsedto deleteOTPResponsedto = new DeleteOTPResponsedto();
+        int userId = userRepository.findByemailAddress(emailAddress).getId();
        int count = otpRepository.deleteUserOTP(userId);
         deleteOTPResponsedto.setStatus(1);
         deleteOTPResponsedto.setMessage("OTP Deleted Successfully");

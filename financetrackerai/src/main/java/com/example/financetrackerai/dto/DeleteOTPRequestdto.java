@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PasswordResetRequestdto {
+public class DeleteOTPRequestdto {
     private String emailAddress;
-    private String newPassword;
 }

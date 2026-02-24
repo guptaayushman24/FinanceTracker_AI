@@ -16,19 +16,14 @@ public class OtpController {
     ExtractUserId extractUserId;
 
     @PostMapping("/generateotp")
-    public ResponseEntity<GenerateOTPResponseDTO> generateOTP(@RequestBody GenerateOTPRequestDTO generateOTPRequestDTO,@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring(7);
-        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
-        return ResponseEntity.ok(otpService.generateOTPService(generateOTPRequestDTO,userId));
+    public ResponseEntity<GenerateOTPResponseDTO> generateOTP(@RequestBody GenerateOTPRequestDTO generateOTPRequestDTO) {
+        return ResponseEntity.ok(otpService.generateOTPService(generateOTPRequestDTO));
     }
 
     @PostMapping("/validateotp")
-    public ResponseEntity<ValidateOTPResponseDTO> validateOtp(@RequestBody ValidateOTPRequestDTO validateOtpRequestDTO,
-                                                              @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring(7);
-        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+    public ResponseEntity<ValidateOTPResponseDTO> validateOtp(@RequestBody ValidateOTPRequestDTO validateOtpRequestDTO) {
         ValidateOTPResponseDTO validateOTPResponseDTO = new ValidateOTPResponseDTO();
-        validateOTPResponseDTO = otpService.validateOTP(validateOtpRequestDTO,userId);
+        validateOTPResponseDTO = otpService.validateOTP(validateOtpRequestDTO);
 
         if (validateOTPResponseDTO.getStatus() == 1) {
             validateOTPResponseDTO.setMessage("OTP Validated Successfully and Password Reset Successfully");
@@ -50,19 +45,15 @@ public class OtpController {
     }
 
     @GetMapping("/deleteotp")
-    public ResponseEntity<DeleteOTPResponsedto> deleteOtp(@RequestHeader("Authorization") String authorizationHeader){
-        String token = authorizationHeader.substring(7);
-        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+    public ResponseEntity<DeleteOTPResponsedto> deleteOtp(@RequestBody DeleteOTPRequestdto deleteOTPRequestdto){
 
-        return ResponseEntity.ok(otpService.delteOTP(userId));
+        return ResponseEntity.ok(otpService.delteOTP(deleteOTPRequestdto.getEmailAddress()));
 
     }
 
     @GetMapping("/resetpassword")
-    public ResponseEntity<PasswordResponsedto> resetPassword (@RequestBody PasswordResetRequestdto passwordResetRequestdto, @RequestHeader("Authorization") String authorizationHeader){
-        String token = authorizationHeader.substring(7);
-        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
-
+    public ResponseEntity<PasswordResponsedto> resetPassword (@RequestBody PasswordResetRequestdto passwordResetRequestdto){
+        // Take the emailAddress in the request and update it
         return null;
     }
 }
