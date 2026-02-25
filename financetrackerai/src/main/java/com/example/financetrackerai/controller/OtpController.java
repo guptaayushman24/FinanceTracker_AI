@@ -44,14 +44,14 @@ public class OtpController {
 
     }
 
-    @GetMapping("/deleteotp")
+    @PostMapping("/deleteotp")
     public ResponseEntity<DeleteOTPResponsedto> deleteOtp(@RequestBody DeleteOTPRequestdto deleteOTPRequestdto){
 
         return ResponseEntity.ok(otpService.delteOTP(deleteOTPRequestdto.getEmailAddress()));
 
     }
 
-    @GetMapping("/resetpassword")
+    @PostMapping("/resetpassword")
     public ResponseEntity<PasswordResponsedto> resetPassword (@RequestBody PasswordResetRequestdto passwordResetRequestdto){
         // Take the emailAddress in the request and update it
         return null;

@@ -31,6 +31,16 @@ public interface OTPRepository  extends JpaRepository<PasswordOTP,Integer> {
                     """)
     int deleteUserOTP (@Param("userId") Integer userId);
 
+    @Modifying
+    @Transactional
+    @Query("""
+       UPDATE PasswordOTP po
+       SET po.otp = :otp
+       WHERE po.userId = :userId
+       """)
+    int updateUserOTP(@Param("userId") Integer userId,
+                      @Param("otp") Integer otp);
+
 
 
 }

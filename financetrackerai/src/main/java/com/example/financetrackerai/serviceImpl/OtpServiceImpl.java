@@ -55,7 +55,15 @@ public class OtpServiceImpl implements OtpService {
         passwordOTP.setOtp(otp);
         passwordOTP.setCreatedAt(LocalDateTime.now());
 
-        userRepository.save(passwordOTP);
+        // Check that if the userId exist if yes the run the update query and if not enter the fresh entry
+       OTPResponseData userOTPData = otpRepository.findUserById(userId);
+       if (userOTPData!=null){
+           otpRepository.updateUserOTP(userId,otp);
+       }
+       else{
+           otpRepository.save(passwordOTP);
+       }
+
 
         return generateOTPResponseDTO;
 
