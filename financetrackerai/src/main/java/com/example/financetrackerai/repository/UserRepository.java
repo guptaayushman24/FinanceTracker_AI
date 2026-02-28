@@ -24,8 +24,8 @@ public interface UserRepository extends JpaRepository<UserModel,Integer> {
     @Query
             (
                     """
-                        update UserModel ue SET ue.password =:password  where ue.id =:userId
+                        update UserModel ue SET ue.password =:password  where ue.emailAddress =:emailAddress
                             """
             )
-    int updatePassword (@Param("id") Integer userId,@Param("password") String newPassword);
+    int updatePassword (@Param("emailAddress") String emailAddress,@Param("password") String newPassword);
 }

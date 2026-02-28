@@ -3,6 +3,7 @@ package com.example.financetrackerai.controller;
 import com.example.financetrackerai.config.ExtractUserId;
 import com.example.financetrackerai.dto.*;
 import com.example.financetrackerai.service.OtpService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,6 @@ public class OtpController {
     @PostMapping("/resetpassword")
     public ResponseEntity<PasswordResponsedto> resetPassword (@RequestBody PasswordResetRequestdto passwordResetRequestdto){
         // Take the emailAddress in the request and update it
-        return null;
+        return ResponseEntity.ok(otpService.resetPassword(passwordResetRequestdto.getEmailAddress(),passwordResetRequestdto.getNewPassword()));
     }
 }

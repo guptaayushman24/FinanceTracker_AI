@@ -113,10 +113,10 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
-    public PasswordResponsedto resetPassword(Integer userId,String newPassword) {
+    public PasswordResponsedto resetPassword(String emailAddress,String newPassword) {
         PasswordResponsedto passwordResetdto = new PasswordResponsedto();
         String encodedPassword = passwordEncoder.encode(newPassword);
-        userRepository.updatePassword(userId,encodedPassword);
+        userRepository.updatePassword(emailAddress,encodedPassword);
         passwordResetdto.setMessage("Password updated successfully");
 
         return passwordResetdto;
