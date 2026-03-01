@@ -12,22 +12,13 @@ import com.example.userexpense.repository.UserExpenseRepository;
 import com.example.userexpense.service.ReddisService;
 import com.example.userexpense.service.UserExpenseService;
 import com.example.userexpense.dto.AllExpenseeResponsedto;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
-import org.apache.coyote.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.example.userexpense.config.AllExpenseMap;
 @Slf4j
@@ -64,13 +55,13 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         userExpense.setUser_id(userId);
         userExpense.setValue(userExpenseRequestdto.getValue());
         userExpense.setDescription(userExpenseRequestdto.getDescription());
-        userExpense.setExpenseDate(userExpenseRequestdto.getExpense_date());
+        userExpense.setExpenseDate(userExpenseRequestdto.getExpenseDate());
 
 
         // save the modeOfPaymnet in the another table PaymentMode
         paymentMode.setUser_id(userId);
         paymentMode.setPaymentMode(userExpenseRequestdto.getPaymentMode());
-        paymentMode.setExpenseDate(userExpenseRequestdto.getExpense_date());
+        paymentMode.setExpenseDate(userExpenseRequestdto.getExpenseDate());
          userExpense.setPaymentMode(paymentMode);
 
         log.info(userExpenseRequestdto.getPaymentMode());
@@ -100,7 +91,16 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
         userExpenseResponsedtoList = Collections.singletonList(userExpenseResponsedto);
         // Saving the response in the Reddis
+//        if (reddisService.getReddisKey(userId)){
+//            List<List<UserExpenseResponsedto>> listOfUserExpense = reddisService.retrieveData(userId);
+//            reddisService.saveUserCurrentDayExpense();
+//        }
+//        else{
+//
+//        }
+
         reddisService.saveUserCurrentDayExpense(userId,userExpenseResponsedtoList);
+
         return userExpenseResponsedto;
     }
 
@@ -200,6 +200,9 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
 
 
+
+
+
     @Override
     public List<List<UserExpenseResponsedto>> userExpenseOnCurrentDay(LocalDate localDate, Integer userId, String paymentMode) {
         // List<AllExpenseeResponsedto> allExpenseeResponsedtoList = new ArrayList<>();
@@ -217,11 +220,11 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
     }
 
-
     @Override
     public List<AllExpenseeResponsedto> userExpenseOnDay(LocalDate localDate, Integer userId,String paymentMode) {
         return userExpenseRepository.findExpenseOnADay(userId,localDate,paymentMode);
     }
+
 
     @Override
     public List<String> getAllUserExpense() {
@@ -235,4 +238,6 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
         return allExpensesList;
     }
+
+
 }

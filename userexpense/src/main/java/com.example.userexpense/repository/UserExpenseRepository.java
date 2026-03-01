@@ -3,12 +3,10 @@ package com.example.userexpense.repository;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.model.UserExpense;
 import jakarta.transaction.Transactional;
-import org.apache.coyote.Response;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -69,23 +67,22 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             JOIN ue.paymentMode pm
             WHERE ue.user_id=:userId
             """)
-
     List<AllExpenseeResponsedto> allUserExpense(@Param("userId") Integer userId);
 
-        @Query("""
-        SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
-            ue.ExpenseType,
-            ue.Value,
-            ue.Description,
-            pm.paymentMode,
-            pm.expenseDate
-        )
-        FROM UserExpense ue
-        JOIN ue.paymentMode pm
-            ON ue.expenseDate = pm.expenseDate
-        WHERE ue.user_id = :userId
-          AND MONTH(ue.expenseDate) = :monthNumber
-    """)
+    @Query("""
+                SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.ExpenseType,
+                    ue.Value,
+                    ue.Description,
+                    pm.paymentMode,
+                    pm.expenseDate
+                )
+                FROM UserExpense ue
+                JOIN ue.paymentMode pm
+                    ON ue.expenseDate = pm.expenseDate
+                WHERE ue.user_id = :userId
+                  AND MONTH(ue.expenseDate) = :monthNumber
+            """)
     List<AllExpenseeResponsedto> allUserExpenseByMonth(@Param("userId") Integer userId, @Param("monthNumber") Integer monthNumber);
 
 
@@ -100,7 +97,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
               AND YEAR(ue.expenseDate) = :year
             GROUP BY ue.ExpenseType
             """)
-    List<UserExpensePieChartByMonthdto> userExpensePieChartByMonth(@Param("userId") Integer userId, @Param("monthName") String monthName,@Param("year") Integer year);
+    List<UserExpensePieChartByMonthdto> userExpensePieChartByMonth(@Param("userId") Integer userId, @Param("monthName") String monthName, @Param("year") Integer year);
 
     @Query("""
             SELECT new com.example.userexpense.dto.UserExpensePieChartByMonthdto(
@@ -125,8 +122,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             AND YEAR (pm.expenseDate)=:year 
              GROUP BY pm.paymentMode
             """)
-
-    List<BarGraphdto> userExpenseBarGraphByMonth(@Param("userId") Integer userId,@Param("monthName") String monthName,@Param("year") Integer year);
+    List<BarGraphdto> userExpenseBarGraphByMonth(@Param("userId") Integer userId, @Param("monthName") String monthName, @Param("year") Integer year);
 
     @Query("""
             SELECT new com.example.userexpense.dto.BarGraphdto(
@@ -137,106 +133,106 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             WHERE pm.user_id=:userId
             AND FUNCTION('YEAR',pm.expenseDate)=:monthName GROUP BY pm.paymentMode
             """)
+    List<BarGraphdto> userExpenseBarGraphByYear(@Param("userId") Integer userId, @Param("monthName") Integer year);
 
-    List<BarGraphdto> userExpenseBarGraphByYear(@Param("userId") Integer userId,@Param("monthName") Integer year);
-
-        @Query("""
-        SELECT new com.example.userexpense.dto.IndivisualExpensesqldto(
-            ue.ExpenseType,
-            SUM(ue.Value)
-        )
-        FROM UserExpense ue
-        WHERE ue.ExpenseType = :expenseType
-          AND ue.user_id = :userId
-        GROUP BY ue.ExpenseType
-    """)
-        IndivisualExpensesqldto indivisualExpense (@Param("userId") Integer userId, @Param("expenseType") String expenseType);
-
-        @Query(
-                """
-                 SELECT new com.example.userexpense.dto.ExpenseExistdto(
-                   ue.ExpenseType
-                 )
-                 FROM UserExpense ue
-                 WHERE ue.user_id = :userId
-                """
-        )
-    List<ExpenseExistdto> expenseExist (@Param("userId") Integer userId);
-
-        @Query(
-                """
-                  SELECT new com.example.userexpense.dto.ExpenseAnalyzerSqldto(
-                  ue.Description,
-                  ue.ExpenseType,
-                  ue.Value,
-                  pm.paymentMode
-                        )
+    @Query("""
+                SELECT new com.example.userexpense.dto.IndivisualExpensesqldto(
+                    ue.ExpenseType,
+                    SUM(ue.Value)
+                )
                 FROM UserExpense ue
-                JOIN ue.paymentMode pm
-                WHERE ue.user_id = :userId
-                """
-        )
-        List<ExpenseAnalyzerSqldto> expenseSumary(@Param("userId") Integer userId,@Param("year") Integer year);
+                WHERE ue.ExpenseType = :expenseType
+                  AND ue.user_id = :userId
+                GROUP BY ue.ExpenseType
+            """)
+    IndivisualExpensesqldto indivisualExpense(@Param("userId") Integer userId, @Param("expenseType") String expenseType);
 
+    @Query(
+            """
+                     SELECT new com.example.userexpense.dto.ExpenseExistdto(
+                       ue.ExpenseType
+                     )
+                     FROM UserExpense ue
+                     WHERE ue.user_id = :userId
+                    """
+    )
+    List<ExpenseExistdto> expenseExist(@Param("userId") Integer userId);
 
-        @Query("""
-    SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
-            ue.ExpenseType,
-            ue.Value,
-            ue.Description,
-            pm.paymentMode,
-            ue.expenseDate
-        )
-        FROM UserExpense ue
-        JOIN ue.paymentMode pm
-        WHERE ue.user_id = :userId
-          AND pm.expenseDate = :expenseDate
-          AND pm.paymentMode = :paymentMode
-""")
-        List<AllExpenseeResponsedto> findExpenseOnADay(
-                @Param("userId") Integer userId,
-                @Param("expenseDate") LocalDate expenseDate,
-                @Param("paymentMode") String paymentMode
-        );
-
-        @Query("""
-        SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
-            ue.ExpenseType,
-            ue.Value,
-            ue.Description,
-            pm.paymentMode,
-            ue.expenseDate
-        )
-        FROM UserExpense ue
-        JOIN ue.paymentMode pm
-        WHERE ue.user_id = :userId
-          AND pm.expenseDate = :expenseDate
-          AND pm.paymentMode = :paymentMode
-    """)
-        List<List<UserExpenseResponsedto>> userExpenseOnCurrentDay (
-                @Param("userId") Integer userId,
-                @Param("expenseDate") LocalDate expenseDate,
-                @Param("paymentMode") String paymentMode
-        );
+    @Query(
+            """
+                      SELECT new com.example.userexpense.dto.ExpenseAnalyzerSqldto(
+                      ue.Description,
+                      ue.ExpenseType,
+                      ue.Value,
+                      pm.paymentMode
+                            )
+                    FROM UserExpense ue
+                    JOIN ue.paymentMode pm
+                    WHERE ue.user_id = :userId
+                    """
+    )
+    List<ExpenseAnalyzerSqldto> expenseSumary(@Param("userId") Integer userId, @Param("year") Integer year);
 
 
     @Query("""
-        SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
-            ue.ExpenseType,
-            ue.Value,
-            ue.Description,
-            pm.paymentMode,
-            ue.expenseDate
-        )
-        FROM UserExpense ue
-        JOIN ue.paymentMode pm
-        WHERE ue.user_id = :userId
-          AND pm.expenseDate = :expenseDate
-    """)
-    List<AllExpenseeResponsedto> AlluserExpenseOnCurrentDay (
+                SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                        ue.ExpenseType,
+                        ue.Value,
+                        ue.Description,
+                        pm.paymentMode,
+                        ue.expenseDate
+                    )
+                    FROM UserExpense ue
+                    JOIN ue.paymentMode pm
+                    WHERE ue.user_id = :userId
+                      AND pm.expenseDate = :expenseDate
+                      AND pm.paymentMode = :paymentMode
+            """)
+    List<AllExpenseeResponsedto> findExpenseOnADay(
+            @Param("userId") Integer userId,
+            @Param("expenseDate") LocalDate expenseDate,
+            @Param("paymentMode") String paymentMode
+    );
+
+    @Query("""
+                SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.ExpenseType,
+                    ue.Value,
+                    ue.Description,
+                    pm.paymentMode,
+                    ue.expenseDate
+                )
+                FROM UserExpense ue
+                JOIN ue.paymentMode pm
+                WHERE ue.user_id = :userId
+                  AND pm.expenseDate = :expenseDate
+                  AND pm.paymentMode = :paymentMode
+            """)
+    List<List<UserExpenseResponsedto>> userExpenseOnCurrentDay(
+            @Param("userId") Integer userId,
+            @Param("expenseDate") LocalDate expenseDate,
+            @Param("paymentMode") String paymentMode
+    );
+
+
+    @Query("""
+                SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.ExpenseType,
+                    ue.Value,
+                    ue.Description,
+                    pm.paymentMode,
+                    ue.expenseDate
+                )
+                FROM UserExpense ue
+                JOIN ue.paymentMode pm
+                WHERE ue.user_id = :userId
+                  AND pm.expenseDate = :expenseDate
+            """)
+    List<AllExpenseeResponsedto> AlluserExpenseOnCurrentDay(
             @Param("userId") Integer userId,
             @Param("expenseDate") LocalDate expenseDate
     );
 
-    }
+}
+
 

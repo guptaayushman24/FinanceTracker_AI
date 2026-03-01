@@ -1,5 +1,6 @@
 package com.example.financetrackerai.controller;
 
+import com.example.financetrackerai.config.ExtractUserId;
 import com.example.financetrackerai.dto.*;
 import com.example.financetrackerai.producer.Producer;
 import com.example.financetrackerai.repository.UserRepository;
@@ -30,6 +31,9 @@ public class SignUpController {
 
     @Autowired
     SignupStatusdto signupStatusdto;
+
+    @Autowired
+    ExtractUserId extractUserId;
 
 //    @Autowired
 //    ConsumeUserSignupDataService consumeUserSignupDataService;
@@ -79,5 +83,12 @@ public class SignUpController {
     @GetMapping("/getUserSignupData")
     public SignupResponsedto getSignupData (@RequestParam String emailAddress) {
        return fetchUserSignupDataService.userSignupData(emailAddress);
+    }
+
+    @GetMapping("/registeredexpensebyuser")
+    public ResponseEntity<List<UserRegisteredExpensedto>> getUserRegisteredExpense (@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        return ResponseEntity.ok(fetchUserSignupDataService.userRegisteredExpense(userId));
     }
 }

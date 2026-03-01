@@ -11,6 +11,7 @@ public class Expense {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     Integer Id;
+    Integer userId;
     private String Health_Care;
     private String Clothing;
     private String Entertainment;

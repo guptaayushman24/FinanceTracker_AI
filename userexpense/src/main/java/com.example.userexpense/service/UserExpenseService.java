@@ -1,7 +1,6 @@
 package com.example.userexpense.service;
 
 import com.example.userexpense.dto.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,5 +25,8 @@ public interface UserExpenseService {
    List<List<UserExpenseResponsedto>>  userExpenseOnCurrentDay (LocalDate localDate,Integer userId,String paymentMode);
     List<AllExpenseeResponsedto> userExpenseOnDay (LocalDate localDate,Integer userId,String paymentMode);
 
+
     List<String> getAllUserExpense ();
+
+
 }
