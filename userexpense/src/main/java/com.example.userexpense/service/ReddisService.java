@@ -31,7 +31,8 @@ public class ReddisService {
     public void saveUserCurrentDayExpense (Integer userId,List<UserExpenseResponsedto> userExpenseResponsedto){
         // id -> List<AllExpenseResponnsedto>
        long midNightTime = calculatingMidNightDate();
-        redistUserExpenseTemplate.opsForList().rightPushAll(userId,userExpenseResponsedto);
+//        String key = "user_expense:" + userId;
+        redistUserExpenseTemplate.opsForList().rightPush(userId,userExpenseResponsedto);
     }
 
     public List<List<UserExpenseResponsedto>> retrieveData (Integer userId){
@@ -45,6 +46,10 @@ public class ReddisService {
 
     public void deleteAllReddisData(){
         redistUserExpenseTemplate.getConnectionFactory().getConnection().serverCommands().flushAll();
+    }
+
+    public boolean getReddisKey (Integer userId){
+        return redistUserExpenseTemplate.hasKey(userId);
     }
 
 

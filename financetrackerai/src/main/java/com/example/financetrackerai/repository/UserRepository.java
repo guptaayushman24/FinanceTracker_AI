@@ -28,4 +28,14 @@ public interface UserRepository extends JpaRepository<UserModel,Integer> {
                             """
             )
     int updatePassword (@Param("emailAddress") String emailAddress,@Param("password") String newPassword);
+
+    @Query("""
+            SELECT new com.example.financetrackerai.dto.UserRegisteredExpensedto(
+                ue
+            )
+            FROM UserModel um
+            JOIN um.user_expense ue
+            WHERE um.id = :userId
+        """)
+    List<UserRegisteredExpensedto> userRegisteredExpense(@Param("userId") Integer userId);
 }
