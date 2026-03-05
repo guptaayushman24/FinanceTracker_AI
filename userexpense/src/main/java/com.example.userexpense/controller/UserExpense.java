@@ -62,9 +62,11 @@ public class UserExpense {
         return ResponseEntity.ok(userExpenseService.sortExpense(sortExpenseRequestdto,userId));
     }
 
-    @GetMapping("/allexpense/{userId}")
-    public ResponseEntity<List<AllExpenseeResponsedto>> allUserExpense(@PathVariable Integer userId){
+    @GetMapping("/allexpense")
+    public ResponseEntity<List<AllExpenseeResponsedto>> allUserExpense(@RequestHeader ("Authorization") String authorizationHeader){
         try{
+            String token = authorizationHeader.substring(7);
+            Integer userId = extractUserId.getUserIdFromToken(token).intValue();
             List<AllExpenseeResponsedto> allExpense = userExpenseService.allExpense(userId);
             return ResponseEntity.ok(allExpense);
         } catch (Exception e) {

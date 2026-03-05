@@ -116,10 +116,10 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     public DeleteUserExpenseResponsedto deleteUserExpense(DeleteUserExpenseRequestdto deleteUserExpenseRequestdto,Integer userId) {
         DeleteUserExpenseResponsedto deleteUserExpenseResponsedto = new DeleteUserExpenseResponsedto();
         // Check if user has registered the expense
-        List<ExpenseExistdto> list = userExpenseRepository.expenseExist(userId);
-        if (list.contains(deleteUserExpenseRequestdto.getExpenseTobeDeleted().toString())){
-            throw new HandleExpenseNotExist("You have not registered for the"+" "+deleteUserExpenseRequestdto.getExpenseTobeDeleted()+" Expense but you can register the expense");
-        }
+        userExpenseRepository.deleteUserExpense(userId,deleteUserExpenseRequestdto.getExpenseTobeDeleted());
+//        if (list.contains(deleteUserExpenseRequestdto.getExpenseTobeDeleted().toString())){
+//            throw new HandleExpenseNotExist("You have not registered for the"+" "+deleteUserExpenseRequestdto.getExpenseTobeDeleted()+" Expense but you can register the expense");
+//        }
 
 
 
