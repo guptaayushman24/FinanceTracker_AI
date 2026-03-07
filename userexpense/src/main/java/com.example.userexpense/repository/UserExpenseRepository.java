@@ -57,6 +57,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
 
     @Query("""
             SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                 ue.id,
                 ue.ExpenseType,
                 ue.Value,
                 ue.Description,
@@ -71,6 +72,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
 
     @Query("""
                 SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.id,
                     ue.ExpenseType,
                     ue.Value,
                     ue.Description,
@@ -176,6 +178,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
 
     @Query("""
                 SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                        ue.id,
                         ue.ExpenseType,
                         ue.Value,
                         ue.Description,
@@ -196,6 +199,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
 
     @Query("""
                 SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.id,
                     ue.ExpenseType,
                     ue.Value,
                     ue.Description,
@@ -217,6 +221,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
 
     @Query("""
                 SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.id,
                     ue.ExpenseType,
                     ue.Value,
                     ue.Description,
