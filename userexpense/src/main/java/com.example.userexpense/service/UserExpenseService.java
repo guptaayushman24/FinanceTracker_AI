@@ -28,5 +28,9 @@ public interface UserExpenseService {
 
     List<String> getAllUserExpense ();
 
+    Integer deleteUserExpense (Integer id);
+
+    String getExpenseType (Integer id);
+
 
 }
