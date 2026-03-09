@@ -6,6 +6,7 @@ import com.example.userexpense.exception.HandleEmptyDataException;
 import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
 import com.example.userexpense.security.ExtractUserId;
 import com.example.userexpense.service.UserExpenseService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -142,5 +143,23 @@ public class UserExpense {
             return null;
         }
 
+    }
+
+    @PostMapping("/deleteuserexpense")
+    public ResponseEntity<DeleteExpenseResponsedto> deleteUserExpense (@RequestBody  DeleteExpenseRequestdto deleteExpenseRequestdto){
+        DeleteExpenseResponsedto deleteExpenseResponsedto = new DeleteExpenseResponsedto();
+        Integer countOfUserExpenseDeleted = userExpenseService.deleteUserExpense(deleteExpenseRequestdto.getId());
+
+        if (countOfUserExpenseDeleted>0){
+            String deleteUserExpense = userExpenseService.getExpenseType(deleteExpenseRequestdto.getId());
+            System.out.print(deleteUserExpense);
+            deleteExpenseResponsedto.setMessage("User Expense Deleted Successfully");
+
+            return ResponseEntity.ok(deleteExpenseResponsedto);
+        }
+
+        deleteExpenseResponsedto.setMessage("Some issue occur in deleting the user expense");
+
+        return ResponseEntity.ok(deleteExpenseResponsedto);
     }
 }

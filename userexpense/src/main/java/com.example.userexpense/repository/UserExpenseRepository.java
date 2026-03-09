@@ -238,6 +238,26 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
             @Param("expenseDate") LocalDate expenseDate
     );
 
+    @Modifying
+    @Transactional
+    @Query(
+            """
+                DELETE FROM UserExpense ue WHERE ue.id = :id
+                """
+    )
+    Integer deleUserExpense(
+            @Param("id") Integer id
+    );
+
+    @Query(
+            """
+                SELECT ue.ExpenseType FROM UserExpense ue WHERE ue.id = :id
+                """
+    )
+    String getUserExpenseType(
+            @Param("id") Integer id
+    );
+
 }
 
 

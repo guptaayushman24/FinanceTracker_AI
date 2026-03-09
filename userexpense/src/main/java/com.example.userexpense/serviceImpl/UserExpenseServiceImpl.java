@@ -239,5 +239,18 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         return allExpensesList;
     }
 
+    @Override
+    public Integer deleteUserExpense(Integer id) {
+        return userExpenseRepository.deleUserExpense(id);
+    }
+
+
+
+    @Override
+    public String getExpenseType(Integer id) {
+        System.out.println("The id is"+" "+id);
+        return userExpenseRepository.getUserExpenseType(id);
+    }
+
 
 }
