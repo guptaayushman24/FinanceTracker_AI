@@ -137,6 +137,14 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
 
     @Override
     public TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentModeResponsedto(Integer user_id, LocalDate localDate, String paymentMode) {
+        if (paymentMode.equals("ALL")){
+            paymentMode="";
+            TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentModeResponsedto = paymentModeRepository.totalExpenseCurrentDayPaymentResponsedto(user_id,localDate,paymentMode);
+            totalExpenseCurrentDayPaymentModeResponsedto.setMessage("Expense by"+" "+paymentMode+" "+"today is"+" "+totalExpenseCurrentDayPaymentModeResponsedto.getSum());
+            totalExpenseCurrentDayPaymentModeResponsedto.setSum(totalExpenseCurrentDayPaymentModeResponsedto.getSum());
+
+            return totalExpenseCurrentDayPaymentModeResponsedto;
+        }
         TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentModeResponsedto = paymentModeRepository.totalExpenseCurrentDayPaymentResponsedto(user_id,localDate,paymentMode);
         if (totalExpenseCurrentDayPaymentModeResponsedto.getSum()==null){
             totalExpenseCurrentDayPaymentModeResponsedto.setSum(0L);
@@ -144,7 +152,7 @@ public class TotalExpenditureServiceImpl implements TotalExpenditureService {
         if (!paymentMode.equals("UPI") && !paymentMode.equals("CASH")){
             throw new HandlePaymentModeException("Choose UPI or CASH");
         }
-        totalExpenseCurrentDayPaymentModeResponsedto.setMessage("Expense by"+" "+paymentMode+" "+"today is");
+        totalExpenseCurrentDayPaymentModeResponsedto.setMessage("Expense by"+" "+paymentMode+" "+"today is"+" "+totalExpenseCurrentDayPaymentModeResponsedto.getSum());
         totalExpenseCurrentDayPaymentModeResponsedto.setSum(totalExpenseCurrentDayPaymentModeResponsedto.getSum());
 
         return totalExpenseCurrentDayPaymentModeResponsedto;

@@ -101,7 +101,7 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
     join ue.paymentMode pm
     where ue.user_id = :user_id
       and ue.expenseDate = :currentDate
-      and pm.paymentMode = :payment_mode
+      and (:payment_mode IS NULL OR :payment_mode = '' OR pm.paymentMode = :payment_mode)
             """)
     TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentResponsedto(@Param("user_id") Integer user_id,@Param("currentDate") LocalDate currentDate,@Param("payment_mode") String payment_mode);
 }

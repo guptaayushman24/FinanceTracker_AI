@@ -102,7 +102,7 @@ public class UserExpense {
         if (!monthNameList.contains(monthName.getMonthName())){
             throw new HandleExpenseExceptionByMonth("Please select the valid month");
         }
-        List<AllExpenseeResponsedto> list = userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName()),monthList,userId);
+        List<AllExpenseeResponsedto> list = userExpenseService.allExpensebyMonth(monthNameandNumber.get(monthName.getMonthName()),monthList,userId,monthName.getYear());
         if (list.isEmpty()){
             throw new HandleEmptyDataException("You have not recorded any expense in"+" "+monthName.getMonthName());
         }
@@ -161,5 +161,16 @@ public class UserExpense {
         deleteExpenseResponsedto.setMessage("Some issue occur in deleting the user expense");
 
         return ResponseEntity.ok(deleteExpenseResponsedto);
+    }
+
+    @PostMapping("/userexpensebyyear")
+    public ResponseEntity<List<AllExpenseeResponsedto>> userExpensebyYear(@RequestBody YearExpensedto yearExpense,@RequestHeader ("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        List<AllExpenseeResponsedto> list = userExpenseService.allYearExpense(userId,yearExpense.getYear());
+        if (list.isEmpty()){
+            throw new HandleEmptyDataException("You have not recorded any expense in"+" "+yearExpense.getYear());
+        }
+        return ResponseEntity.ok(list);
     }
 }

@@ -84,8 +84,9 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
                     ON ue.expenseDate = pm.expenseDate
                 WHERE ue.user_id = :userId
                   AND MONTH(ue.expenseDate) = :monthNumber
+                  AND YEAR(ue.expenseDate) = :year
             """)
-    List<AllExpenseeResponsedto> allUserExpenseByMonth(@Param("userId") Integer userId, @Param("monthNumber") Integer monthNumber);
+    List<AllExpenseeResponsedto> allUserExpenseByMonth(@Param("userId") Integer userId, @Param("monthNumber") Integer monthNumber,String year);
 
 
     @Query("""
@@ -189,7 +190,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
                     JOIN ue.paymentMode pm
                     WHERE ue.user_id = :userId
                       AND pm.expenseDate = :expenseDate
-                      AND pm.paymentMode = :paymentMode
+                      AND (:paymentMode IS NULL OR :paymentMode = '' OR pm.paymentMode = :paymentMode)
             """)
     List<AllExpenseeResponsedto> findExpenseOnADay(
             @Param("userId") Integer userId,
@@ -257,6 +258,23 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
     String getUserExpenseType(
             @Param("id") Integer id
     );
+
+    @Query("""
+                SELECT new com.example.userexpense.dto.AllExpenseeResponsedto(
+                    ue.id,
+                    ue.ExpenseType,
+                    ue.Value,
+                    ue.Description,
+                    pm.paymentMode,
+                    pm.expenseDate
+                )
+                FROM UserExpense ue
+                JOIN ue.paymentMode pm
+                    ON ue.expenseDate = pm.expenseDate
+                WHERE ue.user_id = :userId
+                  AND Year(ue.expenseDate) = :year
+            """)
+    List<AllExpenseeResponsedto> allUserExpenseByYear (@Param("userId") Integer userId,@Param("year") String year);
 
 }
 

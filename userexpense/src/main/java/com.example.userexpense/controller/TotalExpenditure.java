@@ -4,6 +4,7 @@ import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.security.ExtractUserId;
 import com.example.userexpense.service.TotalExpenditureService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +63,13 @@ public class TotalExpenditure {
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
         LocalDate localDate = LocalDate.now();
         return ResponseEntity.ok(totalExpenditureService.totalExpenseCurrentDayPaymentModeResponsedto(userId,localDate,totalExpenseCurrentDayPaymentModeRequestdto.getPaymentMode()));
+    }
+
+    @PostMapping("/toalexpenseondate")
+    public ResponseEntity<TotalExpenseCurrentDayPaymentModeResponsedto> totalExpensOnDay (@RequestBody TotalExpenseOnDayPaymentModeRequestdto totalExpenseCurrentDayPaymentModeRequestdto,@RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        Integer userId = extractUserId.getUserIdFromToken(token).intValue();
+        return ResponseEntity.ok(totalExpenditureService.totalExpenseCurrentDayPaymentModeResponsedto(userId,totalExpenseCurrentDayPaymentModeRequestdto.getExpenseDate(),totalExpenseCurrentDayPaymentModeRequestdto.getPaymentMode()));
     }
 
 }

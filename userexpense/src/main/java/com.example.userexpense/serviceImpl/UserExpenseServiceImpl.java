@@ -169,8 +169,8 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     }
 
     @Override
-    public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList,Integer userId) {
-        return userExpenseRepository.allUserExpenseByMonth(userId,monthNumber);
+    public List<AllExpenseeResponsedto> allExpensebyMonth(Integer monthNumber,String [] monthList,Integer userId,String year) {
+        return userExpenseRepository.allUserExpenseByMonth(userId,monthNumber,year);
     }
 
     @Override
@@ -251,6 +251,13 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         System.out.println("The id is"+" "+id);
         return userExpenseRepository.getUserExpenseType(id);
     }
+
+    @Override
+    public List<AllExpenseeResponsedto> allYearExpense (Integer userId,String year) {
+        return userExpenseRepository.allUserExpenseByYear(userId,year);
+    }
+
+
 
 
 }
