@@ -57,7 +57,7 @@ public class ExpenseAnalyzerServiceImpl implements ExpenseAnalyzerService {
             list.add(expenseAnalyzerResponsedto);
         }
         Map<String, Object> payload = new HashMap<>();
-        payload.put("year", 2025);
+        payload.put("year", year);
         payload.put("expenseData", list);
         String expenseJson = objectMapper
                 .writerWithDefaultPrettyPrinter()

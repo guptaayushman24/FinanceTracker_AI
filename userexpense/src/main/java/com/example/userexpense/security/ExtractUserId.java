@@ -25,4 +25,14 @@ public class ExtractUserId {
 
         return claims.get("userId", Long.class);
     }
+
+    public String getEmailAddressFromToken (String token){
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("sub",String.class);
+    }
 }

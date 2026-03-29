@@ -22,11 +22,13 @@ public class UserExpenseBarGrpahChartByMonthServiceImpl implements UserExpenseBa
     @Autowired
     UserExpenseRepository userExpenseRepository;
     @Override
-    public String userExpenseBarGraphtByMonth(Integer userId, String monthName, Model model,Integer year) {
+    public Map<String,Long> userExpenseBarGraphtByMonth(Integer userId, String monthName, Model model,Integer year) {
         List<BarGraphdto> barGraphMonthData = userExpenseRepository.userExpenseBarGraphByMonth(userId,monthName,year);
         Map<String, Long> barGraphData = new TreeMap<>();
         for (BarGraphdto dto : barGraphMonthData) {
-            barGraphData.put(dto.getPaymentMode(), dto.getCount());
+            if (dto.getPaymentMode() != null && !dto.getPaymentMode().isBlank()) {
+                barGraphData.put(dto.getPaymentMode(), dto.getCount());
+            }
         }
         String[] monthList = {
                 "January",
@@ -51,20 +53,22 @@ public class UserExpenseBarGrpahChartByMonthServiceImpl implements UserExpenseBa
             throw new HandleEmptyStringException("Select the month Name");
         }
         model.addAttribute("barGraphData", barGraphData);
-        return "bar-graph";
+        return barGraphData;
     }
 
     @Override
-    public String userExpenseBarGraphByYear(Integer userId, Integer year, Model model) {
+    public Map<String,Long> userExpenseBarGraphByYear(Integer userId, Integer year, Model model) {
         List<BarGraphdto> barGraphYearData = userExpenseRepository.userExpenseBarGraphByYear(userId,year);
         Map<String,Long> barGraphData = new TreeMap<>();
-        for (BarGraphdto dto:barGraphYearData){
-            barGraphData.put(dto.getPaymentMode(),dto.getCount());
+        for (BarGraphdto dto : barGraphYearData) {
+            if (dto.getPaymentMode() != null && !dto.getPaymentMode().isBlank()) {
+                barGraphData.put(dto.getPaymentMode(), dto.getCount());
+            }
         }
         if (year<2000 || year> Year.now().getValue()){
             throw new HandleInvalidYearException("Year must be between 2000 and current year");
         }
         model.addAttribute("barGraphData",barGraphData);
-        return "bar-graph-year";
+       return barGraphData;
     }
 }

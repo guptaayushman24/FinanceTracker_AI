@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserExpensePieChartByMonthService {
-    public String userExpensePieChartByMonth (Integer userId, String monthName, Model model,Integer year);
-    public String userExpensePieChartByYear (Integer userId,Integer year,Model model);
+    public Map<String,Long> userExpensePieChartByMonth (Integer userId, String monthName, Model model, Integer year);
+    public Map<String,Long> userExpensePieChartByYear (Integer userId,Integer year,Model model);
 }

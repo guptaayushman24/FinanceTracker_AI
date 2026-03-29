@@ -21,7 +21,7 @@ public class UserExpensePieChartByMonthServiceImpl implements UserExpensePieChar
     @Autowired
     UserExpenseRepository userExpenseRepository;
     @Override
-    public String userExpensePieChartByMonth(Integer userId, String monthName,Model model,Integer year) {
+    public Map<String,Long> userExpensePieChartByMonth(Integer userId, String monthName,Model model,Integer year) {
         List<UserExpensePieChartByMonthdto> listOfExpense = userExpenseRepository.userExpensePieChartByMonth(userId,monthName,year);
         String[] monthList = {
                 "January",
@@ -49,11 +49,13 @@ public class UserExpensePieChartByMonthServiceImpl implements UserExpensePieChar
             graphData.put(userExpensePieChartByMonthdto.getExpenseType(),userExpensePieChartByMonthdto.getValue());
         }
         model.addAttribute("chartData",graphData);
-         return "pie-chart";
+
+        return graphData;
+
     }
 
     @Override
-    public String userExpensePieChartByYear(Integer userId, Integer year, Model model) {
+    public Map<String,Long> userExpensePieChartByYear(Integer userId, Integer year, Model model) {
         List<UserExpensePieChartByMonthdto> listOfExpense = userExpenseRepository.userExpensePieChartByYear(userId,year);
         Map<String,Long> graphData = new TreeMap<>();
         if (year<2000 || year> Year.now().getValue()){
@@ -63,6 +65,6 @@ public class UserExpensePieChartByMonthServiceImpl implements UserExpensePieChar
             graphData.put(userExpensePieChartByMonthdto.getExpenseType(),userExpensePieChartByMonthdto.getValue());
         }
         model.addAttribute("chartData",graphData);
-        return "pie-chart-year";
+        return graphData;
     }
 }

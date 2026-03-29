@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 public class GraphController {
     @Autowired
@@ -17,20 +19,18 @@ public class GraphController {
     @Autowired
     ExtractUserId extractUserId;
     @GetMapping("/piechartbymonth")
-    public String generatePieChart (@RequestParam String monthName, @RequestParam Integer year, Model model,@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<Map<String,Long>> generatePieChart (@RequestParam String monthName, @RequestParam Integer year, Model model, @RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
         model.addAttribute("bearerToken",token);
-         userExpensePieChartByMonthService.userExpensePieChartByMonth(userId,monthName,model,year);
-         return "pie-chart";
+        return ResponseEntity.ok(userExpensePieChartByMonthService.userExpensePieChartByMonth(userId,monthName,model,year));
     }
 
 
     @GetMapping("/piechartbyyear")
-    public String generatePieChartByYear (@RequestParam Integer year,Model model,@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<Map<String,Long>> generatePieChartByYear (@RequestParam Integer year,Model model,@RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         Integer userId = extractUserId.getUserIdFromToken(token).intValue();
-        userExpensePieChartByMonthService.userExpensePieChartByYear(userId,year,model);
-        return "pie-chart-year";
+        return ResponseEntity.ok(userExpensePieChartByMonthService.userExpensePieChartByYear(userId,year,model));
     }
 }
