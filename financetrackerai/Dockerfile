@@ -3,16 +3,16 @@ FROM maven:3.9.6-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-# Copy parent pom for dependency resolution
+# Copy parent pom and all module poms (needed for multi-module resolution)
 COPY pom.xml ./pom.xml
-
-# Copy the financetrackerai module
 COPY financetrackerai/pom.xml ./financetrackerai/pom.xml
+COPY userexpense/pom.xml ./userexpense/pom.xml
+COPY emailservice/pom.xml ./emailservice/pom.xml
 
-# Download dependencies first (layer cache optimization)
+# Download dependencies (layer cache optimization)
 RUN mvn -pl financetrackerai dependency:go-offline -B
 
-# Copy source
+# Copy only financetrackerai source
 COPY financetrackerai/src ./financetrackerai/src
 
 # Build only the financetrackerai module, skip tests
@@ -29,4 +29,4 @@ COPY --from=builder /app/financetrackerai/target/financetrackerai-0.0.1-SNAPSHOT
 # Render injects PORT env var; default to 8080
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-Dserver.port=${PORT:-8080}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-Dspring.profiles.active=prod", "-Dserver.port=${PORT:-8080}", "-jar", "app.jar"]
