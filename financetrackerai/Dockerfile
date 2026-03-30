@@ -28,5 +28,4 @@ COPY --from=builder /app/financetrackerai/target/financetrackerai-0.0.1-SNAPSHOT
 
 # Render injects PORT env var; default to 8080
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-Dspring.profiles.active=prod", "-Dserver.port=${PORT:-8080}", "-jar", "app.jar"]

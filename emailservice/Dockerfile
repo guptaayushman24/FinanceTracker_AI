@@ -1,27 +1,32 @@
-# ----------- BUILD STAGE -----------
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+# ---- Build Stage ----
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-# Copy pom.xml first for dependency caching
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Copy parent pom and all module poms (needed for multi-module resolution)
+COPY pom.xml ./pom.xml
+COPY financetrackerai/pom.xml ./financetrackerai/pom.xml
+COPY userexpense/pom.xml ./userexpense/pom.xml
+COPY emailservice/pom.xml ./emailservice/pom.xml
 
-# Copy source code
-COPY src ./src
+# Download dependencies (layer cache optimization)
+RUN mvn -pl emailservice dependency:go-offline -B
 
-# Build the JAR
-RUN mvn clean package -DskipTests
+# Copy only emailservice source
+COPY emailservice/src ./emailservice/src
 
+# Build only the emailservice module, skip tests
+RUN mvn -pl emailservice clean package -DskipTests -B
 
-# ----------- RUNTIME STAGE -----------
+# ---- Runtime Stage ----
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-# Copy JAR from build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy built JAR from builder
+COPY --from=builder /app/emailservice/target/emailservice-0.0.1-SNAPSHOT.jar app.jar
 
+# Railway injects PORT env var; default to 8082
 EXPOSE 8082
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-Dspring.profiles.active=prod", "-Dserver.port=${PORT:-8082}", "-jar", "app.jar"]
