@@ -1,6 +1,6 @@
 # FinanceTracker AI — Backend
 
-A microservices-based backend for an AI-powered personal finance tracking application. Built with Spring Boot, it provides expense management, JWT authentication, event-driven notifications, AI-driven analytics, and biometric face recognition login.
+A microservices-based backend for an AI-powered personal finance tracking application. Built with Spring Boot, it provides expense management, JWT authentication, event-driven notifications, AI-driven analytics
 
 ---
 
@@ -12,7 +12,6 @@ A microservices-based backend for an AI-powered personal finance tracking applic
   - [UserExpense Service](#2-userexpense-service--port-8081)
   - [Email Service](#3-email-service--port-8082)
   - [UserExpense Chatbot](#4-userexpense-chatbot--port-8084)
-  - [Face Recognition Service](#5-face-recognition-service)
 - [Tech Stack](#tech-stack)
 - [Inter-Service Communication](#inter-service-communication)
 - [Authentication & Security](#authentication--security)
@@ -33,20 +32,20 @@ A microservices-based backend for an AI-powered personal finance tracking applic
 │                  finance-tracker-frontend-virid.vercel.app      │
 └───────────────────────────┬─────────────────────────────────────┘
                             │ HTTP / JWT
-         ┌──────────────────┼──────────────────┐
-         │                  │                  │
-         ▼                  ▼                  ▼
-┌─────────────────┐ ┌──────────────┐ ┌──────────────────┐
-│  FinanceTracker │ │  UserExpense │ │  Face Recognition│
-│   AI Service    │ │   Service    │ │     Service      │
-│   (Port 8080)   │ │  (Port 8081) │ │                  │
-└────────┬────────┘ └──────┬───────┘ └──────────────────┘
+         ┌──────────────────┼
+         │                  │                  
+         ▼                  ▼                  
+┌─────────────────┐ ┌──────────────┐ 
+│  FinanceTracker │ │  UserExpense │ 
+│   AI Service    │ │   Service    │ 
+│   (Port 8080)   │ │  (Port 8081) │ 
+└────────┬────────┘ └──────┬───────┘ 
          │                 │
          │   Apache Kafka  │
          │  ┌──────────────┼──────────────────┐
-         │  │              │                  │
-         ▼  ▼              ▼                  ▼
-     t.user.id      t.user.details       (future topics)
+         │  │              │                 
+         ▼  ▼              ▼                  What 
+     t.user.id      t.user.details       
          │                 │
          ▼                 ▼
  ┌───────────────┐  ┌──────────────┐
@@ -214,32 +213,7 @@ An AI-powered chatbot service that converts expense queries into vector embeddin
 
 **Database:** PostgreSQL (Supabase) with pgvector extension
 
----
 
-### 5. Face Recognition Service
-
-A biometric authentication service using OpenCV for face detection and vector similarity search in PostgreSQL for identity matching.
-
-**Key Responsibilities:**
-- Extract facial embeddings from uploaded images (OpenCV 4.9.0)
-- Store face embeddings in PostgreSQL (pgvector)
-- Authenticate users by comparing face similarity (cosine distance ≤ 0.40 threshold)
-
-**Key Classes:**
-
-| Layer | Class | Responsibility |
-|---|---|---|
-| Controller | `ImageEmbeddingController` | Face image endpoints |
-| Service | `ImageService` | OpenCV face embedding generation |
-| Service | `UserDataImpl` | Save embeddings + face auth comparison |
-| Repository | `UserDataRepository` | pgvector similarity search (`<=>`) |
-
-**Endpoints:**
-- `POST /imageembedding` — Generate embedding from image
-- `POST /saveUserImage` — Save user's face embedding
-- `POST /faceauthentication` — Authenticate user via face
-
----
 
 ## Tech Stack
 
