@@ -1,6 +1,5 @@
 package com.example.userexpense.controller;
 
-import com.example.userexpense.config.KafkaConsumer;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.exception.HandleEmptyDataException;
 import com.example.userexpense.exception.HandleExpenseExceptionByMonth;
@@ -23,8 +22,6 @@ import java.util.List;
 public class UserExpense {
     @Autowired
     UserExpenseService userExpenseService;
-    @Autowired
-    KafkaConsumer kafkaConsumer;
     @Autowired
     ExtractUserId extractUserId;
 

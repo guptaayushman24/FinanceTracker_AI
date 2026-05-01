@@ -6,10 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.kafka.common.security.oauthbearer.internals.secured.ValidateException;
-import org.springframework.cglib.core.Local;
-
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity

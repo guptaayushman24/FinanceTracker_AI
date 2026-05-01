@@ -1,6 +1,6 @@
 package com.example.userexpense.controller;
 
-import com.example.userexpense.config.UserLoginId;
+//import com.example.userexpense.config.UserLoginId;
 import com.example.userexpense.dto.*;
 import com.example.userexpense.security.ExtractUserId;
 import com.example.userexpense.service.TotalExpenditureService;
@@ -16,8 +16,8 @@ import java.time.LocalDate;
 public class TotalExpenditure {
     @Autowired
     TotalExpenditureService totalExpenditureService;
-    @Autowired
-    UserLoginId userLoginId;
+//    @Autowired
+//    UserLoginId userLoginId;
     @Autowired
     ExtractUserId extractUserId;
     @PostMapping("/totalexpensebymonth")
