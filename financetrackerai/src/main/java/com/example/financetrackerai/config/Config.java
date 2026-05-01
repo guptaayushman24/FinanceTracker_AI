@@ -29,15 +29,6 @@ public class Config {
     }
 
     @Bean
-    public NewTopic topic(){
-        return TopicBuilder
-                .name("t.user.id")
-                .partitions(1)
-                .replicas(1)
-                .build();
-    }
-
-    @Bean
     public NewTopic userDetailsTopic() {
         return TopicBuilder
                 .name("t.user.details")

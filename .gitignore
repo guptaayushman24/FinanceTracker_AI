@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Maven
+target/
+*.class
+
+# Sensitive config — use environment variables in prod
+**/application-prod.properties
+
+# Logs
+*.log
+logs/
+
+# Spring Boot
+HELP.md
