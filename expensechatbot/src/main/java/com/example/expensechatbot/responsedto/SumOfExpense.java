@@ -12,4 +12,6 @@ public class SumOfExpense {
     public SumOfExpense(Long sum) {
         this.sum = sum;
     }
+
+
 }

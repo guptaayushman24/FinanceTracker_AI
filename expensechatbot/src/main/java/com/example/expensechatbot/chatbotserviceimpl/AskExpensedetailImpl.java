@@ -2,6 +2,11 @@ package com.example.expensechatbot.chatbotserviceimpl;
 
 import com.example.expensechatbot.chatbotrepo.UserExpenseRepository;
 import com.example.expensechatbot.chatbotservice.Askexpensedetail;
+import com.example.expensechatbot.model.Expense;
+import com.example.expensechatbot.responsedto.ExpenseSummary;
+
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 import com.example.expensechatbot.responsedto.Responsedto;
 import com.example.expensechatbot.responsedto.SumOfExpense;
 import com.example.expensechatbot.security.UserContext;
@@ -9,6 +14,7 @@ import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
@@ -106,4 +112,49 @@ public class AskExpensedetailImpl implements Askexpensedetail {
         return responsedto;
     }
 
+    @Tool("java@Tool(\"Retrieve the detailed list of expenses for the user between a given start date and end date. \" +\n" +
+            "      \"Use this tool when the user wants to see, show, list or display their expenses for a specific date range. \" +\n" +
+            "      \"Start date and end date must be in yyyy-MM-dd format. \" +\n" +
+            "      \"Returns expense type, description, amount, payment mode and date for each expense.")
+    public List<ExpenseSummary> expenseSummaryBetweenDate (@P("Start date format will be yyyy-MM-dd") String startDate,
+                                                          @P("End date format will be yyyy-MM-dd") String endDate){
+
+        return userExpenseRepository.expenseBetweenDate(userContext.getUserId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
+
+    }
+
+    @Tool("Retrieve the detailed list of expenses for the user filtered by a specific expense type or category. " +
+            "Use this tool when user wants to see, show, list or display expenses for a specific category. " +
+            "For example: Entertainment, Food, Travel, Shopping, Medical, Education. " +
+            "Returns expense type, description, amount, payment mode and date for each expense.")
+    public List<ExpenseSummary> expenseSummaryByExpenseType(@P("Expense type or category name like Entertainment, Food, Travel, Shopping, Medical") String expenseType){
+        return userExpenseRepository.expenseDetailByEntertainment(userContext.getUserId(), expenseType);
+    }
+
+    @Tool("Retrieve the detailed list of expenses for the user filtered by a specific payment mode. " +
+            "Use this tool when user wants to see, show, list or display expenses for a specific payment mode. " +
+            "For example: UPI,CASH or upi or cash "+
+            "Returns expense type, description, amount, payment mode and date for each expense.")
+    public List<ExpenseSummary> expenseSummaryByPaymentMode(@P("Payment mode like UPI, Cash or upi or cash") String paymentMode){
+        return userExpenseRepository.expenseDetailByPaymentMode(userContext.getUserId(),paymentMode);
+    }
+
+    @Tool("Retrieve the most recent expenses for the user based on a given limit. " +
+            "Use this tool when user says recent, latest or last N expenses. " +
+            "For example: show my last 10 expenses, show recent 5 expenses.")
+    public List<ExpenseSummary> expenseSummaryByLimit (@P("Number of recent expenses to fetch like 5, 10, 20. If not mentioned use 10 as default") int limit){
+        return userExpenseRepository.showLatestExpenseByLimit(userContext.getUserId(), PageRequest.of(0, limit));
+    }
+
+    @Tool("Retrieve the detailed list of expenses for the user where the expense amount is within a given range. \" +\n" +
+            "      \"Use this tool when user wants to see expenses greater than, less than, or between two amounts. \" +\n" +
+            "      \"For example: show expenses between 1000 and 5000, show expenses above 500. \" +\n" +
+            "      \"If only one amount is mentioned use it as both lower and higher value. \" +\n" +
+            "      \"Returns expense type, description, amount, payment mode and date for each expense.\"")
+    public List<ExpenseSummary> expenseSummaryInRange (@P("Lower amount value like 1000. If user gives only one amount use it as lower value too")
+                                                           Integer lowerValue,
+                                                       @P("Higher amount value like 5000. If not mentioned use lower value as higher value too")
+                                                           Integer higherValue){
+        return userExpenseRepository.showExpenseInARange(userContext.getUserId(),lowerValue,higherValue);
+    }
 }

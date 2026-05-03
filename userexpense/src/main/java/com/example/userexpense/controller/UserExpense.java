@@ -146,8 +146,9 @@ public class UserExpense {
     public ResponseEntity<DeleteExpenseResponsedto> deleteUserExpense (@RequestBody  DeleteExpenseRequestdto deleteExpenseRequestdto){
         DeleteExpenseResponsedto deleteExpenseResponsedto = new DeleteExpenseResponsedto();
         Integer countOfUserExpenseDeleted = userExpenseService.deleteUserExpense(deleteExpenseRequestdto.getId());
+        Integer countOfUserExpenseDeletedFromPostgresSQl = userExpenseService.deleteUserExpensePostgresSQL(deleteExpenseRequestdto.getId());
 
-        if (countOfUserExpenseDeleted>0){
+        if (countOfUserExpenseDeleted>0 && countOfUserExpenseDeletedFromPostgresSQl>0){
             String deleteUserExpense = userExpenseService.getExpenseType(deleteExpenseRequestdto.getId());
             System.out.print(deleteUserExpense);
             deleteExpenseResponsedto.setMessage("User Expense Deleted Successfully");
