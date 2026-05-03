@@ -400,13 +400,6 @@ expense_scheduler
 └── (recurring expense tracking fields)
 ```
 
-### PostgreSQL (chatbot + face recognition)
-
-```
-face_embedding
-├── id               BIGINT PK
-├── user_id          BIGINT
-└── vector_embedding vector (pgvector)
 
 chatbot_query
 └── (query history fields)
