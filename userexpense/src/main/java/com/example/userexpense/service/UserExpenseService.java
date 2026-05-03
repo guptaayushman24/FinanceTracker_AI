@@ -30,6 +30,8 @@ public interface UserExpenseService {
 
     Integer deleteUserExpense (Integer id);
 
+    Integer deleteUserExpensePostgresSQL (Integer id);
+
     String getExpenseType (Integer id);
 
     List<AllExpenseeResponsedto> allYearExpense(Integer userId,String year);

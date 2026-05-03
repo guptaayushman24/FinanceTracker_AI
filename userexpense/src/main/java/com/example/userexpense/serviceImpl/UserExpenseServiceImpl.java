@@ -9,6 +9,8 @@ import com.example.userexpense.model.PaymentMode;
 import com.example.userexpense.model.UserExpense;
 import com.example.userexpense.repository.PaymentModeRepository;
 import com.example.userexpense.repository.UserExpenseRepository;
+import com.example.userexpense.repository.postgres.PaymentModePostgresRepo;
+import com.example.userexpense.repository.postgres.UserExpensePostgresRepo;
 import com.example.userexpense.service.ReddisService;
 import com.example.userexpense.service.UserExpenseService;
 import com.example.userexpense.dto.AllExpenseeResponsedto;
@@ -29,6 +31,10 @@ public class UserExpenseServiceImpl implements UserExpenseService {
     @Autowired
     PaymentModeRepository paymentModeRepository;
 
+    @Autowired
+    PaymentModePostgresRepo paymentModePostgresRepo;
+    @Autowired
+    UserExpensePostgresRepo userExpensePostgresRepo;
     @Autowired
     ReddisService reddisService;
 
@@ -71,11 +77,27 @@ public class UserExpenseServiceImpl implements UserExpenseService {
 
         PaymentMode savePaymentMode = paymentModeRepository.save(paymentMode);
 
-        // Now attach it to UserExpense
+        // Fresh object for Postgres — no id so Hibernatcleae does INSERT, not UPDATE
+        PaymentMode postgresPaymentMode = new PaymentMode();
+        postgresPaymentMode.setUser_id(paymentMode.getUser_id());
+        postgresPaymentMode.setPaymentMode(paymentMode.getPaymentMode());
+        postgresPaymentMode.setExpenseDate(paymentMode.getExpenseDate());
+        PaymentMode savedPostgresPaymentMode = paymentModePostgresRepo.save(postgresPaymentMode);
+
+        // Attach MySQL-saved payment mode to userExpense
         userExpense.setPaymentMode(savePaymentMode);
 
-          // Save UserExpense with correct FK
         UserExpense saved = userExpenseRepository.save(userExpense);
+
+        // Fresh object for Postgres — no id so Hibernate does INSERT, not UPDATE
+        UserExpense postgresUserExpense = new UserExpense();
+        postgresUserExpense.setUser_id(userExpense.getUser_id());
+        postgresUserExpense.setExpenseType(userExpense.getExpenseType());
+        postgresUserExpense.setValue(userExpense.getValue());
+        postgresUserExpense.setDescription(userExpense.getDescription());
+        postgresUserExpense.setExpenseDate(userExpense.getExpenseDate());
+        postgresUserExpense.setPaymentMode(savedPostgresPaymentMode);
+        userExpensePostgresRepo.save(postgresUserExpense);
 
 
 
@@ -244,6 +266,10 @@ public class UserExpenseServiceImpl implements UserExpenseService {
         return userExpenseRepository.deleUserExpense(id);
     }
 
+    @Override
+    public Integer deleteUserExpensePostgresSQL(Integer id) {
+        return userExpensePostgresRepo.deleUserExpense(id);
+    }
 
 
     @Override

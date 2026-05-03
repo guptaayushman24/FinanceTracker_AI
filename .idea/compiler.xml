@@ -12,6 +12,7 @@
         <module name="userexpense (2)" />
         <module name="userexpense" />
         <module name="emailservice" />
+        <module name="expensechatbot" />
         <module name="facerecognition" />
         <module name="userexpensechatbot" />
       </profile>
@@ -24,6 +25,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="emailservice" options="-parameters" />
+      <module name="expensechatbot" options="-parameters" />
       <module name="facerecognition" options="-parameters" />
       <module name="financetrackerai" options="-parameters" />
       <module name="userexpense" options="-parameters" />

@@ -28,7 +28,17 @@ public interface ChatbotAssistant {
                         - If start month is missing, use {{currentMonth}} as start month.
                         - If year is not mentioned, use {{currentYear}} as year.
                         - Works for both single month and month range queries.
-                    13. Always call the appropriate tool — never make up data.
+                    13. When a tool returns an amount or list of expenses, use it EXACTLY as returned.
+                                    Do NOT reformat, recalculate or change the amount or data in any way.
+                                    The tool result is already correctly formatted.
+                    14. For detail expense queries follow these rules:
+                                    - If user asks to show, list, give or display expenses — use detail expense tool.
+                                    - If only months are mentioned — use {{currentYear}} as year automatically.
+                                    - If no month is mentioned — use {{currentMonth}} as month automatically.
+                                    - If no date range is mentioned — use full {{currentMonth}} of {{currentYear}}.
+                                    - Never show expenses from previous years unless explicitly mentioned.
+                    15. Always call the appropriate tool — never make up data.
+            
             """)
     String chat(@UserMessage String userMessage, @V("currentYear") int currentYear, @V("currentDate") String currentDate,@V("currentMonth") String currentMonth);
 }
