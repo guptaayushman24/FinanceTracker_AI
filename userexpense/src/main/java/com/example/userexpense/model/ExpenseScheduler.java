@@ -17,4 +17,8 @@ public class ExpenseScheduler {
     private Integer id;
     private Integer user_id;
     private Integer schedulerEvent;
+
+    public ExpenseScheduler (Integer schedulerEvent){
+        this.schedulerEvent = schedulerEvent;
+    }
 }

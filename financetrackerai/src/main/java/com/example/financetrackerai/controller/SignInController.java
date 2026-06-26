@@ -5,7 +5,6 @@ import com.example.financetrackerai.dto.LoginRequestdto;
 import com.example.financetrackerai.dto.LoginResponsedto;
 import com.example.financetrackerai.dto.ProfileRequestDto;
 import com.example.financetrackerai.dto.ProfileResponseDto;
-import com.example.financetrackerai.producer.Producer;
 import com.example.financetrackerai.security.AuthService;
 import com.example.financetrackerai.service.FetchUserSignupDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ public class SignInController {
     FetchUserSignupDataService fetchUserSignupDataService;
     @Autowired
     StoreUserId storeUserId;
-    @Autowired
-    Producer producer;
     @PostMapping("/signin")
     public ResponseEntity<LoginResponsedto> sign (@RequestBody LoginRequestdto loginRequestdto){
         try{

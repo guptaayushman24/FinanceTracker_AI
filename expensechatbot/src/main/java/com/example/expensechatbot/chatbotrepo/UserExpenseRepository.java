@@ -140,6 +140,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense,Integer
                 )
                 FROM UserExpense ue
                 WHERE ue.user_id = :userId
+                ORDER BY ue.expenseDate DESC
             """)
     List<ExpenseSummary> showLatestExpenseByLimit (@Param("userId") Integer userId, Pageable pageable);
 

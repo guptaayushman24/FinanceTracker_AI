@@ -1,5 +1,6 @@
 package com.example.emailservice.config;
 
+import com.example.emailservice.dto.ExpenseDetailSchedulerdto;
 import com.example.emailservice.dto.UserDetailResponse;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -41,6 +42,32 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, UserDetailResponse> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, ExpenseDetailSchedulerdto> expenseDetailSchedulerConsumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, "user-expense");
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        JacksonJsonDeserializer<ExpenseDetailSchedulerdto> valueDeserializer =
+                new JacksonJsonDeserializer<>(ExpenseDetailSchedulerdto.class);
+        valueDeserializer.addTrustedPackages("*");
+
+        return new DefaultKafkaConsumerFactory<>(
+                config,
+                new StringDeserializer(),
+                valueDeserializer
+        );
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ExpenseDetailSchedulerdto> expenseDetailSchedulerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ExpenseDetailSchedulerdto> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(expenseDetailSchedulerConsumerFactory());
         return factory;
     }
 }

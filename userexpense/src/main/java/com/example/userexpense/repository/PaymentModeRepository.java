@@ -5,6 +5,7 @@ import com.example.userexpense.model.PaymentMode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
@@ -40,6 +41,7 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
           AND MONTHNAME(ue.expenseDate) = :monthName
           AND YEAR(ue.expenseDate) = :year
     """)
+        @Scheduled(cron = "0 0 18 L * *")
     TotalExpenseMonthResponsedto totalExpenseMonthResponsedto(@Param("user_id") Integer user_id,@Param("monthName") String monthName,@Param("year") Integer year);
 
     @Query("""
@@ -50,7 +52,8 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
        WHERE ue.user_id = :user_id
          AND YEAR(ue.expenseDate) = :year
        """)
-    TotalExpenseYearResponsedto totalExpenseYearesponsedto(@Param("user_id") Integer user_id, @Param("year") String monthName);
+    @Scheduled(cron = "0 0 23 31 12 *")
+    TotalExpenseYearResponsedto totalExpenseYearesponsedto(@Param("user_id") Integer user_id, @Param("year") String year);
 
     @Query("""
        SELECT new com.example.userexpense.dto.TotalExpenseCurrentDayResponsedto(
@@ -86,6 +89,8 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
       and YEAR(ue.expenseDate) = :year
       and pm.paymentMode = :payment_mode
             """)
+    //@Scheduled(cron = "0 0 18 L * *")
+    @Scheduled(cron = "0 17 10 * * *")
    TotalExpenseMonthPaymentModeResponsedto totalExpenseMonthPaymentModeResponsedto(@Param("user_id") Integer user_id, @Param("month") String month,@Param("payment_mode") String payment_mode,@Param("year") Integer year);
 
     @Query("""
@@ -99,6 +104,28 @@ public interface PaymentModeRepository extends JpaRepository<PaymentMode,Integer
       and (:payment_mode IS NULL OR :payment_mode = '' OR pm.paymentMode = :payment_mode)
     """)
     TotalExpenseCurrentDayPaymentModeResponsedto totalExpenseCurrentDayPaymentResponsedto(@Param("user_id") Integer user_id,@Param("currentDate") LocalDate currentDate,@Param("payment_mode") String payment_mode);
+
+    @Query("""
+       SELECT new com.example.userexpense.dto.TotalExpenseWeekResponsedto(
+           SUM(ue.Value)
+       )
+       FROM UserExpense ue
+       WHERE ue.user_id = :user_id
+         AND FUNCTION('YEARWEEK', ue.expenseDate, 1) = FUNCTION('YEARWEEK', CURRENT_DATE, 1)
+       """)
+    TotalExpenseWeekResponsedto totalExpenseWeekResponsedto(@Param("user_id") Integer user_id);
+
+    @Query("""
+       SELECT new com.example.userexpense.dto.TotalExpenseWeekPaymentModeResponsedto(
+           SUM(ue.Value)
+       )
+       FROM UserExpense ue
+       JOIN ue.paymentMode pm
+       WHERE ue.user_id = :user_id
+         AND FUNCTION('YEARWEEK', ue.expenseDate, 1) = FUNCTION('YEARWEEK', CURRENT_DATE, 1)
+         AND pm.paymentMode = :payment_mode
+       """)
+    TotalExpenseWeekPaymentModeResponsedto totalExpenseWeekPaymentModeResponsedto(@Param("user_id") Integer user_id, @Param("payment_mode") String payment_mode);
 }
 
 

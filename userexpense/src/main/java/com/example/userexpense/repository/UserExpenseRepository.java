@@ -86,7 +86,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
                   AND MONTH(ue.expenseDate) = :monthNumber
                   AND YEAR(ue.expenseDate) = :year
             """)
-    List<AllExpenseeResponsedto> allUserExpenseByMonth(@Param("userId") Integer userId, @Param("monthNumber") Integer monthNumber,String year);
+    List<AllExpenseeResponsedto> allUserExpenseByMonth(@Param("userId") Integer userId, @Param("monthNumber") Integer monthNumber, @Param("year") String year);
 
 
     @Query("""

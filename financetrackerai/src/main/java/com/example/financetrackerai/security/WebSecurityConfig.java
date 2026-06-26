@@ -29,7 +29,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/auth/login/**", "/auth/signup", "auth/signin/**", "/imageembedding", "/saveUserImage", "/faceauthentication", "/generateotp", "/validateotp", "/deleteotp", "/resetpassword", "/error/**").permitAll()
+                        .requestMatchers("/auth/login/**", "/auth/signup", "auth/signin/**", "/imageembedding", "/saveUserImage", "/faceauthentication", "/generateotp", "/validateotp", "/deleteotp", "/resetpassword","/alluser", "/error/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
                         .anyRequest().authenticated()
                 )
