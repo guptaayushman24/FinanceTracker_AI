@@ -1,0 +1,108 @@
+substitutions:
+  _REGION: us-central1
+  _REPO: finance-tracker
+  _FINANCETRACKERAI_SERVICE: financetrackerai
+  _USEREXPENSE_SERVICE: userexpense
+
+steps:
+  # ── Build Docker images (parallel) ──────────────────────────────────────────
+
+  - id: build-financetrackerai
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - financetrackerai/Dockerfile
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:latest
+      - .
+    waitFor: ['-']
+
+  - id: build-userexpense
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - userexpense/Dockerfile
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:latest
+      - .
+    waitFor: ['-']
+
+  # ── Push images to Artifact Registry (parallel) ─────────────────────────────
+
+  - id: push-financetrackerai
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}
+    waitFor: [build-financetrackerai]
+
+  - id: push-userexpense
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}
+    waitFor: [build-userexpense]
+
+  # ── Deploy to Cloud Run (parallel) ──────────────────────────────────────────
+
+  - id: deploy-financetrackerai
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_FINANCETRACKERAI_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+      - --set-env-vars=SPRING_PROFILES_ACTIVE=gcp
+      - --update-secrets=CONFLUENT_BOOTSTRAP_SERVER=CONFLUENT_BOOTSTRAP_SERVER:latest
+      - --update-secrets=CONFLUENT_API_KEY=CONFLUENT_API_KEY:latest
+      - --update-secrets=CONFLUENT_API_SECRET=CONFLUENT_API_SECRET:latest
+      - --update-secrets=REDIS_PASSWORD=REDIS_PASSWORD:latest
+      - --memory=512Mi
+      - --cpu=1
+      - --min-instances=0
+      - --max-instances=3
+      - --port=8080
+    waitFor: [push-financetrackerai]
+
+  - id: deploy-userexpense
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_USEREXPENSE_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+      - --set-env-vars=SPRING_PROFILES_ACTIVE=gcp
+      - --update-secrets=REDIS_PASSWORD=REDIS_PASSWORD:latest
+      - --update-secrets=OPENAI_API_KEY=OPENAI_API_KEY:latest
+      - --update-secrets=CONFLUENT_BOOTSTRAP_SERVER=CONFLUENT_BOOTSTRAP_SERVER:latest
+      - --update-secrets=CONFLUENT_API_KEY=CONFLUENT_API_KEY:latest
+      - --update-secrets=CONFLUENT_API_SECRET=CONFLUENT_API_SECRET:latest
+      - --memory=512Mi
+      - --cpu=1
+      - --min-instances=0
+      - --max-instances=3
+      - --port=8080
+    waitFor: [push-userexpense]
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:$COMMIT_SHA
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:$COMMIT_SHA
+
+options:
+  logging: CLOUD_LOGGING_ONLY

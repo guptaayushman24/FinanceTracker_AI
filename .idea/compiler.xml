@@ -8,13 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="FaceDetection" />
-        <module name="financetrackerai" />
-        <module name="userexpense (2)" />
-        <module name="userexpense" />
-        <module name="emailservice" />
         <module name="expensechatbot" />
+        <module name="userexpense (2)" />
         <module name="facerecognition" />
         <module name="userexpensechatbot" />
+      </profile>
+      <profile name="Annotation profile for FinanceTracker_AI" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="financetrackerai" />
+        <module name="emailservice" />
+        <module name="userexpense" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

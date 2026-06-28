@@ -29,4 +29,4 @@ COPY --from=builder /app/userexpense/target/userexpense-0.0.1-SNAPSHOT.jar app.j
 # Render injects PORT env var; default to 8081
 EXPOSE 8081
 
-ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-Dspring.profiles.active=prod", "-Dserver.port=${PORT:-8081}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-jar", "app.jar"]
