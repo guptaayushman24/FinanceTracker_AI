@@ -1,36 +1,36 @@
 substitutions:
-  _REGION: us-central1
+  _REGION: 
   _REPO: finance-tracker
-  _FINANCETRACKERAI_SERVICE: financetrackerai
-  _USEREXPENSE_SERVICE: userexpense
+  _FINANCETRACKERAI_SERVICE: financetracker-user-authentication
+  _USEREXPENSE_SERVICE: financetracker-user-expense
 
 steps:
   # ── Build Docker images (parallel) ──────────────────────────────────────────
 
   - id: build-financetrackerai
     name: gcr.io/cloud-builders/docker
-    args:
-      - build
-      - -f
-      - financetrackerai/Dockerfile
-      - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:$COMMIT_SHA
-      - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:latest
-      - .
+   args:
+    - build
+    - -f
+    - financetrackerai/Dockerfile
+    - -t
+    - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:$COMMIT_SHA
+    - -t
+    - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_FINANCETRACKERAI_SERVICE}:latest
+    - financetrackerai
     waitFor: ['-']
 
   - id: build-userexpense
     name: gcr.io/cloud-builders/docker
     args:
-      - build
-      - -f
-      - userexpense/Dockerfile
-      - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:$COMMIT_SHA
-      - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:latest
-      - .
+    - build
+    - -f
+    - userexpense/Dockerfile
+    - -t
+    - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:$COMMIT_SHA
+    - -t
+    - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_USEREXPENSE_SERVICE}:latest
+    - userexpense
     waitFor: ['-']
 
   # ── Push images to Artifact Registry (parallel) ─────────────────────────────
