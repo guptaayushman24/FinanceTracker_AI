@@ -13,8 +13,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -110,8 +109,8 @@ public class ExpenseAnalyzerServiceImpl implements ExpenseAnalyzerService {
                 expenseJson
         );
 
-        OpenAiChatOptions options = OpenAiChatOptions.builder()
-                .model("gpt-5.2")
+        VertexAiGeminiChatOptions options = VertexAiGeminiChatOptions.builder()
+                .model("gemini-1.5-flash")
                 .temperature(0.7)
                 .build();
 

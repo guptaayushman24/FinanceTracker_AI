@@ -1,55 +1,31 @@
 version: "3.7"
 
-networks:
-  kafka-net:
-    name: kafka-net
-    driver: bridge
-
 services:
-  zookeeper:
-    image: zookeeper:3.7.0
-    container_name: zookeeper
-    restart: "no"
-    networks:
-      - kafka-net
+  pubsub-emulator:
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+    command: >
+      gcloud beta emulators pubsub start
+      --host-port=0.0.0.0:8085
+      --project=local-project
     ports:
-      - "2181:2181"
+      - "8085:8085"
 
-  kafka:
-    image: obsidiandynamics/kafka
-    container_name: kafka
-    restart: "no"
-    networks:
-      - kafka-net
-    ports:
-      - "9092:9092"
+  pubsub-init:
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     environment:
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER_INTERNAL:PLAINTEXT,DOCKER_EXTERNAL:PLAINTEXT
-      KAFKA_LISTENERS: DOCKER_INTERNAL://:29092,DOCKER_EXTERNAL://:9092
-      KAFKA_ADVERTISED_LISTENERS: DOCKER_INTERNAL://kafka:29092,DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
-      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER_INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_BROKER_ID: 1
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      PUBSUB_EMULATOR_HOST: pubsub-emulator:8085
+    entrypoint: >
+      bash -c "
+        sleep 3 &&
+        curl -s -X PUT http://pubsub-emulator:8085/v1/projects/local-project/topics/t-user-details &&
+        curl -s -X PUT http://pubsub-emulator:8085/v1/projects/local-project/topics/t-user-expense-details &&
+        echo 'Topics created'
+      "
     depends_on:
-      - zookeeper
-
-  kafdrop:
-    image: obsidiandynamics/kafdrop
-    container_name: kafdrop
-    restart: "no"
-    networks:
-      - kafka-net
-    ports:
-      - "9000:9000"
-    environment:
-      KAFKA_BROKERCONNECT: "kafka:29092"
-    depends_on:
-      - "kafka"
+      - pubsub-emulator
 
   redis:
     image: redis
-    container_name: redis-userexpense-current-date
+    container_name: redis-userexpense
     ports:
       - "6379:6379"
-

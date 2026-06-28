@@ -190,6 +190,8 @@ public class RegisterSchedulerImpl implements RegisterScheduler {
                 EmailResponsedto emailResponsedto = userFeignClient.findById(expenseScheduler.get().getUser_id());
                 expenseDetailSchedulerdto.setEmailAddress(emailResponsedto.getEmailAddress());
 
+                producer.sendUserPaymentDetail(expenseDetailSchedulerdto);
+
                 log.info("Cron call for the yearly");
 
             }
