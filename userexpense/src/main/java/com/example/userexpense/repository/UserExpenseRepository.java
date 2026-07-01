@@ -172,6 +172,7 @@ public interface UserExpenseRepository extends JpaRepository<UserExpense, Intege
                     FROM UserExpense ue
                     JOIN ue.paymentMode pm
                     WHERE ue.user_id = :userId
+                   AND YEAR(ue.expenseDate) = :year
                     """
     )
     List<ExpenseAnalyzerSqldto> expenseSumary(@Param("userId") Integer userId, @Param("year") Integer year);
